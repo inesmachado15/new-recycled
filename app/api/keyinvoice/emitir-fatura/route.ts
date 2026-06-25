@@ -549,10 +549,15 @@ export async function POST(request: Request) {
     }
 
     const message =
-      error instanceof Error
-        ? error.message
-        : "Erro desconhecido ao emitir fatura-recibo.";
+  error instanceof Error
+    ? error.message
+    : "Erro desconhecido ao emitir fatura-recibo.";
 
-    return NextResponse.json({ success: false, error: message }, { status: 500 });
+console.error("Erro ao emitir Fatura-Recibo no KeyInvoice:", {
+  message,
+  error,
+});
+
+return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }
