@@ -1,0 +1,62 @@
+[
+  {
+    "id": "toner-brother-tn1050",
+    "nome": "Toner Brother TN1050 Compatível",
+    "categoria": "Toners",
+    "preco": 12.99,
+    "precoTexto": "12,99€",
+    "estado": "Disponível",
+    "referencia": "TN1050",
+    "marca": "Brother",
+    "imagem": "",
+    "descricao": "Toner compatível Brother TN1050.",
+    "compatibilidade": "Compatível com impressoras Brother selecionadas.",
+    "ativo": true,
+    "destaque": false
+  },
+  {
+    "id": "pack-hp-603xl",
+    "nome": "Pack HP 603XL Compatível",
+    "categoria": "Tinteiros",
+    "preco": 19.99,
+    "precoTexto": "19,99€",
+    "estado": "Disponível",
+    "referencia": "603XL",
+    "marca": "HP",
+    "imagem": "",
+    "descricao": "Pack de tinteiros HP 603XL compatíveis.",
+    "compatibilidade": "Compatível com impressoras HP que utilizem referência 603XL.",
+    "ativo": true,
+    "destaque": true
+  },
+  {
+    "id": "rolo-termico-57x35x11",
+    "nome": "Rolo Térmico 57x35x11",
+    "categoria": "Rolos Térmicos",
+    "preco": null,
+    "precoTexto": "Sob consulta",
+    "estado": "Disponível",
+    "referencia": "57x35x11",
+    "marca": "Genérico",
+    "imagem": "/produtos/Rolo_termico_57x35x11.jpg",
+    "descricao": "Rolo térmico para equipamentos compatíveis.",
+    "compatibilidade": "POS, TPA e equipamentos compatíveis com rolos 57x35x11.",
+    "ativo": true,
+    "destaque": false
+  },
+  {
+    "id": "papel-a4-80g-resma",
+    "nome": "Papel A4 80g - Resma",
+    "categoria": "Papel e Consumíveis",
+    "preco": null,
+    "precoTexto": "Sob consulta",
+    "estado": "Disponível",
+    "referencia": "A4 80g",
+    "marca": "Navigator",
+    "imagem": "/produtos/Resma_A4.jpg",
+    "descricao": "Resma de papel A4 80g.",
+    "compatibilidade": "Adequado para impressão, cópia e uso geral de escritório.",
+    "ativo": true,
+    "destaque": false
+  }
+]
