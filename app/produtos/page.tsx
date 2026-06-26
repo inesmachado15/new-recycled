@@ -93,6 +93,7 @@ export default function ProdutosPage() {
   const [erro, setErro] = useState("");
   const [mensagem, setMensagem] = useState("");
 
+  const [pesquisaInput, setPesquisaInput] = useState("");
   const [pesquisa, setPesquisa] = useState("");
   const [categoria, setCategoria] = useState("Todas");
   const [disponibilidade, setDisponibilidade] = useState("Todos");
@@ -194,6 +195,14 @@ export default function ProdutosPage() {
 
   useEffect(() => {
     const temporizador = setTimeout(() => {
+      setPesquisa(pesquisaInput);
+    }, 500);
+
+    return () => clearTimeout(temporizador);
+  }, [pesquisaInput]);
+
+  useEffect(() => {
+    const temporizador = setTimeout(() => {
       carregarProdutos(true);
     }, 300);
 
@@ -238,6 +247,7 @@ export default function ProdutosPage() {
   }
 
   function limparFiltros() {
+    setPesquisaInput("");
     setPesquisa("");
     setCategoria("Todas");
     setDisponibilidade("Todos");
@@ -300,8 +310,8 @@ export default function ProdutosPage() {
             <label className="text-sm font-semibold">
               Pesquisar
               <input
-                value={pesquisa}
-                onChange={(event) => setPesquisa(event.target.value)}
+                value={pesquisaInput}
+                onChange={(event) => setPesquisaInput(event.target.value)}
                 placeholder="Nome, marca, referência ou SKU..."
                 className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-2.5 text-sm font-normal outline-none transition focus:border-green-700"
               />
