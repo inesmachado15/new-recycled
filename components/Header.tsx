@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -17,6 +18,8 @@ function obterEmailsAdmin() {
 }
 
 export default function Header() {
+  const pathname = usePathname();
+
   const [quantidadeCarrinho, setQuantidadeCarrinho] = useState(0);
   const [menuAberto, setMenuAberto] = useState(false);
   const [temSessao, setTemSessao] = useState(false);
@@ -75,6 +78,16 @@ export default function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    setMenuAberto(false);
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  }, [pathname]);
+
   function fecharMenu() {
     setMenuAberto(false);
   }
@@ -91,24 +104,41 @@ export default function Header() {
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex">
-          <Link href="/" className="transition hover:text-green-700">
+          <Link
+            href="/"
+            onClick={fecharMenu}
+            className="transition hover:text-green-700"
+          >
             Início
           </Link>
 
-          <Link href="/produtos" className="transition hover:text-green-700">
+          <Link
+            href="/produtos"
+            onClick={fecharMenu}
+            className="transition hover:text-green-700"
+          >
             Produtos
           </Link>
 
-          <Link href="/como-encomendar" className="transition hover:text-green-700">
+          <Link
+            href="/como-encomendar"
+            onClick={fecharMenu}
+            className="transition hover:text-green-700"
+          >
             Como encomendar?
           </Link>
 
-          <Link href="/contacto" className="transition hover:text-green-700">
+          <Link
+            href="/contacto"
+            onClick={fecharMenu}
+            className="transition hover:text-green-700"
+          >
             Contacto
           </Link>
 
           <Link
             href={temSessao ? "/conta" : "/entrar"}
+            onClick={fecharMenu}
             className="transition hover:text-green-700"
           >
             {temSessao ? "Conta" : "Entrar"}
@@ -117,6 +147,7 @@ export default function Header() {
           {eAdmin && (
             <Link
               href="/admin"
+              onClick={fecharMenu}
               className="rounded-full bg-slate-900 px-4 py-2 text-white transition hover:bg-green-700"
             >
               Admin

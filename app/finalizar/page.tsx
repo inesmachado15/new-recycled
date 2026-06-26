@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
@@ -515,12 +516,12 @@ export default function FinalizarPage() {
     return (
       <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-5xl">
-          <a
+          <Link
             href="/carrinho"
             className="text-sm font-bold text-green-700 hover:text-green-800"
           >
             ← Voltar ao carrinho
-          </a>
+          </Link>
 
           <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
             <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">
@@ -537,27 +538,38 @@ export default function FinalizarPage() {
               dados de pagamento e receber atualizações.
             </p>
 
+            <div className="mt-6 grid gap-3 rounded-2xl bg-green-50 p-5 text-sm leading-6 text-green-800">
+              <p className="font-bold text-green-900">
+                Porque é necessário criar conta?
+              </p>
+
+              <p>
+                A conta permite acompanhar a encomenda, consultar o estado do
+                pedido e aceder aos dados de pagamento depois da aprovação.
+              </p>
+            </div>
+
             <div className="mt-6 flex flex-wrap gap-3">
-              <a
+              <Link
                 href="/entrar"
                 className="rounded-full bg-green-700 px-6 py-3 text-sm font-bold text-white transition hover:bg-green-800"
               >
                 Iniciar sessão
-              </a>
+              </Link>
 
-              <a
+              <Link
                 href="/entrar?criarConta=1"
                 className="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700"
               >
                 Criar conta
-              </a>
+              </Link>
 
-              <a
+              <Link
                 href="/produtos"
                 className="rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700"
               >
                 Continuar a comprar
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -570,7 +582,7 @@ export default function FinalizarPage() {
       <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-5xl rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center shadow-sm">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">
-            Finalizar compra
+            Finalizar encomenda
           </p>
 
           <h1 className="mt-4 text-4xl font-black">O carrinho está vazio.</h1>
@@ -579,12 +591,12 @@ export default function FinalizarPage() {
             Adicione produtos ao carrinho antes de avançar para checkout.
           </p>
 
-          <a
+          <Link
             href="/produtos"
             className="mt-6 inline-flex rounded-full bg-green-700 px-6 py-3 text-sm font-bold text-white transition hover:bg-green-800"
           >
             Ver produtos
-          </a>
+          </Link>
         </section>
       </main>
     );
@@ -593,14 +605,14 @@ export default function FinalizarPage() {
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
       <section className="mx-auto max-w-6xl">
-        <a
+        <Link
           href="/carrinho"
           className="text-sm font-bold text-green-700 hover:text-green-800"
         >
           ← Voltar ao carrinho
-        </a>
+        </Link>
 
-        <div className="mt-8">
+        <div className="mt-8 rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-green-50 p-8 shadow-sm">
           <p className="text-sm font-bold uppercase tracking-[0.3em] text-green-700">
             Checkout
           </p>
@@ -609,10 +621,40 @@ export default function FinalizarPage() {
             Finalizar encomenda
           </h1>
 
-          <p className="mt-4 max-w-2xl text-slate-600">
+          <p className="mt-4 max-w-3xl text-slate-600">
             Confirme os dados de faturação, entrega e resumo da encomenda. A
-            encomenda será validada antes do pagamento.
+            sua encomenda será validada pela New & Recycled antes de qualquer
+            pagamento.
           </p>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <p className="text-sm font-black text-slate-950">
+                1. Submete o pedido
+              </p>
+              <p className="mt-1 text-sm leading-6 text-slate-600">
+                A encomenda fica registada na sua conta.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <p className="text-sm font-black text-slate-950">
+                2. Validamos stock e portes
+              </p>
+              <p className="mt-1 text-sm leading-6 text-slate-600">
+                Confirmamos disponibilidade antes do pagamento.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <p className="text-sm font-black text-slate-950">
+                3. Recebe os dados de pagamento
+              </p>
+              <p className="mt-1 text-sm leading-6 text-slate-600">
+                Só paga depois da aprovação da encomenda.
+              </p>
+            </div>
+          </div>
         </div>
 
         {erro && (
@@ -641,18 +683,18 @@ export default function FinalizarPage() {
               ))}
             </div>
 
-            <a
+            <Link
               href="/carrinho"
               className="mt-5 inline-flex rounded-full bg-amber-700 px-6 py-3 text-sm font-bold text-white transition hover:bg-amber-800"
             >
               Corrigir no carrinho
-            </a>
+            </Link>
           </section>
         )}
 
         <form
           onSubmit={finalizarCompra}
-          className="mt-10 grid gap-8 lg:grid-cols-[1fr_380px]"
+          className="mt-10 grid gap-8 lg:grid-cols-[1fr_390px]"
         >
           <section className="space-y-6">
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -663,6 +705,11 @@ export default function FinalizarPage() {
               <h2 className="mt-4 text-2xl font-black">
                 Informação do cliente
               </h2>
+
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Estes dados serão usados para validar a encomenda, faturação e
+                contacto caso seja necessário confirmar alguma informação.
+              </p>
 
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
                 <label className="text-sm font-semibold">
@@ -819,6 +866,16 @@ export default function FinalizarPage() {
                 Entrega e pagamento
               </p>
 
+              <h2 className="mt-4 text-2xl font-black">
+                Preferências da encomenda
+              </h2>
+
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                O método de pagamento escolhido é apenas uma preferência. Os
+                dados finais de pagamento serão enviados após validação da
+                encomenda.
+              </p>
+
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
                 <label className="text-sm font-semibold">
                   Entrega
@@ -863,7 +920,7 @@ export default function FinalizarPage() {
                   </select>
                 </label>
 
-                <label className="flex items-center gap-3 rounded-2xl bg-slate-50 p-4 text-sm font-bold">
+                <label className="flex items-center gap-3 rounded-2xl bg-green-50 p-4 text-sm font-bold text-green-900">
                   <input
                     type="checkbox"
                     checked={dados.compatibility_confirmation}
@@ -893,8 +950,13 @@ export default function FinalizarPage() {
             </div>
           </section>
 
-          <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-black">Resumo</h2>
+          <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-32">
+            <h2 className="text-xl font-black">Resumo da encomenda</h2>
+
+            <p className="mt-2 text-sm leading-6 text-slate-500">
+              Reveja os produtos antes de submeter. Ainda não será cobrado
+              qualquer pagamento.
+            </p>
 
             <div className="mt-5 space-y-4">
               {produtosNoCarrinho.map((produto) => (
@@ -951,16 +1013,24 @@ export default function FinalizarPage() {
               </div>
             </div>
 
-            <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-500">
-              A encomenda ficará a aguardar aprovação. Só depois da validação
-              será indicado o pagamento.
-            </p>
+            <div className="mt-5 space-y-3">
+              <p className="rounded-2xl bg-green-50 p-4 text-xs leading-5 text-green-800">
+                <span className="font-black">Sem pagamento imediato.</span>{" "}
+                A encomenda ficará a aguardar aprovação. Só depois da validação
+                serão indicados os dados de pagamento.
+              </p>
 
-            <p className="mt-3 rounded-2xl bg-green-50 p-4 text-xs leading-5 text-green-700">
-              Portes: toners e tinteiros têm portes de 3,75€, com portes
-              gratuitos em compras iguais ou superiores a 60€. Outros produtos
-              ficam com portes sob consulta.
-            </p>
+              <p className="rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-500">
+                Portes: toners e tinteiros têm portes de 3,75€, com portes
+                gratuitos em compras iguais ou superiores a 60€. Outros produtos
+                ficam com portes sob consulta.
+              </p>
+
+              <p className="rounded-2xl bg-amber-50 p-4 text-xs leading-5 text-amber-800">
+                Confirme referências, quantidades e dados de faturação antes de
+                submeter a encomenda.
+              </p>
+            </div>
 
             <button
               type="submit"
@@ -969,6 +1039,12 @@ export default function FinalizarPage() {
             >
               {aSubmeter ? "A submeter encomenda..." : "Submeter encomenda"}
             </button>
+
+            {!podeSubmeter && (
+              <p className="mt-3 text-center text-xs leading-5 text-slate-500">
+                Preencha todos os campos obrigatórios para poder submeter.
+              </p>
+            )}
           </aside>
         </form>
       </section>

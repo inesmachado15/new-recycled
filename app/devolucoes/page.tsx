@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Trocas e Devoluções",
+  description:
+    "Informação sobre trocas, devoluções, produtos incompatíveis, encomendas danificadas e pedidos de análise na New & Recycled.",
+};
+
 export default function DevolucoesPage() {
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">

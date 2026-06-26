@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contacto",
+  description:
+    "Contacte a New & Recycled para dúvidas sobre toners, tinteiros, material de escritório, compatibilidades, orçamentos e acompanhamento de encomendas.",
+};
+
 export default function ContactoPage() {
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-8 text-slate-900">
