@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -101,15 +102,15 @@ export default function ProdutosPage() {
 
   async function carregarProdutos(reiniciar: boolean) {
     const inicio = reiniciar ? 0 : produtos.length;
-    const fim = inicio + PRODUTOS_POR_PAGINA - 1;
+    const fim = inicio + PRODUTOS_POR_PAGINA;
 
-  if (reiniciar && produtos.length === 0) {
-    setACarregar(true);
-  }
+    if (reiniciar && produtos.length === 0) {
+      setACarregar(true);
+    }
 
-  if (!reiniciar) {
-    setACarregarMais(true);
-  }
+    if (!reiniciar) {
+      setACarregarMais(true);
+    }
 
     setErro("");
 
@@ -179,18 +180,22 @@ export default function ProdutosPage() {
       return;
     }
 
-    const novosProdutos = (data || []) as Produto[];
+    const produtosRecebidos = (data || []) as Produto[];
+    const existemMaisProdutos = produtosRecebidos.length > PRODUTOS_POR_PAGINA;
+    const novosProdutos = produtosRecebidos.slice(0, PRODUTOS_POR_PAGINA);
 
     if (reiniciar) {
       setProdutos(novosProdutos);
       setTemMaisProdutos((count || 0) > novosProdutos.length);
+      setTotalProdutos(count || novosProdutos.length);
     } else {
       const produtosAtualizados = [...produtos, ...novosProdutos];
+
       setProdutos(produtosAtualizados);
       setTemMaisProdutos((count || 0) > produtosAtualizados.length);
+      setTotalProdutos(count || produtosAtualizados.length);
     }
 
-    setTotalProdutos(count || 0);
     setACarregar(false);
     setACarregarMais(false);
   }
@@ -204,12 +209,24 @@ export default function ProdutosPage() {
   }, [pesquisaInput]);
 
   useEffect(() => {
-    const temporizador = setTimeout(() => {
-      carregarProdutos(true);
-    }, 300);
-
-    return () => clearTimeout(temporizador);
+    carregarProdutos(true);
   }, [pesquisa, categoria, disponibilidade, ordenacao]);
+
+  useEffect(() => {
+    function aoMostrarPagina(event: PageTransitionEvent) {
+      if (event.persisted) {
+        setACarregar(false);
+        setACarregarMais(false);
+        carregarProdutos(true);
+      }
+    }
+
+    window.addEventListener("pageshow", aoMostrarPagina);
+
+    return () => {
+      window.removeEventListener("pageshow", aoMostrarPagina);
+    };
+  }, []);
 
   function adicionarAoCarrinho(produto: Produto) {
     setMensagem("");
@@ -256,18 +273,6 @@ export default function ProdutosPage() {
     setOrdenacao("Destaques primeiro");
   }
 
-  if (aCarregar) {
-    return (
-      <main className="min-h-screen bg-slate-50 px-6 py-8 text-slate-900">
-        <section className="mx-auto max-w-6xl rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p className="text-sm font-semibold text-slate-600">
-            A carregar produtos...
-          </p>
-        </section>
-      </main>
-    );
-  }
-
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-8 text-slate-900">
       <section className="mx-auto max-w-7xl">
@@ -287,12 +292,12 @@ export default function ProdutosPage() {
             </p>
           </div>
 
-          <a
+          <Link
             href="/carrinho"
             className="rounded-full bg-green-700 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-green-800"
           >
             Ver carrinho
-          </a>
+          </Link>
         </div>
 
         {erro && (
@@ -318,6 +323,7 @@ export default function ProdutosPage() {
             A atualizar produtos...
           </p>
         )}
+
         <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="grid gap-4 lg:grid-cols-[1fr_220px_220px_220px_150px]">
             <label className="text-sm font-semibold">
@@ -387,13 +393,12 @@ export default function ProdutosPage() {
           <p className="mt-4 text-sm text-slate-500">
             A mostrar{" "}
             <span className="font-bold text-slate-900">{produtos.length}</span>{" "}
-            de{" "}
-            <span className="font-bold text-slate-900">{totalProdutos}</span>{" "}
-            produtos.
+            produto{produtos.length === 1 ? "" : "s"} de{" "}
+            <span className="font-bold text-slate-900">{totalProdutos}</span>.
           </p>
         </section>
 
-        {produtos.length === 0 ? (
+        {!aCarregar && produtos.length === 0 ? (
           <section className="mt-6 rounded-3xl border border-dashed border-slate-300 bg-white p-8 text-center shadow-sm">
             <h2 className="text-2xl font-black">Nenhum produto encontrado.</h2>
 
@@ -422,7 +427,7 @@ export default function ProdutosPage() {
                     key={produto.id}
                     className="flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
                   >
-                    <a
+                    <Link
                       href={`/produtos/${produto.slug}`}
                       className="flex h-40 items-center justify-center bg-slate-50 p-5"
                     >
@@ -439,7 +444,7 @@ export default function ProdutosPage() {
                           Sem imagem
                         </div>
                       )}
-                    </a>
+                    </Link>
 
                     <div className="flex flex-1 flex-col p-4">
                       <div className="flex flex-wrap gap-2">
@@ -454,11 +459,11 @@ export default function ProdutosPage() {
                         )}
                       </div>
 
-                      <a href={`/produtos/${produto.slug}`}>
+                      <Link href={`/produtos/${produto.slug}`}>
                         <h2 className="mt-3 line-clamp-2 text-base font-black leading-5 text-slate-950 transition hover:text-green-700">
                           {produto.name}
                         </h2>
-                      </a>
+                      </Link>
 
                       <p className="mt-2 text-xs leading-5 text-slate-500">
                         {produto.brand || "Sem marca"} ·{" "}
