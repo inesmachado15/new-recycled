@@ -103,11 +103,13 @@ export default function ProdutosPage() {
     const inicio = reiniciar ? 0 : produtos.length;
     const fim = inicio + PRODUTOS_POR_PAGINA - 1;
 
-    if (reiniciar) {
-      setACarregar(true);
-    } else {
-      setACarregarMais(true);
-    }
+  if (reiniciar && produtos.length === 0) {
+    setACarregar(true);
+  }
+
+  if (!reiniciar) {
+    setACarregarMais(true);
+  }
 
     setErro("");
 
@@ -305,6 +307,17 @@ export default function ProdutosPage() {
           </p>
         )}
 
+        {aCarregar && produtos.length === 0 && (
+          <p className="mt-6 rounded-2xl bg-white p-4 text-sm font-semibold text-slate-600 shadow-sm">
+            A carregar produtos...
+          </p>
+        )}
+
+        {aCarregar && produtos.length > 0 && (
+          <p className="mt-6 rounded-2xl bg-green-50 p-3 text-sm font-bold text-green-800">
+            A atualizar produtos...
+          </p>
+        )}
         <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="grid gap-4 lg:grid-cols-[1fr_220px_220px_220px_150px]">
             <label className="text-sm font-semibold">
