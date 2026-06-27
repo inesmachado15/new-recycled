@@ -55,7 +55,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-slate-50 text-slate-950">
       <section className="mx-auto max-w-7xl px-6 py-12">
         <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-          <div className="grid gap-8 bg-gradient-to-br from-white via-slate-50 to-green-50 p-8 lg:grid-cols-[1.15fr_0.85fr] lg:p-10">
+           <div className="grid gap-6 bg-gradient-to-br from-white via-slate-50 to-green-50 p-5 sm:p-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8 lg:p-10">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.3em] text-green-700">
                 New & Recycled
@@ -113,12 +113,12 @@ export default function HomePage() {
               </div>
             </div>
 
-            <aside className="rounded-[1.75rem] bg-slate-950 p-5 text-white shadow-xl">
-              <div className="rounded-[1.35rem] bg-white p-7 text-center text-slate-950">
+            <aside className="rounded-[1.75rem] bg-slate-950 p-3 text-white shadow-xl sm:p-5">
+              <div className="rounded-[1.35rem] bg-white p-5 text-center text-slate-950 sm:p-7">
                 <img
                   src="/logotipo.png"
                   alt="New & Recycled"
-                  className="mx-auto h-44 w-auto object-contain"
+                  className="mx-auto h-28 w-auto object-contain sm:h-40 lg:h-44"
                 />
 
                 <p className="mt-5 text-sm leading-7 text-slate-600">
