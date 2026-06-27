@@ -491,6 +491,27 @@ export default function FinalizarPage() {
       return;
     }
 
+    try {
+      const respostaEmailAdmin = await fetch("/api/emails/encomenda-criada", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId,
+        }),
+      });
+
+      if (!respostaEmailAdmin.ok) {
+        console.error(
+          "Erro ao enviar email de nova encomenda ao admin:",
+          await respostaEmailAdmin.text()
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao chamar email de nova encomenda ao admin:", error);
+    }
+
     localStorage.removeItem("carrinho");
     window.dispatchEvent(new Event("storage"));
 

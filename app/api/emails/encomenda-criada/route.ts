@@ -61,37 +61,55 @@ function criarListaProdutosHtml(items: OrderItem[]) {
     .join("");
 }
 
-function emailClienteHtml(order: OrderData) {
+function emailAdminHtml(order: OrderData) {
   const total = order.total_amount || order.total_estimated || 0;
 
   return `
-    <div style="font-family: Arial, sans-serif; background: #f4f8f3; padding: 24px;">
-      <div style="max-width: 680px; margin: 0 auto; background: #ffffff; border-radius: 20px; padding: 28px; border: 1px solid #e5e7eb;">
+    <div style="font-family: Arial, sans-serif; background: #f8fafc; padding: 24px;">
+      <div style="max-width: 760px; margin: 0 auto; background: #ffffff; border-radius: 20px; padding: 28px; border: 1px solid #e5e7eb;">
         <p style="font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: #15803d; text-transform: uppercase;">
           New & Recycled
         </p>
 
         <h1 style="margin: 12px 0 0; font-size: 28px; color: #0f172a;">
-          Encomenda recebida
+          Nova encomenda para aprovação
         </h1>
 
         <p style="font-size: 15px; line-height: 1.7; color: #475569;">
-          Olá ${order.customer_name}, recebemos a sua encomenda. 
-          Assim que o pagamento for confirmado, a encomenda seguirá para preparação.
+          Foi recebida uma nova encomenda no site. Deve ser analisada e aprovada no painel de administração.
         </p>
 
-        <div style="background: #f8fafc; border-radius: 16px; padding: 16px; margin-top: 20px;">
-          <p style="margin: 0; color: #0f172a;"><strong>Nº da encomenda:</strong> ${order.id}</p>
-          <p style="margin: 8px 0 0; color: #0f172a;"><strong>Data:</strong> ${formatarDataEmail(
+        <div style="background: #f4fbf4; border-radius: 16px; padding: 16px; margin-top: 20px;">
+          <p style="margin: 0;"><strong>Nº:</strong> ${order.id}</p>
+          <p style="margin: 8px 0 0;"><strong>Data:</strong> ${formatarDataEmail(
             order.created_at
           )}</p>
-          <p style="margin: 8px 0 0; color: #0f172a;"><strong>Estado:</strong> ${
+          <p style="margin: 8px 0 0;"><strong>Cliente:</strong> ${
+            order.customer_name
+          }</p>
+          <p style="margin: 8px 0 0;"><strong>Total estimado:</strong> ${formatarPrecoEmail(
+            total
+          )}</p>
+          <p style="margin: 8px 0 0;"><strong>Estado:</strong> ${
             order.status
           }</p>
-          <p style="margin: 8px 0 0; color: #0f172a;"><strong>Pagamento:</strong> ${
+          <p style="margin: 8px 0 0;"><strong>Pagamento escolhido:</strong> ${
             order.payment_preference
           }</p>
         </div>
+
+        <h2 style="font-size: 18px; margin-top: 28px; color: #0f172a;">
+          Dados do cliente
+        </h2>
+
+        <p style="font-size: 14px; line-height: 1.7; color: #475569;">
+          <strong>Nome:</strong> ${order.customer_name}<br />
+          <strong>Email:</strong> ${order.customer_email}<br />
+          <strong>Telefone:</strong> ${order.customer_phone}<br />
+          <strong>Tipo:</strong> ${order.customer_type}<br />
+          <strong>Empresa:</strong> ${order.company_name || "Não indicado"}<br />
+          <strong>NIF:</strong> ${order.nif || "Não indicado"}
+        </p>
 
         <h2 style="font-size: 18px; margin-top: 28px; color: #0f172a;">
           Produtos
@@ -113,12 +131,14 @@ function emailClienteHtml(order: OrderData) {
             )}</strong>
           </p>
           <p style="margin: 16px 0 0; font-size: 18px; color: #0f172a;">
-            Total: <strong style="float: right;">${formatarPrecoEmail(total)}</strong>
+            Total estimado: <strong style="float: right;">${formatarPrecoEmail(
+              total
+            )}</strong>
           </p>
         </div>
 
         <h2 style="font-size: 18px; margin-top: 28px; color: #0f172a;">
-          Entrega
+          Morada
         </h2>
 
         <p style="font-size: 14px; line-height: 1.7; color: #475569;">
@@ -127,77 +147,16 @@ function emailClienteHtml(order: OrderData) {
           ${order.delivery_preference}
         </p>
 
-        <p style="margin-top: 28px; font-size: 13px; line-height: 1.6; color: #64748b;">
-          Este email confirma apenas o registo da encomenda. A preparação e envio ficam dependentes da confirmação do pagamento.
-        </p>
-      </div>
-    </div>
-  `;
-}
-
-function emailAdminHtml(order: OrderData) {
-  const total = order.total_amount || order.total_estimated || 0;
-
-  return `
-    <div style="font-family: Arial, sans-serif; background: #f8fafc; padding: 24px;">
-      <div style="max-width: 760px; margin: 0 auto; background: #ffffff; border-radius: 20px; padding: 28px; border: 1px solid #e5e7eb;">
-        <p style="font-size: 12px; font-weight: 700; letter-spacing: 0.18em; color: #15803d; text-transform: uppercase;">
-          Nova encomenda
-        </p>
-
-        <h1 style="margin: 12px 0 0; font-size: 28px; color: #0f172a;">
-          ${order.customer_name}
-        </h1>
-
-        <div style="background: #f4fbf4; border-radius: 16px; padding: 16px; margin-top: 20px;">
-          <p style="margin: 0;"><strong>Nº:</strong> ${order.id}</p>
-          <p style="margin: 8px 0 0;"><strong>Data:</strong> ${formatarDataEmail(
-            order.created_at
-          )}</p>
-          <p style="margin: 8px 0 0;"><strong>Total:</strong> ${formatarPrecoEmail(
-            total
-          )}</p>
-          <p style="margin: 8px 0 0;"><strong>Estado:</strong> ${order.status}</p>
-          <p style="margin: 8px 0 0;"><strong>Pagamento:</strong> ${
-            order.payment_preference
-          }</p>
-        </div>
-
-        <h2 style="font-size: 18px; margin-top: 28px; color: #0f172a;">
-          Cliente
-        </h2>
-
-        <p style="font-size: 14px; line-height: 1.7; color: #475569;">
-          <strong>Email:</strong> ${order.customer_email}<br />
-          <strong>Telefone:</strong> ${order.customer_phone}<br />
-          <strong>Tipo:</strong> ${order.customer_type}<br />
-          <strong>Empresa:</strong> ${order.company_name || "Não indicado"}<br />
-          <strong>NIF:</strong> ${order.nif || "Não indicado"}
-        </p>
-
-        <h2 style="font-size: 18px; margin-top: 28px; color: #0f172a;">
-          Produtos
-        </h2>
-
-        <table style="width: 100%; border-collapse: collapse; margin-top: 8px;">
-          ${criarListaProdutosHtml(order.order_items)}
-        </table>
-
-        <h2 style="font-size: 18px; margin-top: 28px; color: #0f172a;">
-          Morada
-        </h2>
-
-        <p style="font-size: 14px; line-height: 1.7; color: #475569;">
-          ${order.address}<br />
-          ${order.postal_code} ${order.city}
-        </p>
-
         <h2 style="font-size: 18px; margin-top: 28px; color: #0f172a;">
           Observações
         </h2>
 
         <p style="font-size: 14px; line-height: 1.7; color: #475569;">
           ${order.notes || "Sem observações"}
+        </p>
+
+        <p style="margin-top: 28px; font-size: 13px; line-height: 1.6; color: #64748b;">
+          Aceda ao painel de administração para validar stock, portes e aprovar a encomenda.
         </p>
       </div>
     </div>
@@ -281,26 +240,21 @@ export async function POST(request: Request) {
     const orderData = order as OrderData;
     const adminEmail = getAdminOrderEmail();
 
-    const clienteEmail = await enviarEmail({
-      to: orderData.customer_email,
-      subject: "Recebemos a sua encomenda — New & Recycled",
-      html: emailClienteHtml(orderData),
-    });
-
     const adminEmailResult = await enviarEmail({
       to: adminEmail,
-      subject: `Nova encomenda — ${orderData.customer_name}`,
+      subject: `Nova encomenda para aprovação — ${orderData.customer_name}`,
       html: emailAdminHtml(orderData),
     });
 
     return NextResponse.json({
       success: true,
-      clienteEmail,
       adminEmail: adminEmailResult,
     });
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "Erro desconhecido ao enviar email.";
+      error instanceof Error
+        ? error.message
+        : "Erro desconhecido ao enviar email.";
 
     return NextResponse.json({ error: message }, { status: 500 });
   }
