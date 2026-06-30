@@ -69,8 +69,7 @@ type Encomenda = {
 };
 
 const estadosProgresso = [
-  "A aguardar aprovação",
-  "Aprovada - aguarda pagamento",
+  "A aguardar pagamento",
   "Pago",
   "Em preparação",
   "Enviado",
@@ -181,8 +180,10 @@ function obterTituloMetodoPagamento(method: string | null) {
 }
 
 function normalizarEstado(status: string) {
-  if (status === "Pedido recebido") return "A aguardar aprovação";
-  if (status === "Pendente de pagamento") return "Aprovada - aguarda pagamento";
+  if (status === "Pedido recebido") return "A aguardar pagamento";
+  if (status === "A aguardar aprovação") return "A aguardar pagamento";
+  if (status === "Aprovada - aguarda pagamento") return "A aguardar pagamento";
+  if (status === "Pendente de pagamento") return "A aguardar pagamento";
   if (status === "Em confirmação") return "Pago";
   if (status === "Confirmado") return "Pago";
   if (status === "Concluído") return "Entregue";
@@ -193,21 +194,12 @@ function normalizarEstado(status: string) {
 function obterMensagemEstado(encomenda: Encomenda) {
   const status = normalizarEstado(encomenda.status);
 
-  if (status === "A aguardar aprovação") {
+  if (status === "A aguardar pagamento") {
     return {
-      titulo: "A sua encomenda foi recebida.",
+      titulo: "Encomenda recebida — aguarda pagamento.",
       texto:
-        "A encomenda está a ser validada pela equipa. Ainda não deve efetuar o pagamento. Assim que for aprovada, receberá indicação para pagar.",
+        "Vai receber os dados de pagamento (Multibanco ou MB WAY) por email. Após confirmação do pagamento, a encomenda avança automaticamente.",
       classe: "border-amber-200 bg-amber-50 text-amber-900",
-    };
-  }
-
-  if (status === "Aprovada - aguarda pagamento") {
-    return {
-      titulo: "A encomenda foi aprovada.",
-      texto:
-        "Já pode consultar os dados de pagamento. Após confirmação do pagamento, a encomenda seguirá para preparação.",
-      classe: "border-green-200 bg-green-50 text-green-900",
     };
   }
 
@@ -281,26 +273,18 @@ function obterMensagemEstado(encomenda: Encomenda) {
 function obterLinkPrincipal(encomenda: Encomenda) {
   const status = normalizarEstado(encomenda.status);
 
-  if (status === "A aguardar aprovação") {
+  if (status === "A aguardar pagamento") {
     return `/encomenda/${encomenda.id}/confirmacao`;
   }
 
-  return `/encomenda/${encomenda.id}/pagamento`;
+  return `/encomenda/${encomenda.id}/confirmacao`;
 }
 
 function obterTextoBotaoPrincipal(encomenda: Encomenda) {
   const status = normalizarEstado(encomenda.status);
 
-  if (status === "A aguardar aprovação") {
-    return "Ver estado";
-  }
-
-  if (status === "Aprovada - aguarda pagamento") {
-    return "Ver pagamento";
-  }
-
-  if (encomenda.payment_status === "Pago") {
-    return "Ver pagamento";
+  if (status === "A aguardar pagamento") {
+    return "Ver encomenda";
   }
 
   return "Ver encomenda";
@@ -309,10 +293,7 @@ function obterTextoBotaoPrincipal(encomenda: Encomenda) {
 function obterClasseBotaoPrincipal(encomenda: Encomenda) {
   const status = normalizarEstado(encomenda.status);
 
-  if (
-    status === "Aprovada - aguarda pagamento" &&
-    encomenda.payment_status !== "Pago"
-  ) {
+  if (status === "A aguardar pagamento") {
     return "bg-green-700 text-white hover:bg-green-800";
   }
 
