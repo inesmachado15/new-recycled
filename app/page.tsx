@@ -10,28 +10,12 @@ const categorias = [
     texto: "Tinteiros e packs para impressoras domésticas e profissionais.",
   },
   {
-    titulo: "Papel e Consumíveis",
-    texto: "Papel, resmas e consumíveis essenciais para o dia a dia.",
+    titulo: "Consumíveis",
+    texto: "Rolos térmicos, fitas, papel e consumíveis essenciais para o dia a dia.",
   },
   {
-    titulo: "Rolos Térmicos",
-    texto: "Rolos para POS, TPA e equipamentos compatíveis.",
-  },
-  {
-    titulo: "Material de Escritório",
-    texto: "Canetas, pastas, capas, organização e apoio administrativo.",
-  },
-  {
-    titulo: "Material Escolar",
-    texto: "Cadernos, escrita e materiais úteis para escola e estudo.",
-  },
-  {
-    titulo: "Limpeza e Higiene",
-    texto: "Produtos para empresas, escolas, escritórios e espaços comerciais.",
-  },
-  {
-    titulo: "Equipamento de Escritório",
-    texto: "Equipamentos e acessórios para apoio ao trabalho diário.",
+    titulo: "Papelaria",
+    texto: "Material de escritório, escolar, organização e artigos de limpeza.",
   },
 ];
 
@@ -67,9 +51,9 @@ export default function HomePage() {
               </h1>
 
               <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-                Encontre consumíveis, papel, rolos térmicos, material escolar,
-                artigos de limpeza e equipamentos de apoio ao escritório, com
-                ajuda para escolher a referência certa.
+                Toners, tinteiros, consumíveis e papelaria para empresas,
+                escolas e particulares, com ajuda para escolher a referência
+                certa.
               </p>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
