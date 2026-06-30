@@ -43,7 +43,7 @@ export default function PrivacidadePage() {
             <ul className="mt-2 space-y-1 pl-4">
               <li><span className="font-semibold text-slate-800">Nome:</span> José Carlos Macedo Machado</li>
               <li><span className="font-semibold text-slate-800">NIF:</span> 164366423</li>
-              <li><span className="font-semibold text-slate-800">Morada:</span> <span className="italic text-slate-400">[a preencher]</span></li>
+              <li><span className="font-semibold text-slate-800">Morada:</span> Rua Bernardino Machado, nº 119, São Domingos de Rana</li>
               <li><span className="font-semibold text-slate-800">Email:</span>{" "}
                 <a href="mailto:machado.newrecycle@gmail.com" className="break-all font-bold text-green-700 hover:text-green-800">
                   machado.newrecycle@gmail.com

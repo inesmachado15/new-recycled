@@ -41,7 +41,7 @@ export default function TermosPage() {
             <ul className="mt-2 space-y-1 pl-4">
               <li><span className="font-semibold text-slate-800">Nome:</span> José Carlos Macedo Machado</li>
               <li><span className="font-semibold text-slate-800">NIF:</span> 164366423</li>
-              <li><span className="font-semibold text-slate-800">Morada:</span> <span className="italic text-slate-400">[a preencher]</span></li>
+              <li><span className="font-semibold text-slate-800">Morada:</span> Rua Bernardino Machado, nº 119, São Domingos de Rana</li>
               <li><span className="font-semibold text-slate-800">Telefone / WhatsApp:</span>{" "}
                 <a href="https://wa.me/351968120503" className="font-bold text-green-700 hover:text-green-800">
                   968 120 503
