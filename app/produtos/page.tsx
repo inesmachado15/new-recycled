@@ -125,6 +125,7 @@ function ProdutosConteudo() {
   const [marca, setMarca] = useState("Todas");
   const [disponibilidade, setDisponibilidade] = useState("Todos");
   const [ordenacao, setOrdenacao] = useState("Destaques primeiro");
+  const [tipoCartuchoToner, setTipoCartuchoToner] = useState("Todos");
 
   async function carregarProdutos(reiniciar: boolean) {
     const inicio = reiniciar ? 0 : produtos.length;
@@ -164,6 +165,14 @@ function ProdutosConteudo() {
     if (marca === "Outras") {
       const marcasConhecidas = ["HP", "Canon", "Epson", "Samsung", "Xerox", "Lexmark", "Konica Minolta", "Kyocera", "Brother"];
       query = query.not("brand", "in", `(${marcasConhecidas.map((m) => `"${m}"`).join(",")})`);
+    }
+
+    if (tipoCartuchoToner === "Original") {
+      query = query.ilike("name", "%Original%");
+    }
+
+    if (tipoCartuchoToner === "Compatível") {
+      query = query.or("name.ilike.%Compatível%,name.ilike.%Compativel%,name.ilike.%Genérico%,name.ilike.%Generico%");
     }
 
     if (disponibilidade === "Em stock") {
@@ -245,7 +254,7 @@ function ProdutosConteudo() {
 
   useEffect(() => {
     carregarProdutos(true);
-  }, [pesquisa, categoria, marca, disponibilidade, ordenacao]);
+  }, [pesquisa, categoria, marca, disponibilidade, ordenacao, tipoCartuchoToner]);
 
   useEffect(() => {
     function aoMostrarPagina(event: PageTransitionEvent) {
@@ -306,6 +315,7 @@ function ProdutosConteudo() {
     setCategoria("Todas");
     setMarca("Todas");
     setDisponibilidade("Todos");
+    setTipoCartuchoToner("Todos");
     setOrdenacao("Destaques primeiro");
   }
 
@@ -395,6 +405,28 @@ function ProdutosConteudo() {
                 ))}
               </select>
             </label>
+
+            {["Todas", "Toners", "Tinteiros", "Consumíveis"].includes(categoria) && (
+              <label className="text-sm font-semibold">
+                Tipo
+                <div className="mt-2 flex gap-2">
+                  {["Todos", "Original", "Compatível"].map((tipo) => (
+                    <button
+                      key={tipo}
+                      type="button"
+                      onClick={() => setTipoCartuchoToner(tipo)}
+                      className={`flex-1 rounded-2xl border px-3 py-2 text-xs font-bold transition ${
+                        tipoCartuchoToner === tipo
+                          ? "border-green-700 bg-green-700 text-white"
+                          : "border-slate-300 bg-white text-slate-600 hover:border-green-700 hover:text-green-700"
+                      }`}
+                    >
+                      {tipo}
+                    </button>
+                  ))}
+                </div>
+              </label>
+            )}
 
             <label className="text-sm font-semibold">
               Disponibilidade

@@ -167,12 +167,12 @@ export default function Header() {
           <Link
             href="/carrinho"
             onClick={fecharMenu}
-            className="rounded-full bg-green-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-green-800"
+            className="relative rounded-full bg-green-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-green-800"
           >
             Carrinho
             {quantidadeCarrinho > 0 && (
-              <span className="ml-2 rounded-full bg-white px-2 py-0.5 text-xs text-green-700">
-                {quantidadeCarrinho}
+              <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-black text-white shadow">
+                {quantidadeCarrinho > 9 ? "9+" : quantidadeCarrinho}
               </span>
             )}
           </Link>
