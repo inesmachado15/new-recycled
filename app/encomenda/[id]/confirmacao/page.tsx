@@ -175,24 +175,20 @@ export default function ConfirmacaoEncomendaPage() {
           </p>
 
           <h1 className="mt-4 text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">
-            A sua encomenda aguarda aprovação.
+            Encomenda recebida com sucesso.
           </h1>
 
           <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600">
-            Recebemos o seu pedido. A New & Recycled irá validar a
-            disponibilidade dos produtos, o stock do fornecedor e o valor final
-            dos portes. Depois da aprovação, receberá indicação para proceder ao
-            pagamento.
+            Recebemos o seu pedido e o pagamento. A encomenda está a ser processada e receberá actualizações por email.
           </p>
 
           <div className="mt-6 rounded-3xl bg-green-50 p-5">
             <p className="text-sm font-bold text-green-800">
-              Não efetue pagamento nesta fase.
+              Pagamento confirmado.
             </p>
 
             <p className="mt-2 text-sm leading-6 text-green-800">
-              O pagamento só deve ser feito depois de receber a confirmação da
-              encomenda aprovada.
+              A encomenda foi registada e será preparada para envio. Acompanhe o estado na área de cliente.
             </p>
           </div>
 

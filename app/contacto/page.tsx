@@ -128,8 +128,7 @@ export default function ContactoPage() {
               <p>3. Submeta o pedido com os dados de faturação e entrega.</p>
 
               <p>
-                4. A New & Recycled valida stock e portes. Depois da aprovação,
-                os dados de pagamento ficam disponíveis na sua conta.
+                4. Efectue o pagamento (Multibanco ou MB WAY). A encomenda avança automaticamente após confirmação.
               </p>
             </div>
           </section>

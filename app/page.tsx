@@ -25,8 +25,8 @@ const vantagens = [
     texto: "Ajudamos a confirmar referências de toners e tinteiros antes da encomenda.",
   },
   {
-    titulo: "Encomendas validadas",
-    texto: "Confirmamos stock, disponibilidade e portes antes do pagamento.",
+    titulo: "Pagamento seguro",
+    texto: "Aceitamos Multibanco e MB WAY. Portes fixos de 3,75€ ou grátis acima de 60€.",
   },
   {
     titulo: "Para empresas e particulares",
@@ -111,11 +111,10 @@ export default function HomePage() {
                 </p>
 
                 <div className="mt-5 rounded-2xl bg-green-50 p-4 text-left text-sm text-green-900">
-                  <p className="font-black">Antes de pagar, validamos.</p>
+                  <p className="font-black">Pague de forma segura.</p>
 
                   <p className="mt-2 leading-6">
-                    A encomenda é confirmada pela equipa antes do envio dos
-                    dados de pagamento.
+                    Aceitamos Multibanco e MB WAY. Após o pagamento, a encomenda é processada automaticamente.
                   </p>
                 </div>
 
@@ -186,13 +185,12 @@ export default function HomePage() {
             </p>
 
             <h2 className="mt-4 text-2xl font-black">
-              Encomenda online, pagamento só após validação
+              Encomenda online, pagamento simples e seguro
             </h2>
 
             <p className="mt-4 leading-7 text-slate-600">
-              Ao finalizar a encomenda, o pedido fica registado para validação.
-              A New & Recycled confirma stock, disponibilidade e portes antes de
-              enviar os dados de pagamento.
+              Ao finalizar a encomenda, o pagamento é feito de forma segura (Multibanco ou MB WAY). Após confirmação do pagamento, a encomenda é processada automaticamente.
+              Pague de forma segura no checkout. Aceitamos Multibanco e MB WAY. Portes fixos de 3,75€ ou grátis acima de 60€.
             </p>
 
             <Link

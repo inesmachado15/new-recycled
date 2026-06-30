@@ -17,13 +17,13 @@ const passos = [
     numero: "3",
     titulo: "Submeta a encomenda",
     texto:
-      "Confirme os produtos no carrinho, preencha os dados de faturação e entrega, e envie o pedido para validação.",
+      "Confirme os produtos no carrinho, preencha os dados de faturação e entrega, e finalize a encomenda. O pagamento é feito nesta etapa.",
   },
   {
     numero: "4",
-    titulo: "Aguarde a aprovação",
+    titulo: "Encomenda confirmada",
     texto:
-      "A New & Recycled confirma stock, disponibilidade e portes. Só depois recebe os dados de pagamento.",
+      "Após o pagamento, a encomenda é processada e preparada para envio. Receberá actualizações do estado por email.",
   },
 ];
 
@@ -39,12 +39,12 @@ const perguntas = [
   {
     titulo: "Tenho de pagar logo?",
     texto:
-      "Não. A encomenda é primeiro validada pela New & Recycled. O pagamento só deve ser feito depois de receber a confirmação e os dados de pagamento.",
+      "Sim. O pagamento é feito no momento da encomenda. Após confirmação do pagamento, a encomenda é processada automaticamente.",
   },
   {
     titulo: "E se o produto estiver por encomenda?",
     texto:
-      "A equipa confirma a disponibilidade e informa-o antes do pagamento. Assim evita pagar por um produto que possa não estar imediatamente disponível.",
+      "O prazo de entrega pode ser ligeiramente superior. Será informado por email do estado e prazo estimado após confirmação do pagamento.",
   },
   {
     titulo: "Como confirmo se um tinteiro ou toner é compatível?",
@@ -108,7 +108,7 @@ export default function ComoEncomendarPage() {
                     Pagamento
                   </p>
                   <p className="mt-1 text-sm leading-6 text-slate-600">
-                    Apenas depois da aprovação da encomenda.
+                    Feito no momento da encomenda, de forma segura.
                   </p>
                 </div>
 
@@ -117,7 +117,7 @@ export default function ComoEncomendarPage() {
                     Stock e disponibilidade
                   </p>
                   <p className="mt-1 text-sm leading-6 text-slate-600">
-                    Confirmados pela equipa antes do cliente pagar.
+                    Confirmados em tempo real. Em caso de indisponibilidade, será contactado.
                   </p>
                 </div>
 
@@ -148,8 +148,7 @@ export default function ComoEncomendarPage() {
             </div>
 
             <p className="max-w-xl text-sm leading-6 text-slate-500">
-              A encomenda fica sempre sujeita a validação, para garantir que os
-              produtos, portes e dados estão corretos antes do pagamento.
+              Processo simples e rápido. Paga no momento e acompanha a encomenda na área de cliente.
             </p>
           </div>
 
@@ -180,22 +179,19 @@ export default function ComoEncomendarPage() {
             </p>
 
             <h2 className="mt-4 text-2xl font-black">
-              A encomenda não é pagamento imediato
+              Pagamento seguro no momento
             </h2>
 
             <p className="mt-4 leading-7 text-slate-600">
-              O pagamento só deve ser feito depois de a encomenda ser aprovada.
-              Até lá, o pedido fica em validação. Isto permite confirmar stock,
-              portes finais e disponibilidade antes do cliente pagar.
+              O pagamento é feito no checkout, de forma segura. Aceitamos Referência Multibanco e MB WAY. Após confirmação do pagamento, a encomenda avança automaticamente.
             </p>
 
             <div className="mt-6 rounded-2xl bg-green-50 p-5">
               <p className="text-sm font-bold text-green-900">
-                O cliente não paga sem confirmação.
+                Pagamento simples e seguro.
               </p>
               <p className="mt-2 text-sm leading-6 text-green-800">
-                Esta regra ajuda a evitar erros em produtos por encomenda,
-                artigos sem stock imediato ou encomendas com portes especiais.
+                Aceitamos Multibanco e MB WAY. Os portes são sempre 3,75€, grátis em compras iguais ou superiores a 60€.
               </p>
             </div>
           </article>
@@ -241,16 +237,13 @@ export default function ComoEncomendarPage() {
             </h2>
 
             <p className="mt-4 leading-7 text-slate-600">
-              Toners e tinteiros têm portes de 3,75€, com portes gratuitos em
-              compras iguais ou superiores a 60€. Outros produtos ficam com
-              portes sob consulta, porque o valor pode depender do peso, volume
-              ou tipo de encomenda.
+              Os portes são fixos em 3,75€ para todo o Portugal continental, independentemente do tipo de produto. Compras iguais ou superiores a 60€ têm portes gratuitos.
             </p>
 
             <div className="mt-6 grid gap-3">
               <div className="rounded-2xl bg-slate-50 p-4">
                 <p className="text-sm font-black text-slate-950">
-                  Toners e tinteiros
+                  Todos os produtos
                 </p>
                 <p className="mt-1 text-sm text-slate-600">
                   Portes de 3,75€ ou grátis a partir de 60€.
@@ -259,10 +252,10 @@ export default function ComoEncomendarPage() {
 
               <div className="rounded-2xl bg-slate-50 p-4">
                 <p className="text-sm font-black text-slate-950">
-                  Outros artigos
+                  Envio para Portugal continental
                 </p>
                 <p className="mt-1 text-sm text-slate-600">
-                  Portes confirmados após validação da encomenda.
+                  Prazo habitual: 2 a 5 dias úteis após pagamento.
                 </p>
               </div>
             </div>
@@ -340,8 +333,7 @@ export default function ComoEncomendarPage() {
 
               <p className="mt-3 max-w-2xl leading-7 text-slate-300">
                 Consulte o catálogo, adicione os produtos ao carrinho e finalize
-                a encomenda com sessão iniciada. O pedido será validado antes do
-                pagamento.
+                a encomenda com sessão iniciada. Pague de forma segura e acompanhe a encomenda na área de cliente.
               </p>
             </div>
 

@@ -556,7 +556,7 @@ export default function FinalizarPage() {
             <p className="mt-4 max-w-2xl text-slate-600">
               Para submeter uma encomenda tem de iniciar sessão ou criar uma
               conta. Assim poderá acompanhar o estado da encomenda, consultar os
-              dados de pagamento e receber atualizações.
+              receber atualizações sobre o estado da encomenda.
             </p>
 
             <div className="mt-6 grid gap-3 rounded-2xl bg-green-50 p-5 text-sm leading-6 text-green-800">
@@ -565,8 +565,7 @@ export default function FinalizarPage() {
               </p>
 
               <p>
-                A conta permite acompanhar a encomenda, consultar o estado do
-                pedido e aceder aos dados de pagamento depois da aprovação.
+                A conta permite acompanhar a encomenda, consultar o estado do pedido e receber atualizações por email.
               </p>
             </div>
 
@@ -643,9 +642,7 @@ export default function FinalizarPage() {
           </h1>
 
           <p className="mt-4 max-w-3xl text-slate-600">
-            Confirme os dados de faturação, entrega e resumo da encomenda. A
-            sua encomenda será validada pela New & Recycled antes de qualquer
-            pagamento.
+            Confirme os dados de faturação, entrega e resumo da encomenda. O pagamento é feito nesta etapa de forma segura.
           </p>
 
           <div className="mt-6 grid gap-4 md:grid-cols-3">
@@ -660,19 +657,19 @@ export default function FinalizarPage() {
 
             <div className="rounded-2xl bg-white p-4 shadow-sm">
               <p className="text-sm font-black text-slate-950">
-                2. Validamos stock e portes
+                2. Pagamento seguro
               </p>
               <p className="mt-1 text-sm leading-6 text-slate-600">
-                Confirmamos disponibilidade antes do pagamento.
+                Aceitamos Multibanco e MB WAY.
               </p>
             </div>
 
             <div className="rounded-2xl bg-white p-4 shadow-sm">
               <p className="text-sm font-black text-slate-950">
-                3. Recebe os dados de pagamento
+                3. Encomenda processada
               </p>
               <p className="mt-1 text-sm leading-6 text-slate-600">
-                Só paga depois da aprovação da encomenda.
+                Após o pagamento a encomenda avança automaticamente.
               </p>
             </div>
           </div>
@@ -1036,15 +1033,12 @@ export default function FinalizarPage() {
 
             <div className="mt-5 space-y-3">
               <p className="rounded-2xl bg-green-50 p-4 text-xs leading-5 text-green-800">
-                <span className="font-black">Sem pagamento imediato.</span>{" "}
-                A encomenda ficará a aguardar aprovação. Só depois da validação
-                serão indicados os dados de pagamento.
+                <span className="font-black">Pagamento seguro.</span>{" "}
+                Aceitamos Multibanco e MB WAY. Após confirmação do pagamento a encomenda é processada automaticamente.
               </p>
 
               <p className="rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-500">
-                Portes: toners e tinteiros têm portes de 3,75€, com portes
-                gratuitos em compras iguais ou superiores a 60€. Outros produtos
-                ficam com portes sob consulta.
+                Portes fixos de 3,75€ para todo o Portugal continental. Portes gratuitos em compras iguais ou superiores a 60€.
               </p>
 
               <p className="rounded-2xl bg-amber-50 p-4 text-xs leading-5 text-amber-800">

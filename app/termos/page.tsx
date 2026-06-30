@@ -60,11 +60,7 @@ export default function TermosPage() {
               2. Funcionamento das encomendas
             </h2>
             <p className="mt-2">
-              Os pedidos efectuados através do site não constituem confirmação
-              automática de compra. Após o envio do pedido, a New & Recycled
-              valida a disponibilidade dos produtos, confirma os portes
-              aplicáveis e comunica ao cliente os dados necessários para
-              pagamento.
+              Os pedidos efectuados através do site implicam pagamento imediato no checkout. Após confirmação do pagamento, a New & Recycled processa a encomenda e procede ao envio.
             </p>
           </section>
 
@@ -110,10 +106,7 @@ export default function TermosPage() {
               6. Pagamento
             </h2>
             <p className="mt-2">
-              O pagamento só deverá ser efectuado após a aprovação da encomenda
-              pela New & Recycled. Os dados de pagamento são comunicados ao
-              cliente depois da validação da encomenda. O site não recolhe nem
-              armazena dados de cartão de crédito.
+              O pagamento é efectuado no momento da encomenda, de forma segura, através dos métodos disponibilizados no site (Referência Multibanco ou MB WAY). O site não recolhe nem armazena dados de cartão de crédito.
             </p>
           </section>
 
@@ -163,10 +156,7 @@ export default function TermosPage() {
               10. Cancelamentos
             </h2>
             <p className="mt-2">
-              A New & Recycled poderá cancelar ou não aprovar uma encomenda caso
-              não exista disponibilidade de produto, caso os dados fornecidos
-              estejam incompletos, caso exista erro evidente de preço ou caso não
-              seja possível confirmar as condições comerciais com o cliente.
+              A New & Recycled poderá cancelar uma encomenda e proceder ao reembolso caso não exista disponibilidade de produto, caso os dados fornecidos estejam incompletos ou caso exista erro evidente de preço.
             </p>
           </section>
 
