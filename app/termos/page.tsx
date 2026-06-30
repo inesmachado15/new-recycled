@@ -122,13 +122,7 @@ export default function TermosPage() {
               7. Entregas e portes
             </h2>
             <p className="mt-2">
-              As condições de entrega, prazos e custos de envio são confirmados
-              antes da conclusão da encomenda. Toners e tinteiros têm portes de
-              3,75€, com portes gratuitos em compras iguais ou superiores a 60€.
-              Outros produtos ficam sujeitos a portes sob consulta, devido ao
-              peso, volume ou características da encomenda. O prazo de entrega
-              habitual é de 2 a 5 dias úteis após confirmação do pagamento,
-              podendo variar conforme a disponibilidade do produto.
+              Os portes de envio são fixos em 3,75€ para todo o Portugal continental. Compras iguais ou superiores a 60€ beneficiam de portes gratuitos. O prazo de entrega habitual é de 2 a 5 dias úteis após confirmação do pagamento, podendo variar conforme a disponibilidade do produto.
             </p>
           </section>
 

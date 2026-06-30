@@ -29,18 +29,17 @@ export default function Footer() {
             </Link>
 
             <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">
-              Soluções para escritório, consumíveis, toners, tinteiros, papel,
-              rolos térmicos, material escolar, artigos de limpeza e apoio para
-              empresas e particulares.
+              Toners, tinteiros, consumíveis e papelaria para empresas e particulares.
+              Envio para todo o Portugal continental.
             </p>
 
             <div className="mt-5 rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
               <p className="text-sm font-bold text-white">
-                Encomendas sujeitas a validação
+                Portes fixos 3,75€
               </p>
 
               <p className="mt-2 text-sm leading-6 text-slate-300">
-                Confirmamos stock, disponibilidade e portes antes do pagamento.
+                Envio para todo o Portugal continental. Portes grátis em compras iguais ou superiores a 60€.
               </p>
             </div>
           </section>

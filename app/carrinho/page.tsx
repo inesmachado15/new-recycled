@@ -67,23 +67,7 @@ function calcularPortes(produtos: ProdutoNoCarrinho[]) {
   }, 0);
 
   if (subtotal === 0) {
-    return {
-      portes: 0,
-      portesSobConsulta: false,
-      total: 0,
-    };
-  }
-
-  const todosSaoTonersOuTinteiros = produtos.every((produto) =>
-    produtoTemPortesFixos(produto)
-  );
-
-  if (!todosSaoTonersOuTinteiros) {
-    return {
-      portes: null as number | null,
-      portesSobConsulta: true,
-      total: subtotal,
-    };
+    return { portes: 0, portesSobConsulta: false, total: 0 };
   }
 
   const portes = subtotal >= 60 ? 0 : 3.75;
@@ -593,9 +577,7 @@ export default function CarrinhoPage() {
             </div>
 
             <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-500">
-              Portes grátis a partir de 60€ em tinteiros e toners. Para outros
-              produtos, os portes ficam sob consulta e serão confirmados antes
-              do pagamento/envio.
+              Portes fixos 3,75€ para todo o Portugal continental. Portes grátis em compras iguais ou superiores a 60€.
             </p>
 
             {podeFinalizar ? (
