@@ -253,8 +253,8 @@ export default function CarrinhoPage() {
 
         if (!produto) return item;
 
-        if (!produto.allow_backorder && item.quantidade > produto.stock) {
-          return { ...item, quantidade: produto.stock };
+        if (item.quantidade > 99) {
+          return { ...item, quantidade: 99 };
         }
 
         return item;
@@ -377,12 +377,10 @@ export default function CarrinhoPage() {
           <section className="space-y-5">
             {produtosNoCarrinho.map((produto) => {
               const emStock = produto.stock > 0;
-              const podeAumentar =
-                produto.allow_backorder || produto.quantidade < produto.stock;
+              const podeAumentar = produto.quantidade < 99;
               const indisponivel = !produtoDisponivel(produto);
               const semPreco = produto.price === null;
-              const quantidadeAcimaStock =
-                !produto.allow_backorder && produto.quantidade > produto.stock;
+              const quantidadeAcimaStock = false;
 
               return (
                 <article
