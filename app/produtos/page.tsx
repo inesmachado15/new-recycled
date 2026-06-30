@@ -104,7 +104,7 @@ export default function ProdutosPage() {
     const inicio = reiniciar ? 0 : produtos.length;
     const fim = inicio + PRODUTOS_POR_PAGINA;
 
-    if (reiniciar && produtos.length === 0) {
+    if (reiniciar) {
       setACarregar(true);
     }
 
@@ -312,12 +312,6 @@ export default function ProdutosPage() {
           </p>
         )}
 
-        {aCarregar && produtos.length === 0 && (
-          <p className="mt-6 rounded-2xl bg-white p-4 text-sm font-semibold text-slate-600 shadow-sm">
-            A carregar produtos...
-          </p>
-        )}
-
         {aCarregar && produtos.length > 0 && (
           <p className="mt-6 rounded-2xl bg-green-50 p-3 text-sm font-bold text-green-800">
             A atualizar produtos...
@@ -398,7 +392,24 @@ export default function ProdutosPage() {
           </p>
         </section>
 
-        {!aCarregar && produtos.length === 0 ? (
+        {aCarregar && produtos.length === 0 ? (
+          <section className="mt-6 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+            {Array.from({ length: 20 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
+              >
+                <div className="h-40 animate-pulse bg-slate-100" />
+                <div className="flex flex-col gap-3 p-4">
+                  <div className="h-4 w-20 animate-pulse rounded-full bg-slate-100" />
+                  <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+                  <div className="h-4 w-3/4 animate-pulse rounded bg-slate-100" />
+                  <div className="mt-2 h-8 w-full animate-pulse rounded-full bg-slate-100" />
+                </div>
+              </div>
+            ))}
+          </section>
+        ) : !aCarregar && produtos.length === 0 ? (
           <section className="mt-6 rounded-3xl border border-dashed border-slate-300 bg-white p-8 text-center shadow-sm">
             <h2 className="text-2xl font-black">Nenhum produto encontrado.</h2>
 
