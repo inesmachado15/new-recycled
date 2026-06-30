@@ -17,6 +17,7 @@ export default function AddToCartButton({
 }: Props) {
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState("");
+  const [adicionado, setAdicionado] = useState(false);
 
   function adicionarAoCarrinho() {
     setMensagem("");
@@ -54,6 +55,8 @@ export default function AddToCartButton({
     window.dispatchEvent(new Event("storage"));
 
     setMensagem(`"${produtoNome}" foi adicionado ao carrinho.`);
+    setAdicionado(true);
+    setTimeout(() => setAdicionado(false), 2000);
   }
 
   return (
@@ -71,10 +74,20 @@ export default function AddToCartButton({
       <button
         type="button"
         onClick={adicionarAoCarrinho}
-        disabled={!disponivel || semPreco}
-        className="mt-6 w-full rounded-full bg-green-700 px-6 py-4 text-sm font-bold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+        disabled={!disponivel || semPreco || adicionado}
+        className={`mt-6 w-full rounded-full px-6 py-4 text-sm font-bold text-white transition disabled:cursor-not-allowed ${
+          adicionado
+            ? "bg-green-500"
+            : "bg-green-700 hover:bg-green-800 disabled:bg-slate-300"
+        }`}
       >
-        {semPreco ? "Sob consulta" : disponivel ? "Adicionar ao carrinho" : "Indisponível"}
+        {adicionado
+          ? "✓ Adicionado ao carrinho"
+          : semPreco
+          ? "Sob consulta"
+          : disponivel
+          ? "Adicionar ao carrinho"
+          : "Indisponível"}
       </button>
     </>
   );

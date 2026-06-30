@@ -65,6 +65,20 @@ const categorias = [
 
 const disponibilidades = ["Todos", "Em stock", "Disponível por encomenda"];
 
+const marcas = [
+  "Todas",
+  "HP",
+  "Canon",
+  "Epson",
+  "Samsung",
+  "Xerox",
+  "Lexmark",
+  "Konica Minolta",
+  "Kyocera",
+  "Brother",
+  "Outras",
+];
+
 const ordenacoes = [
   "Destaques primeiro",
   "Nome A-Z",
@@ -97,6 +111,7 @@ export default function ProdutosPage() {
   const [pesquisaInput, setPesquisaInput] = useState("");
   const [pesquisa, setPesquisa] = useState("");
   const [categoria, setCategoria] = useState("Todas");
+  const [marca, setMarca] = useState("Todas");
   const [disponibilidade, setDisponibilidade] = useState("Todos");
   const [ordenacao, setOrdenacao] = useState("Destaques primeiro");
 
@@ -129,6 +144,15 @@ export default function ProdutosPage() {
 
     if (categoria !== "Todas") {
       query = query.eq("category", categoria);
+    }
+
+    if (marca !== "Todas" && marca !== "Outras") {
+      query = query.eq("brand", marca);
+    }
+
+    if (marca === "Outras") {
+      const marcasConhecidas = ["HP", "Canon", "Epson", "Samsung", "Xerox", "Lexmark", "Konica Minolta", "Kyocera", "Brother"];
+      query = query.not("brand", "in", `(${marcasConhecidas.map((m) => `"${m}"`).join(",")})`);
     }
 
     if (disponibilidade === "Em stock") {
@@ -210,7 +234,7 @@ export default function ProdutosPage() {
 
   useEffect(() => {
     carregarProdutos(true);
-  }, [pesquisa, categoria, disponibilidade, ordenacao]);
+  }, [pesquisa, categoria, marca, disponibilidade, ordenacao]);
 
   useEffect(() => {
     function aoMostrarPagina(event: PageTransitionEvent) {
@@ -269,6 +293,7 @@ export default function ProdutosPage() {
     setPesquisaInput("");
     setPesquisa("");
     setCategoria("Todas");
+    setMarca("Todas");
     setDisponibilidade("Todos");
     setOrdenacao("Destaques primeiro");
   }
@@ -319,7 +344,7 @@ export default function ProdutosPage() {
         )}
 
         <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="grid gap-4 lg:grid-cols-[1fr_220px_220px_220px_150px]">
+          <div className="grid gap-4 lg:grid-cols-[1fr_180px_180px_180px_180px_120px]">
             <label className="text-sm font-semibold">
               Pesquisar
               <input
@@ -338,6 +363,21 @@ export default function ProdutosPage() {
                 className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-2.5 text-sm font-normal outline-none transition focus:border-green-700"
               >
                 {categorias.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="text-sm font-semibold">
+              Marca
+              <select
+                value={marca}
+                onChange={(event) => setMarca(event.target.value)}
+                className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-2.5 text-sm font-normal outline-none transition focus:border-green-700"
+              >
+                {marcas.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
