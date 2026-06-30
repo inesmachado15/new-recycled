@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -95,6 +95,14 @@ function produtoDisponivel(produto: Produto) {
 }
 
 export default function ProdutosPage() {
+  return (
+    <Suspense>
+      <ProdutosConteudo />
+    </Suspense>
+  );
+}
+
+function ProdutosConteudo() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [totalProdutos, setTotalProdutos] = useState(0);
   const [temMaisProdutos, setTemMaisProdutos] = useState(false);
