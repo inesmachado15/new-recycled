@@ -58,6 +58,7 @@ const categorias = [
   "Tinteiros",
   "Consumíveis",
   "Papelaria",
+  "Impressoras",
 ];
 
 const disponibilidades = ["Todos", "Em stock", "Disponível por encomenda"];

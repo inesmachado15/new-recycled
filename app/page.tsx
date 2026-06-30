@@ -11,11 +11,15 @@ const categorias = [
   },
   {
     titulo: "Consumíveis",
-    texto: "Rolos térmicos, fitas, papel e consumíveis essenciais para o dia a dia.",
+    texto: "Rolos térmicos, tambores, cabeças de impressão e kits de manutenção.",
   },
   {
     titulo: "Papelaria",
     texto: "Material de escritório, escolar, organização e artigos de limpeza.",
+  },
+  {
+    titulo: "Impressoras",
+    texto: "Impressoras laser e jacto de tinta HP, Canon e Epson para escritório.",
   },
 ];
 

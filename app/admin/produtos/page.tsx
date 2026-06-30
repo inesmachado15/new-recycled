@@ -80,6 +80,7 @@ const categorias = [
   "Tinteiros",
   "Consumíveis",
   "Papelaria",
+  "Impressoras",
 ];
 
 const filtrosEstado = [
