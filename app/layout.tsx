@@ -10,15 +10,15 @@ export const metadata: Metadata = {
     template: "%s | New & Recycled",
   },
   description:
-    "Loja online de toners, tinteiros, consumíveis, papel, rolos térmicos, material escolar, material de escritório e artigos de limpeza. Encomendas validadas antes do pagamento.",
+    "Loja online de toners, tinteiros, consumíveis e papelaria para empresas e particulares. Encomendas validadas antes do pagamento.",
   keywords: [
     "toners",
     "tinteiros",
     "consumíveis impressoras",
     "material de escritório",
-    "material escolar",
-    "papel A4",
-    "rolos térmicos",
+    "papelaria",
+    
+    
     "cartuchos HP",
     "cartuchos Canon",
     "toner compatível",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: "New & Recycled",
     title: "New & Recycled | Toners, tinteiros e material de escritório",
     description:
-      "Toners, tinteiros, consumíveis, papel, rolos térmicos, material escolar e material de escritório. Encomendas validadas antes do pagamento.",
+      "Toners, tinteiros, consumíveis e papelaria para empresas e particulares. Encomendas validadas antes do pagamento.",
     url: "https://new-recycled.vercel.app",
     images: [
       {

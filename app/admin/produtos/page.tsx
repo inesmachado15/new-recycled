@@ -78,12 +78,8 @@ const camposProdutos = `
 const categorias = [
   "Toners",
   "Tinteiros",
-  "Papel e Consumíveis",
-  "Rolos Térmicos",
-  "Material de Escritório",
-  "Material Escolar",
-  "Limpeza e Higiene",
-  "Equipamento de Escritório",
+  "Consumíveis",
+  "Papelaria",
 ];
 
 const filtrosEstado = [

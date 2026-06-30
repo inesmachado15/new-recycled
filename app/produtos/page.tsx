@@ -308,8 +308,8 @@ export default function ProdutosPage() {
             </h1>
 
             <p className="mt-3 max-w-4xl text-base leading-7 text-slate-600">
-              Encontre consumíveis, material de escritório, material escolar,
-              rolos térmicos, equipamentos e artigos de limpeza.
+              Encontre toners, tinteiros, consumíveis e papelaria
+
             </p>
           </div>
 
