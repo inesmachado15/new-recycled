@@ -74,6 +74,8 @@ const marcas = [
   "Konica Minolta",
   "Kyocera",
   "Brother",
+  "OKI",
+  "Panasonic",
   "Outras",
 ];
 
@@ -163,7 +165,7 @@ function ProdutosConteudo() {
     }
 
     if (marca === "Outras") {
-      const marcasConhecidas = ["HP", "Canon", "Epson", "Samsung", "Xerox", "Lexmark", "Konica Minolta", "Kyocera", "Brother"];
+      const marcasConhecidas = ["HP", "Canon", "Epson", "Samsung", "Xerox", "Lexmark", "Konica Minolta", "Kyocera", "Brother", "OKI", "Panasonic"];
       query = query.not("brand", "in", `(${marcasConhecidas.map((m) => `"${m}"`).join(",")})`);
     }
 
