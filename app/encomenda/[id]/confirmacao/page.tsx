@@ -179,40 +179,30 @@ export default function ConfirmacaoEncomendaPage() {
           </h1>
 
           <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600">
-            Recebemos o seu pedido e o pagamento. A encomenda está a ser processada e receberá actualizações por email.
+            Recebemos o seu pedido. Assim que o pagamento for confirmado, a encomenda é processada automaticamente e receberá actualizações por email.
           </p>
 
-          <div className="mt-6 rounded-3xl bg-green-50 p-5">
-            <p className="text-sm font-bold text-green-800">
-              Pagamento confirmado.
-            </p>
-
-            <p className="mt-2 text-sm leading-6 text-green-800">
-              A encomenda foi registada e será preparada para envio. Acompanhe o estado na área de cliente.
-            </p>
+          <div className="mt-6 grid gap-4 rounded-3xl bg-green-50 p-5 sm:grid-cols-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-green-700">Nº de encomenda</p>
+              <p className="mt-1 font-black text-green-900">{encomenda.id.slice(0, 8).toUpperCase()}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-green-700">Data</p>
+              <p className="mt-1 font-black text-green-900">{formatarData(encomenda.created_at)}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-green-700">Estado</p>
+              <p className="mt-1 font-black text-green-900">{encomenda.status}</p>
+            </div>
           </div>
 
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-bold text-slate-500">Nº interno</p>
-              <p className="mt-2 break-all text-sm font-black text-slate-900">
-                {encomenda.id}
-              </p>
-            </div>
-
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-bold text-slate-500">Data</p>
-              <p className="mt-2 text-sm font-black text-slate-900">
-                {formatarData(encomenda.created_at)}
-              </p>
-            </div>
-
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-              <p className="text-sm font-bold text-slate-500">Estado</p>
-              <p className="mt-2 text-sm font-black text-slate-900">
-                {encomenda.status}
-              </p>
-            </div>
+          <div className="mt-5 rounded-3xl border border-amber-200 bg-amber-50 p-5">
+            <p className="text-sm font-bold text-amber-900">Próximo passo: efectue o pagamento</p>
+            <p className="mt-2 text-sm leading-6 text-amber-800">
+              Vai receber os dados de pagamento (Referência Multibanco ou MB WAY) por email.
+              Após confirmação do pagamento, a encomenda avança automaticamente.
+            </p>
           </div>
         </div>
 
@@ -281,8 +271,7 @@ export default function ConfirmacaoEncomendaPage() {
             </div>
 
             <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-500">
-              Este valor ainda pode ser ajustado após validação da
-              disponibilidade e dos portes finais.
+              Os portes são de 3,75€ ou grátis em compras iguais ou superiores a 60€.
             </p>
 
             <a

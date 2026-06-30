@@ -2,9 +2,12 @@ import Link from "next/link";
 
 const linksLoja = [
   { href: "/", label: "Início" },
-  { href: "/produtos", label: "Produtos" },
+  { href: "/produtos?categoria=Toners", label: "Toners" },
+  { href: "/produtos?categoria=Tinteiros", label: "Tinteiros" },
+  { href: "/produtos?categoria=Consumíveis", label: "Consumíveis" },
+  { href: "/produtos?categoria=Papelaria", label: "Papelaria" },
+  { href: "/produtos?categoria=Equipamento de Escritório", label: "Equipamento" },
   { href: "/como-encomendar", label: "Como encomendar?" },
-  { href: "/carrinho", label: "Carrinho" },
   { href: "/contacto", label: "Contacto" },
 ];
 
@@ -123,10 +126,20 @@ export default function Footer() {
 
               <div>
                 <p className="font-bold text-white">Responsável comercial</p>
+                <p className="mt-1 leading-6 text-slate-300">José Carlos Machado</p>
+              </div>
 
+              <div>
+                <p className="font-bold text-white">Morada</p>
                 <p className="mt-1 leading-6 text-slate-300">
-                  José Carlos Machado
+                  Rua Bernardino Machado, nº 119<br />
+                  São Domingos de Rana
                 </p>
+              </div>
+
+              <div>
+                <p className="font-bold text-white">NIF</p>
+                <p className="mt-1 text-slate-300">164 366 423</p>
               </div>
 
               <div className="flex flex-col gap-3 pt-2">
@@ -151,12 +164,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 grid gap-4 border-t border-slate-800 pt-6 text-xs leading-6 text-slate-400 sm:grid-cols-[1fr_auto] sm:items-center">
-          <p>© 2026 New & Recycled. Todos os direitos reservados.</p>
-
-          <p className="sm:text-right">
-            Consumíveis, material de escritório e apoio para empresas e
-            particulares.
-          </p>
+          <p>© 2026 New & Recycled · NIF 164 366 423 · Rua Bernardino Machado, nº 119, São Domingos de Rana</p>
+          <p className="sm:text-right">Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
