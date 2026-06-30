@@ -180,6 +180,9 @@ export default function AdminProdutosPage() {
   const [mostrarCriarProduto, setMostrarCriarProduto] = useState(false);
   const [aCriarProduto, setACriarProduto] = useState(false);
 
+  const [produtoAConfirmarApagar, setProdutoAConfirmarApagar] = useState<string | null>(null);
+  const [aApagarProduto, setAApagarProduto] = useState(false);
+
   async function contarProdutosStockBaixo() {
     const { data, error } = await supabase
       .from("products")
@@ -615,6 +618,21 @@ export default function AdminProdutosPage() {
 
     setMensagem("Produto atualizado com sucesso.");
     setProdutoEmEdicaoId(null);
+  }
+
+  async function apagarProduto(id: string) {
+    setAApagarProduto(true);
+    const { error } = await supabase.from("products").delete().eq("id", id);
+    if (error) {
+      setErro("Erro ao apagar produto: " + error.message);
+    } else {
+      setProdutos((prev) => prev.filter((p) => p.id !== id));
+      setTotalProdutosEncontrados((prev) => prev - 1);
+      setMensagem("Produto apagado com sucesso.");
+      setTimeout(() => setMensagem(""), 3000);
+    }
+    setProdutoAConfirmarApagar(null);
+    setAApagarProduto(false);
   }
 
   async function terminarSessao() {
@@ -1214,7 +1232,7 @@ export default function AdminProdutosPage() {
                           )}
                         </div>
 
-                        <div className="flex justify-start lg:justify-end">
+                        <div className="flex justify-start gap-2 lg:justify-end">
                           <button
                             type="button"
                             onClick={() =>
@@ -1226,6 +1244,34 @@ export default function AdminProdutosPage() {
                           >
                             {emEdicao ? "Fechar" : "Editar"}
                           </button>
+
+                          {produtoAConfirmarApagar === produto.id ? (
+                            <div className="flex gap-1">
+                              <button
+                                type="button"
+                                disabled={aApagarProduto}
+                                onClick={() => apagarProduto(produto.id)}
+                                className="rounded-full bg-red-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-red-700 disabled:opacity-50"
+                              >
+                                {aApagarProduto ? "..." : "Confirmar"}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setProdutoAConfirmarApagar(null)}
+                                className="rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-600 transition hover:border-slate-400"
+                              >
+                                Cancelar
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => setProdutoAConfirmarApagar(produto.id)}
+                              className="rounded-full border border-red-200 bg-white px-4 py-2.5 text-sm font-bold text-red-600 transition hover:border-red-400 hover:bg-red-50"
+                            >
+                              Apagar
+                            </button>
+                          )}
                         </div>
                       </div>
 

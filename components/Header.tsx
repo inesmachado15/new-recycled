@@ -99,7 +99,7 @@ export default function Header() {
           <img
             src="/logotipo.png"
             alt="New & Recycled"
-            className="h-20 w-auto object-contain"
+            className="h-28 w-auto object-contain sm:h-32"
           />
         </Link>
 
