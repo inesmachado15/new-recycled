@@ -63,12 +63,31 @@ export default async function ProdutoDetalhePage({
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
       <section className="mx-auto max-w-6xl">
-        <Link
-          href="/produtos"
-          className="text-sm font-bold text-green-700 hover:text-green-800"
-        >
-          ← Voltar ao catálogo
-        </Link>
+        <nav className="flex items-center gap-2 text-sm text-slate-500">
+          <Link href="/produtos" className="font-bold text-green-700 hover:text-green-800">
+            Catálogo
+          </Link>
+          <span>/</span>
+          <Link
+            href={`/produtos?categoria=${encodeURIComponent(produto.category)}`}
+            className="hover:text-slate-900"
+          >
+            {produto.category}
+          </Link>
+          {produto.brand && (
+            <>
+              <span>/</span>
+              <Link
+                href={`/produtos?marca=${encodeURIComponent(produto.brand)}`}
+                className="hover:text-slate-900"
+              >
+                {produto.brand}
+              </Link>
+            </>
+          )}
+          <span>/</span>
+          <span className="line-clamp-1 text-slate-900">{produto.name}</span>
+        </nav>
 
         <section className="mt-8 grid gap-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:grid-cols-[440px_1fr]">
           <div className="rounded-3xl bg-slate-50 p-6">

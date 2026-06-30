@@ -67,15 +67,21 @@ const marcas = [
   "Todas",
   "HP",
   "Canon",
+  "Brother",
   "Epson",
   "Samsung",
   "Xerox",
   "Lexmark",
   "Konica Minolta",
   "Kyocera",
-  "Brother",
   "OKI",
   "Panasonic",
+  "Apli",
+  "Dohe",
+  "Milan",
+  "Oxford",
+  "Carioca",
+  "Bismark",
   "Outras",
 ];
 
@@ -118,13 +124,16 @@ function ProdutosConteudo() {
 
   const searchParams = useSearchParams();
   const categoriaInicial = searchParams.get("categoria") || "Todas";
+  const marcaInicial = searchParams.get("marca") || "Todas";
 
   const [pesquisaInput, setPesquisaInput] = useState("");
   const [pesquisa, setPesquisa] = useState("");
   const [categoria, setCategoria] = useState(
     categorias.includes(categoriaInicial) ? categoriaInicial : "Todas"
   );
-  const [marca, setMarca] = useState("Todas");
+  const [marca, setMarca] = useState(
+    marcas.includes(marcaInicial) ? marcaInicial : "Todas"
+  );
   const [disponibilidade, setDisponibilidade] = useState("Todos");
   const [ordenacao, setOrdenacao] = useState("Destaques primeiro");
   const [tipoCartuchoToner, setTipoCartuchoToner] = useState("Todos");
@@ -165,7 +174,7 @@ function ProdutosConteudo() {
     }
 
     if (marca === "Outras") {
-      const marcasConhecidas = ["HP", "Canon", "Epson", "Samsung", "Xerox", "Lexmark", "Konica Minolta", "Kyocera", "Brother", "OKI", "Panasonic"];
+      const marcasConhecidas = ["HP", "Canon", "Brother", "Epson", "Samsung", "Xerox", "Lexmark", "Konica Minolta", "Kyocera", "OKI", "Panasonic", "Apli", "Dohe", "Milan", "Oxford", "Carioca", "Bismark"];
       query = query.not("brand", "in", `(${marcasConhecidas.map((m) => `"${m}"`).join(",")})`);
     }
 
@@ -541,68 +550,72 @@ function ProdutosConteudo() {
                     </Link>
 
                     <div className="flex flex-1 flex-col p-4">
-                      <div className="flex flex-wrap gap-2">
-                        <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-bold text-green-700">
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <span className="rounded-full bg-green-50 px-2.5 py-1 text-xs font-bold text-green-700">
                           {produto.category}
                         </span>
-
+                        {produto.brand && (
+                          <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600">
+                            {produto.brand}
+                          </span>
+                        )}
                         {produto.featured && (
-                          <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">
+                          <span className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700">
                             Destaque
                           </span>
                         )}
                       </div>
 
                       <Link href={`/produtos/${produto.slug}`}>
-                        <h2 className="mt-3 line-clamp-2 text-base font-black leading-5 text-slate-950 transition hover:text-green-700">
+                        <h2 className="mt-2.5 line-clamp-2 text-sm font-black leading-5 text-slate-950 transition hover:text-green-700">
                           {produto.name}
                         </h2>
                       </Link>
 
-                      <p className="mt-2 text-xs leading-5 text-slate-500">
-                        {produto.brand || "Sem marca"} ·{" "}
-                        {produto.reference || produto.sku || "Sem referência"}
-                      </p>
-
-                      {produto.description && (
-                        <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">
-                          {produto.description}
+                      {produto.reference && (
+                        <p className="mt-1 text-xs text-slate-400">
+                          Ref: {produto.reference}
                         </p>
                       )}
 
-                      <div className="mt-3 flex flex-wrap gap-2">
+                      <div className="mt-2 flex flex-wrap gap-1.5">
                         {emStock ? (
-                          <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-bold text-green-700">
+                          <span className="rounded-full bg-green-50 px-2.5 py-1 text-xs font-bold text-green-700">
                             Em stock
                           </span>
                         ) : produto.allow_backorder ? (
-                          <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">
+                          <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700">
                             Por encomenda
                           </span>
                         ) : (
-                          <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-700">
+                          <span className="rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-red-700">
                             Indisponível
                           </span>
                         )}
                       </div>
 
-                      <div className="mt-auto pt-4">
-                        <p className="text-lg font-black text-slate-950">
+                      <div className="mt-auto pt-3">
+                        <p className="text-base font-black text-slate-950">
                           {formatarPreco(produto)}
                         </p>
 
-                        <button
-                          type="button"
-                          onClick={() => adicionarAoCarrinho(produto)}
-                          disabled={!disponivel || semPreco}
-                          className="mt-3 w-full rounded-full bg-green-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300"
-                        >
-                          {semPreco
-                            ? "Sob consulta"
-                            : disponivel
-                            ? "Adicionar"
-                            : "Indisponível"}
-                        </button>
+                        {semPreco ? (
+                          <Link
+                            href={`/contacto?produto=${encodeURIComponent(produto.name)}`}
+                            className="mt-2.5 block w-full rounded-full border border-green-700 px-4 py-2 text-center text-sm font-bold text-green-700 transition hover:bg-green-700 hover:text-white"
+                          >
+                            Pedir orçamento
+                          </Link>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => adicionarAoCarrinho(produto)}
+                            disabled={!disponivel}
+                            className="mt-2.5 w-full rounded-full bg-green-700 px-4 py-2 text-sm font-bold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+                          >
+                            {disponivel ? "Adicionar" : "Indisponível"}
+                          </button>
+                        )}
                       </div>
                     </div>
                   </article>
