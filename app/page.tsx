@@ -18,8 +18,8 @@ const categorias = [
     texto: "Material de escritório, escolar, organização e artigos de limpeza.",
   },
   {
-    titulo: "Impressoras",
-    texto: "Impressoras laser e jacto de tinta HP, Canon e Epson para escritório.",
+    titulo: "Equipamento de Escritório",
+    texto: "Impressoras, destruidoras de papel, plastificadoras e equipamento para escritório.",
   },
 ];
 
