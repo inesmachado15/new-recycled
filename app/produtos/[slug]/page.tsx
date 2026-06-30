@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import type { Metadata } from "next";
 import AddToCartButton from "./AddToCartButton";
 
 type Produto = {
@@ -23,6 +24,40 @@ type Produto = {
   featured: boolean;
   allow_backorder: boolean;
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  const { data } = await supabase
+    .from("products")
+    .select("name,description,brand,category,image_url")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (!data) return { title: "Produto não encontrado" };
+
+  const title = data.name;
+  const description =
+    data.description?.slice(0, 160) ||
+    `${data.brand ? data.brand + " — " : ""}${data.category} disponível na New & Recycled.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: data.image_url ? [{ url: data.image_url }] : [],
+    },
+  };
+}
 
 function formatarPreco(produto: Produto) {
   if (produto.price_text) return produto.price_text;

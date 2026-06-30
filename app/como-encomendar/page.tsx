@@ -21,9 +21,9 @@ const passos = [
   },
   {
     numero: "4",
-    titulo: "Encomenda confirmada",
+    titulo: "Pagamento e envio",
     texto:
-      "Após o pagamento, a encomenda é processada e preparada para envio. Receberá actualizações do estado por email.",
+      "Efectue o pagamento por Multibanco ou MB WAY. Após confirmação, a encomenda é processada automaticamente e receberá actualizações do estado por email.",
   },
 ];
 
@@ -74,10 +74,9 @@ export default function ComoEncomendarPage() {
               </h1>
 
               <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-                A loja permite criar um pedido de encomenda online. Antes do
-                pagamento, a New & Recycled confirma a disponibilidade dos
-                produtos, valida os portes e só depois envia os dados de
-                pagamento.
+                Adicione os produtos ao carrinho, inicie sessão e finalize a encomenda.
+                O pagamento é feito no checkout por Multibanco ou MB WAY — após confirmação,
+                a encomenda avança automaticamente.
               </p>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -114,10 +113,10 @@ export default function ComoEncomendarPage() {
 
                 <div>
                   <p className="text-sm font-bold text-slate-950">
-                    Stock e disponibilidade
+                    Portes de envio
                   </p>
                   <p className="mt-1 text-sm leading-6 text-slate-600">
-                    Confirmados em tempo real. Em caso de indisponibilidade, será contactado.
+                    3,75€ fixos para Portugal continental. Grátis a partir de 60€.
                   </p>
                 </div>
 

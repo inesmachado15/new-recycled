@@ -10,19 +10,12 @@ export const metadata: Metadata = {
     template: "%s | New & Recycled",
   },
   description:
-    "Loja online de toners, tinteiros, consumíveis e papelaria para empresas e particulares. Encomendas validadas antes do pagamento.",
+    "Loja online de toners, tinteiros, consumíveis e papelaria para empresas e particulares. Pagamento seguro por Multibanco e MB WAY.",
   keywords: [
-    "toners",
-    "tinteiros",
-    "consumíveis impressoras",
-    "material de escritório",
-    "papelaria",
-    
-    
-    "cartuchos HP",
-    "cartuchos Canon",
-    "toner compatível",
-    "New & Recycled",
+    "toners", "tinteiros", "consumíveis impressoras", "material de escritório",
+    "papelaria", "cartuchos HP", "cartuchos Canon", "toner compatível",
+    "toner Brother", "toner Lexmark", "toner Konica Minolta",
+    "material escolar", "New & Recycled",
   ],
   authors: [{ name: "New & Recycled" }],
   creator: "New & Recycled",
@@ -34,7 +27,7 @@ export const metadata: Metadata = {
     siteName: "New & Recycled",
     title: "New & Recycled | Toners, tinteiros e material de escritório",
     description:
-      "Toners, tinteiros, consumíveis e papelaria para empresas e particulares. Encomendas validadas antes do pagamento.",
+      "Toners, tinteiros, consumíveis e papelaria para empresas e particulares. Pagamento seguro por Multibanco e MB WAY.",
     url: "https://new-recycled.vercel.app",
     images: [
       {
@@ -49,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "New & Recycled | Toners, tinteiros e material de escritório",
     description:
-      "Toners, tinteiros e material de escritório. Encomendas validadas antes do pagamento.",
+      "Toners, tinteiros e material de escritório. Pagamento seguro por Multibanco e MB WAY.",
     images: ["/logotipo.png"],
   },
   icons: {
