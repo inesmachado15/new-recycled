@@ -365,7 +365,7 @@ function ProdutosConteudo() {
         )}
 
         <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="grid gap-4 lg:grid-cols-[1fr_180px_180px_180px_180px_120px]">
+          <div className="grid gap-4 lg:grid-cols-[1fr_180px_180px_180px_120px]">
             <label className="text-sm font-semibold">
               Pesquisar
               <input
@@ -406,28 +406,6 @@ function ProdutosConteudo() {
               </select>
             </label>
 
-            {["Todas", "Toners", "Tinteiros", "Consumíveis"].includes(categoria) && (
-              <label className="text-sm font-semibold">
-                Tipo
-                <div className="mt-2 flex gap-2">
-                  {["Todos", "Original", "Compatível"].map((tipo) => (
-                    <button
-                      key={tipo}
-                      type="button"
-                      onClick={() => setTipoCartuchoToner(tipo)}
-                      className={`flex-1 rounded-2xl border px-3 py-2 text-xs font-bold transition ${
-                        tipoCartuchoToner === tipo
-                          ? "border-green-700 bg-green-700 text-white"
-                          : "border-slate-300 bg-white text-slate-600 hover:border-green-700 hover:text-green-700"
-                      }`}
-                    >
-                      {tipo}
-                    </button>
-                  ))}
-                </div>
-              </label>
-            )}
-
             <label className="text-sm font-semibold">
               Disponibilidade
               <select
@@ -466,6 +444,26 @@ function ProdutosConteudo() {
               Limpar
             </button>
           </div>
+
+          {["Todas", "Toners", "Tinteiros", "Consumíveis"].includes(categoria) && (
+            <div className="mt-4 flex items-center gap-3">
+              <span className="text-sm font-semibold text-slate-700">Tipo:</span>
+              {["Todos", "Original", "Compatível"].map((tipo) => (
+                <button
+                  key={tipo}
+                  type="button"
+                  onClick={() => setTipoCartuchoToner(tipo)}
+                  className={`rounded-full border px-5 py-2 text-sm font-bold transition ${
+                    tipoCartuchoToner === tipo
+                      ? "border-green-700 bg-green-700 text-white"
+                      : "border-slate-300 bg-white text-slate-600 hover:border-green-700 hover:text-green-700"
+                  }`}
+                >
+                  {tipo}
+                </button>
+              ))}
+            </div>
+          )}
 
           <p className="mt-4 text-sm text-slate-500">
             A mostrar{" "}
