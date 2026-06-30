@@ -375,113 +375,87 @@ function ProdutosConteudo() {
           </p>
         )}
 
-        <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="grid gap-4 lg:grid-cols-[1fr_180px_180px_180px_120px]">
-            <label className="text-sm font-semibold">
-              Pesquisar
-              <input
-                value={pesquisaInput}
-                onChange={(event) => setPesquisaInput(event.target.value)}
-                placeholder="Nome, marca, referência ou SKU..."
-                className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-2.5 text-sm font-normal outline-none transition focus:border-green-700"
-              />
-            </label>
+        <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+          {/* Linha 1: filtros */}
+          <div className="flex flex-wrap gap-3">
+            <input
+              value={pesquisaInput}
+              onChange={(event) => setPesquisaInput(event.target.value)}
+              placeholder="Pesquisar por nome, marca ou referência..."
+              className="min-w-[200px] flex-1 rounded-2xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-green-700"
+            />
+            <select
+              value={categoria}
+              onChange={(event) => setCategoria(event.target.value)}
+              className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
+            >
+              {categorias.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+            <select
+              value={marca}
+              onChange={(event) => setMarca(event.target.value)}
+              className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
+            >
+              {marcas.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+            <select
+              value={disponibilidade}
+              onChange={(event) => setDisponibilidade(event.target.value)}
+              className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
+            >
+              {disponibilidades.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+            <select
+              value={ordenacao}
+              onChange={(event) => setOrdenacao(event.target.value)}
+              className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
+            >
+              {ordenacoes.map((item) => (
+                <option key={item} value={item}>{item}</option>
+              ))}
+            </select>
+          </div>
 
-            <label className="text-sm font-semibold">
-              Categoria
-              <select
-                value={categoria}
-                onChange={(event) => setCategoria(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-2.5 text-sm font-normal outline-none transition focus:border-green-700"
-              >
-                {categorias.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
+          {/* Linha 2: tipo + limpar + contagem */}
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            {["Todas", "Toners", "Tinteiros", "Consumíveis"].includes(categoria) && (
+              <>
+                <span className="text-xs font-semibold text-slate-500">Tipo:</span>
+                {["Todos", "Original", "Compatível"].map((tipo) => (
+                  <button
+                    key={tipo}
+                    type="button"
+                    onClick={() => setTipoCartuchoToner(tipo)}
+                    className={`rounded-full border px-4 py-1.5 text-xs font-bold transition ${
+                      tipoCartuchoToner === tipo
+                        ? "border-green-700 bg-green-700 text-white"
+                        : "border-slate-300 bg-white text-slate-600 hover:border-green-700 hover:text-green-700"
+                    }`}
+                  >
+                    {tipo}
+                  </button>
                 ))}
-              </select>
-            </label>
-
-            <label className="text-sm font-semibold">
-              Marca
-              <select
-                value={marca}
-                onChange={(event) => setMarca(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-2.5 text-sm font-normal outline-none transition focus:border-green-700"
-              >
-                {marcas.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="text-sm font-semibold">
-              Disponibilidade
-              <select
-                value={disponibilidade}
-                onChange={(event) => setDisponibilidade(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-2.5 text-sm font-normal outline-none transition focus:border-green-700"
-              >
-                {disponibilidades.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="text-sm font-semibold">
-              Ordenar por
-              <select
-                value={ordenacao}
-                onChange={(event) => setOrdenacao(event.target.value)}
-                className="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-2.5 text-sm font-normal outline-none transition focus:border-green-700"
-              >
-                {ordenacoes.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </label>
-
+                <span className="text-slate-200">|</span>
+              </>
+            )}
             <button
               type="button"
               onClick={limparFiltros}
-              className="self-end rounded-full border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700"
+              className="rounded-full border border-slate-300 px-4 py-1.5 text-xs font-bold text-slate-600 transition hover:border-green-700 hover:text-green-700"
             >
-              Limpar
+              Limpar filtros
             </button>
+            <span className="ml-auto text-sm text-slate-500">
+              <span className="font-bold text-slate-900">{produtos.length}</span> de{" "}
+              <span className="font-bold text-slate-900">{totalProdutos}</span> produto{totalProdutos === 1 ? "" : "s"}
+            </span>
           </div>
-
-          {["Todas", "Toners", "Tinteiros", "Consumíveis"].includes(categoria) && (
-            <div className="mt-4 flex items-center gap-3">
-              <span className="text-sm font-semibold text-slate-700">Tipo:</span>
-              {["Todos", "Original", "Compatível"].map((tipo) => (
-                <button
-                  key={tipo}
-                  type="button"
-                  onClick={() => setTipoCartuchoToner(tipo)}
-                  className={`rounded-full border px-5 py-2 text-sm font-bold transition ${
-                    tipoCartuchoToner === tipo
-                      ? "border-green-700 bg-green-700 text-white"
-                      : "border-slate-300 bg-white text-slate-600 hover:border-green-700 hover:text-green-700"
-                  }`}
-                >
-                  {tipo}
-                </button>
-              ))}
-            </div>
-          )}
-
-          <p className="mt-4 text-sm text-slate-500">
-            A mostrar{" "}
-            <span className="font-bold text-slate-900">{produtos.length}</span>{" "}
-            produto{produtos.length === 1 ? "" : "s"} de{" "}
-            <span className="font-bold text-slate-900">{totalProdutos}</span>.
-          </p>
         </section>
 
         {aCarregar && produtos.length === 0 ? (
