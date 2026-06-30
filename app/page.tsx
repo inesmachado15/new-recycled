@@ -164,7 +164,7 @@ export default function HomePage() {
             {categorias.map((categoria) => (
               <Link
                 key={categoria.titulo}
-                href="/produtos"
+                href={`/produtos?categoria=${encodeURIComponent(categoria.titulo)}`}
                 className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-green-300 hover:bg-green-50 hover:shadow-md"
               >
                 <p className="text-lg font-black text-slate-950">

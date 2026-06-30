@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
 type Produto = {
@@ -104,9 +105,14 @@ export default function ProdutosPage() {
   const [erro, setErro] = useState("");
   const [mensagem, setMensagem] = useState("");
 
+  const searchParams = useSearchParams();
+  const categoriaInicial = searchParams.get("categoria") || "Todas";
+
   const [pesquisaInput, setPesquisaInput] = useState("");
   const [pesquisa, setPesquisa] = useState("");
-  const [categoria, setCategoria] = useState("Todas");
+  const [categoria, setCategoria] = useState(
+    categorias.includes(categoriaInicial) ? categoriaInicial : "Todas"
+  );
   const [marca, setMarca] = useState("Todas");
   const [disponibilidade, setDisponibilidade] = useState("Todos");
   const [ordenacao, setOrdenacao] = useState("Destaques primeiro");
