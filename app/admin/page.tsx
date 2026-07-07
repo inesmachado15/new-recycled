@@ -775,6 +775,35 @@ export default function AdminPage() {
       )
     );
 
+    // Gerar referência de pagamento via Ifthenpay
+    const metodo = encomenda.payment_preference || "";
+    if (metodo === "Referência Multibanco" && totalFinal > 0) {
+      try {
+        await fetch("/api/ifthenpay/multibanco", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderId: encomenda.id, amount: totalFinal }),
+        });
+      } catch (e) {
+        console.error("Erro ao gerar referência Multibanco:", e);
+      }
+    } else if (metodo === "MB WAY" && totalFinal > 0) {
+      try {
+        await fetch("/api/ifthenpay/mbway", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderId: encomenda.id,
+            amount: totalFinal,
+            phone: encomenda.customer_phone,
+            email: encomenda.customer_email,
+          }),
+        });
+      } catch (e) {
+        console.error("Erro ao iniciar MB WAY:", e);
+      }
+    }
+
     const respostaEmail = await fetch("/api/emails/encomenda-aprovada", {
       method: "POST",
       headers: {
