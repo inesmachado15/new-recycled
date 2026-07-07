@@ -30,6 +30,10 @@ type OrderData = {
   delivery_preference: string;
   payment_preference: string;
   payment_status: string | null;
+  payment_provider: string | null;
+  payment_entity: string | null;
+  payment_reference: string | null;
+  payment_expiry: string | null;
   status: string;
   subtotal_products: number | null;
   shipping_cost: number | null;
@@ -166,11 +170,46 @@ function emailClienteHtml(order: OrderData) {
           ${order.delivery_preference}
         </p>
 
+        ${order.payment_provider === "multibanco" && order.payment_entity && order.payment_reference ? `
+        <div style="background: #f4fbf4; border-radius: 16px; padding: 20px; margin-top: 24px; border: 1px solid #bbf7d0;">
+          <p style="margin: 0 0 14px; color: #166534; font-weight: 700; font-size: 15px;">
+            Referência Multibanco
+          </p>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px 12px; background: #fff; border-radius: 10px; text-align: center; width: 33%;">
+                <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Entidade</div>
+                <div style="font-size: 22px; font-weight: 900; color: #0f172a; margin-top: 4px;">${order.payment_entity}</div>
+              </td>
+              <td style="width: 4%;"></td>
+              <td style="padding: 8px 12px; background: #fff; border-radius: 10px; text-align: center; width: 40%;">
+                <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Referência</div>
+                <div style="font-size: 22px; font-weight: 900; color: #0f172a; margin-top: 4px;">${order.payment_reference}</div>
+              </td>
+              <td style="width: 4%;"></td>
+              <td style="padding: 8px 12px; background: #fff; border-radius: 10px; text-align: center; width: 23%;">
+                <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Valor</div>
+                <div style="font-size: 22px; font-weight: 900; color: #15803d; margin-top: 4px;">${formatarPrecoEmail(order.total_amount || order.total_estimated)}</div>
+              </td>
+            </tr>
+          </table>
+          ${order.payment_expiry ? `<p style="margin: 12px 0 0; color: #166534; font-size: 13px;">Válido até: ${order.payment_expiry}</p>` : ""}
+          <p style="margin: 12px 0 0; color: #166534; font-size: 13px;">Efectue o pagamento em qualquer ATM ou homebanking com estes dados.</p>
+        </div>
+        ` : order.payment_provider === "mbway" ? `
+        <div style="background: #eff6ff; border-radius: 16px; padding: 20px; margin-top: 24px; border: 1px solid #bfdbfe;">
+          <p style="margin: 0; color: #1e40af; font-weight: 700; font-size: 15px;">Pedido MB WAY enviado</p>
+          <p style="margin: 10px 0 0; color: #1e40af; font-size: 14px; line-height: 1.6;">
+            Deve receber uma notificação MB WAY no seu telemóvel. Aceite o pagamento de <strong>${formatarPrecoEmail(order.total_amount || order.total_estimated)}</strong> para confirmar a encomenda automaticamente.
+          </p>
+        </div>
+        ` : `
         <div style="background: #f4fbf4; border-radius: 16px; padding: 16px; margin-top: 24px; border: 1px solid #bbf7d0;">
           <p style="margin: 0; color: #166534; font-size: 14px; line-height: 1.7;">
             Pode agora proceder ao pagamento. Após confirmação do pagamento, receberá a confirmação e a respetiva Fatura-Recibo.
           </p>
         </div>
+        `}
 
         <p style="margin-top: 28px; font-size: 13px; line-height: 1.6; color: #64748b;">
           Obrigado pela preferência.<br />
@@ -248,7 +287,12 @@ Produtos: ${formatarPrecoEmail(order.subtotal_products)}
 Portes: ${portes}
 Total final: ${formatarPrecoEmail(total)}
 
-Pode agora proceder ao pagamento. Após confirmação, receberá a confirmação e a respetiva Fatura-Recibo.
+${order.payment_provider === "multibanco" && order.payment_entity && order.payment_reference
+    ? `REFERÊNCIA MULTIBANCO\nEntidade: ${order.payment_entity}\nReferência: ${order.payment_reference}\nValor: ${formatarPrecoEmail(order.total_amount || order.total_estimated)}${order.payment_expiry ? `\nVálido até: ${order.payment_expiry}` : ""}\n\nEffectue o pagamento em qualquer ATM ou homebanking.`
+    : order.payment_provider === "mbway"
+    ? `Foi enviado um pedido de pagamento MB WAY para o seu telemóvel. Aceite o pagamento de ${formatarPrecoEmail(order.total_amount || order.total_estimated)} para confirmar a encomenda.`
+    : "Pode agora proceder ao pagamento. Após confirmação, receberá a confirmação e a respetiva Fatura-Recibo."
+  }
 
 Obrigado pela preferência.
 
@@ -276,6 +320,10 @@ async function obterEncomenda(orderId: string) {
       delivery_preference,
       payment_preference,
       payment_status,
+      payment_provider,
+      payment_entity,
+      payment_reference,
+      payment_expiry,
       status,
       subtotal_products,
       shipping_cost,
