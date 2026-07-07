@@ -440,20 +440,6 @@ export async function POST(request: Request) {
       });
     }
 
-    if (
-      orderData.shipping_cost === null ||
-      orderData.shipping_cost === undefined
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          error:
-            "A encomenda ainda tem portes sob consulta. Define os portes finais antes de enviar o email de aprovação.",
-        },
-        { status: 400 }
-      );
-    }
-
     if (!orderData.customer_email) {
       return NextResponse.json(
         {

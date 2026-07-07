@@ -730,16 +730,6 @@ export default function AdminPage() {
       return;
     }
 
-    if (
-      encomenda.shipping_cost === null ||
-      encomenda.shipping_cost === undefined
-    ) {
-      setErro(
-        "Define e guarda primeiro os portes finais antes de aprovar a encomenda."
-      );
-      return;
-    }
-
     const subtotal = Number(encomenda.subtotal_products || 0);
     const totalFinal = subtotal + Number(encomenda.shipping_cost || 0);
 
