@@ -117,6 +117,9 @@ export default function TermosPage() {
             <p className="mt-2">
               Os portes de envio são fixos em 3,75€ para todo o Portugal continental. Compras iguais ou superiores a 60€ beneficiam de portes gratuitos. O prazo de entrega habitual é de 2 a 5 dias úteis após confirmação do pagamento, podendo variar conforme a disponibilidade do produto.
             </p>
+            <p className="mt-2">
+              Envios para as Regiões Autónomas dos Açores e da Madeira, bem como para outros destinos fora de Portugal continental, estão sujeitos a confirmação de disponibilidade e custos de envio específicos. Contacte-nos antes de encomendar para destinos fora do continente.
+            </p>
           </section>
 
           <section>
@@ -162,34 +165,54 @@ export default function TermosPage() {
 
           <section>
             <h2 className="text-xl font-bold text-slate-900">
-              11. Resolução alternativa de litígios
+              11. Livro de Reclamações
             </h2>
             <p className="mt-2">
-              Em caso de litígio, o consumidor pode recorrer a uma entidade de
-              resolução alternativa de litígios de consumo:
+              Nos termos da legislação em vigor, o consumidor tem o direito de
+              apresentar reclamação através do Livro de Reclamações Electrónico:
+            </p>
+            <p className="mt-3">
+              <a
+                href="https://www.livroreclamacoes.pt"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-green-700 px-6 py-3 text-sm font-bold text-white transition hover:bg-green-800"
+              >
+                Aceder ao Livro de Reclamações →
+              </a>
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-slate-900">
+              12. Resolução alternativa de litígios (RAL)
+            </h2>
+            <p className="mt-2">
+              Nos termos da Lei n.º 144/2015, de 8 de Setembro, em caso de litígio
+              de consumo, o consumidor pode recorrer a uma entidade de Resolução
+              Alternativa de Litígios (RAL):
             </p>
             <ul className="mt-2 space-y-2 pl-4">
               <li>
                 <span className="font-semibold text-slate-800">CNIACC</span> —
-                Centro Nacional de Informação e Arbitragem de Conflitos de
-                Consumo:{" "}
-                <a
-                  href="https://www.cniacc.pt"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-bold text-green-700 hover:text-green-800"
-                >
+                Centro Nacional de Informação e Arbitragem de Conflitos de Consumo:{" "}
+                <a href="https://www.cniacc.pt" target="_blank" rel="noopener noreferrer"
+                  className="font-bold text-green-700 hover:text-green-800">
                   www.cniacc.pt
                 </a>
               </li>
               <li>
+                <span className="font-semibold text-slate-800">CACCL</span> —
+                Centro de Arbitragem de Conflitos de Consumo de Lisboa:{" "}
+                <a href="https://www.centroarbitragemlisboa.pt" target="_blank" rel="noopener noreferrer"
+                  className="font-bold text-green-700 hover:text-green-800">
+                  www.centroarbitragemlisboa.pt
+                </a>
+              </li>
+              <li>
                 <span className="font-semibold text-slate-800">Portal do Consumidor:</span>{" "}
-                <a
-                  href="https://www.consumidor.gov.pt"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-bold text-green-700 hover:text-green-800"
-                >
+                <a href="https://www.consumidor.gov.pt" target="_blank" rel="noopener noreferrer"
+                  className="font-bold text-green-700 hover:text-green-800">
                   www.consumidor.gov.pt
                 </a>
               </li>
@@ -198,7 +221,7 @@ export default function TermosPage() {
 
           <section>
             <h2 className="text-xl font-bold text-slate-900">
-              12. Lei aplicável
+              13. Lei aplicável
             </h2>
             <p className="mt-2">
               Os presentes termos e condições são regidos pela lei portuguesa.
@@ -210,7 +233,7 @@ export default function TermosPage() {
 
           <section>
             <h2 className="text-xl font-bold text-slate-900">
-              13. Contacto
+              14. Contacto
             </h2>
             <p className="mt-2">
               Para qualquer dúvida relacionada com produtos, encomendas,

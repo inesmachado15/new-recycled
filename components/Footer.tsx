@@ -15,6 +15,7 @@ const linksApoio = [
   { href: "/devolucoes", label: "Trocas e Devoluções" },
   { href: "/termos", label: "Termos e Condições" },
   { href: "/privacidade", label: "Política de Privacidade" },
+  { href: "https://www.livroreclamacoes.pt", label: "Livro de Reclamações" },
 ];
 
 export default function Footer() {
@@ -75,6 +76,8 @@ export default function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                   className="block transition hover:text-white"
                 >
                   {link.label}
