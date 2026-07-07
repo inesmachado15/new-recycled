@@ -27,6 +27,10 @@ type Encomenda = {
   city: string;
   delivery_preference: string;
   payment_preference: string;
+  payment_provider: string | null;
+  payment_entity: string | null;
+  payment_reference: string | null;
+  payment_expiry: string | null;
   payment_status: string | null;
   status: string;
   subtotal_products: number | null;
@@ -89,6 +93,10 @@ export default function ConfirmacaoEncomendaPage() {
           city,
           delivery_preference,
           payment_preference,
+          payment_provider,
+          payment_entity,
+          payment_reference,
+          payment_expiry,
           payment_status,
           status,
           subtotal_products,
@@ -197,13 +205,46 @@ export default function ConfirmacaoEncomendaPage() {
             </div>
           </div>
 
-          <div className="mt-5 rounded-3xl border border-amber-200 bg-amber-50 p-5">
-            <p className="text-sm font-bold text-amber-900">Próximo passo: efectue o pagamento</p>
-            <p className="mt-2 text-sm leading-6 text-amber-800">
-              Vai receber os dados de pagamento (Referência Multibanco ou MB WAY) por email.
-              Após confirmação do pagamento, a encomenda avança automaticamente.
-            </p>
-          </div>
+          {/* Dados de pagamento Multibanco */}
+          {encomenda.payment_provider === "multibanco" && encomenda.payment_entity && encomenda.payment_reference ? (
+            <div className="mt-5 rounded-3xl border border-green-200 bg-green-50 p-5">
+              <p className="text-sm font-bold text-green-900">Referência Multibanco gerada</p>
+              <p className="mt-1 text-sm text-green-800">Efectue o pagamento em qualquer ATM ou homebanking.</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-2xl bg-white p-3 text-center shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Entidade</p>
+                  <p className="mt-1 text-xl font-black text-slate-900">{encomenda.payment_entity}</p>
+                </div>
+                <div className="rounded-2xl bg-white p-3 text-center shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Referência</p>
+                  <p className="mt-1 text-xl font-black text-slate-900">{encomenda.payment_reference}</p>
+                </div>
+                <div className="rounded-2xl bg-white p-3 text-center shadow-sm">
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Valor</p>
+                  <p className="mt-1 text-xl font-black text-green-700">{formatarPreco(encomenda.total_amount || encomenda.total_estimated)}</p>
+                </div>
+              </div>
+              {encomenda.payment_expiry && (
+                <p className="mt-3 text-xs text-green-700">Válido até: {encomenda.payment_expiry}</p>
+              )}
+            </div>
+          ) : encomenda.payment_provider === "mbway" ? (
+            <div className="mt-5 rounded-3xl border border-blue-200 bg-blue-50 p-5">
+              <p className="text-sm font-bold text-blue-900">Pedido MB WAY enviado</p>
+              <p className="mt-2 text-sm leading-6 text-blue-800">
+                Deve receber uma notificação MB WAY no telemóvel em instantes.
+                Aceite o pagamento de <strong>{formatarPreco(encomenda.total_amount || encomenda.total_estimated)}</strong> para confirmar a encomenda automaticamente.
+              </p>
+            </div>
+          ) : (
+            <div className="mt-5 rounded-3xl border border-amber-200 bg-amber-50 p-5">
+              <p className="text-sm font-bold text-amber-900">Próximo passo: efectue o pagamento</p>
+              <p className="mt-2 text-sm leading-6 text-amber-800">
+                Vai receber os dados de pagamento (Referência Multibanco ou MB WAY) por email.
+                Após confirmação do pagamento, a encomenda avança automaticamente.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
