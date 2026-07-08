@@ -205,6 +205,15 @@ export default function ConfirmacaoEncomendaPage() {
             </div>
           </div>
 
+          {encomenda.status === "A aguardar aprovação" && (
+            <div className="mt-5 rounded-3xl border border-amber-200 bg-amber-50 p-5">
+              <p className="text-sm font-bold text-amber-900">A encomenda está a ser analisada</p>
+              <p className="mt-2 text-sm leading-6 text-amber-800">
+                A New & Recycled vai analisar o seu pedido e confirmá-lo em breve. Após aprovação, receberá um email com os dados de pagamento.
+              </p>
+            </div>
+          )}
+
           {/* Dados de pagamento Multibanco */}
           {encomenda.payment_provider === "multibanco" && encomenda.payment_entity && encomenda.payment_reference ? (
             <div className="mt-5 rounded-3xl border border-green-200 bg-green-50 p-5">
@@ -236,15 +245,7 @@ export default function ConfirmacaoEncomendaPage() {
                 Aceite o pagamento de <strong>{formatarPreco(encomenda.total_amount || encomenda.total_estimated)}</strong> para confirmar a encomenda automaticamente.
               </p>
             </div>
-          ) : (
-            <div className="mt-5 rounded-3xl border border-amber-200 bg-amber-50 p-5">
-              <p className="text-sm font-bold text-amber-900">Próximo passo: efectue o pagamento</p>
-              <p className="mt-2 text-sm leading-6 text-amber-800">
-                Vai receber os dados de pagamento (Referência Multibanco ou MB WAY) por email.
-                Após confirmação do pagamento, a encomenda avança automaticamente.
-              </p>
-            </div>
-          )}
+          ) : null}
         </div>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
