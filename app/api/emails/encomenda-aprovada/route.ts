@@ -106,8 +106,43 @@ function emailClienteHtml(order: OrderData) {
         </p>
 
         <p style="font-size: 15px; line-height: 1.7; color: #475569;">
-          A sua encomenda foi validada e aprovada. Já pode avançar com o pagamento, de acordo com o método escolhido.
+          A sua encomenda foi validada e aprovada.
         </p>
+
+        ${order.payment_provider === "multibanco" && order.payment_entity && order.payment_reference ? `
+        <div style="background: #f4fbf4; border-radius: 16px; padding: 20px; margin-top: 20px; border: 1px solid #bbf7d0;">
+          <p style="margin: 0 0 14px; color: #166534; font-weight: 700; font-size: 15px;">
+            Referência Multibanco
+          </p>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px 12px; background: #fff; border-radius: 10px; text-align: center; width: 33%;">
+                <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Entidade</div>
+                <div style="font-size: 22px; font-weight: 900; color: #0f172a; margin-top: 4px;">${order.payment_entity}</div>
+              </td>
+              <td style="width: 4%;"></td>
+              <td style="padding: 8px 12px; background: #fff; border-radius: 10px; text-align: center; width: 40%;">
+                <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Referência</div>
+                <div style="font-size: 22px; font-weight: 900; color: #0f172a; margin-top: 4px;">${order.payment_reference}</div>
+              </td>
+              <td style="width: 4%;"></td>
+              <td style="padding: 8px 12px; background: #fff; border-radius: 10px; text-align: center; width: 23%;">
+                <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Valor</div>
+                <div style="font-size: 22px; font-weight: 900; color: #15803d; margin-top: 4px;">${formatarPrecoEmail(order.total_amount || order.total_estimated)}</div>
+              </td>
+            </tr>
+          </table>
+          ${order.payment_expiry ? `<p style="margin: 12px 0 0; color: #166534; font-size: 13px;">Válido até: ${order.payment_expiry}</p>` : ""}
+          <p style="margin: 12px 0 0; color: #166534; font-size: 13px;">Efectue o pagamento em qualquer ATM ou homebanking com estes dados.</p>
+        </div>
+        ` : order.payment_provider === "mbway" ? `
+        <div style="background: #eff6ff; border-radius: 16px; padding: 20px; margin-top: 20px; border: 1px solid #bfdbfe;">
+          <p style="margin: 0; color: #1e40af; font-weight: 700; font-size: 15px;">Pedido MB WAY enviado</p>
+          <p style="margin: 10px 0 0; color: #1e40af; font-size: 14px; line-height: 1.6;">
+            Deve receber uma notificação MB WAY no seu telemóvel. Aceite o pagamento de <strong>${formatarPrecoEmail(order.total_amount || order.total_estimated)}</strong> para confirmar a encomenda automaticamente.
+          </p>
+        </div>
+        ` : ""}
 
         <div style="background: #f8fafc; border-radius: 16px; padding: 16px; margin-top: 20px;">
           <p style="margin: 0; color: #0f172a;">
@@ -169,47 +204,6 @@ function emailClienteHtml(order: OrderData) {
           ${order.postal_code} ${order.city}<br />
           ${order.delivery_preference}
         </p>
-
-        ${order.payment_provider === "multibanco" && order.payment_entity && order.payment_reference ? `
-        <div style="background: #f4fbf4; border-radius: 16px; padding: 20px; margin-top: 24px; border: 1px solid #bbf7d0;">
-          <p style="margin: 0 0 14px; color: #166534; font-weight: 700; font-size: 15px;">
-            Referência Multibanco
-          </p>
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-              <td style="padding: 8px 12px; background: #fff; border-radius: 10px; text-align: center; width: 33%;">
-                <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Entidade</div>
-                <div style="font-size: 22px; font-weight: 900; color: #0f172a; margin-top: 4px;">${order.payment_entity}</div>
-              </td>
-              <td style="width: 4%;"></td>
-              <td style="padding: 8px 12px; background: #fff; border-radius: 10px; text-align: center; width: 40%;">
-                <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Referência</div>
-                <div style="font-size: 22px; font-weight: 900; color: #0f172a; margin-top: 4px;">${order.payment_reference}</div>
-              </td>
-              <td style="width: 4%;"></td>
-              <td style="padding: 8px 12px; background: #fff; border-radius: 10px; text-align: center; width: 23%;">
-                <div style="font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em;">Valor</div>
-                <div style="font-size: 22px; font-weight: 900; color: #15803d; margin-top: 4px;">${formatarPrecoEmail(order.total_amount || order.total_estimated)}</div>
-              </td>
-            </tr>
-          </table>
-          ${order.payment_expiry ? `<p style="margin: 12px 0 0; color: #166534; font-size: 13px;">Válido até: ${order.payment_expiry}</p>` : ""}
-          <p style="margin: 12px 0 0; color: #166534; font-size: 13px;">Efectue o pagamento em qualquer ATM ou homebanking com estes dados.</p>
-        </div>
-        ` : order.payment_provider === "mbway" ? `
-        <div style="background: #eff6ff; border-radius: 16px; padding: 20px; margin-top: 24px; border: 1px solid #bfdbfe;">
-          <p style="margin: 0; color: #1e40af; font-weight: 700; font-size: 15px;">Pedido MB WAY enviado</p>
-          <p style="margin: 10px 0 0; color: #1e40af; font-size: 14px; line-height: 1.6;">
-            Deve receber uma notificação MB WAY no seu telemóvel. Aceite o pagamento de <strong>${formatarPrecoEmail(order.total_amount || order.total_estimated)}</strong> para confirmar a encomenda automaticamente.
-          </p>
-        </div>
-        ` : `
-        <div style="background: #f4fbf4; border-radius: 16px; padding: 16px; margin-top: 24px; border: 1px solid #bbf7d0;">
-          <p style="margin: 0; color: #166534; font-size: 14px; line-height: 1.7;">
-            Pode agora proceder ao pagamento. Após confirmação do pagamento, receberá a confirmação e a respetiva Fatura-Recibo.
-          </p>
-        </div>
-        `}
 
         <p style="margin-top: 28px; font-size: 13px; line-height: 1.6; color: #64748b;">
           Obrigado pela preferência.<br />
