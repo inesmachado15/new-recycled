@@ -54,11 +54,6 @@ function normalizarTexto(texto: string) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
-function produtoTemPortesFixos(produto: Produto) {
-  const categoria = normalizarTexto(produto.category || "");
-
-  return categoria.includes("toner") || categoria.includes("tinteiro");
-}
 
 function calcularPortes(produtos: ProdutoNoCarrinho[]) {
   const subtotal = produtos.reduce((soma, produto) => {

@@ -69,6 +69,7 @@ type Encomenda = {
 };
 
 const estadosProgresso = [
+  "A aguardar aprovação",
   "A aguardar pagamento",
   "Pago",
   "Em preparação",
@@ -180,8 +181,8 @@ function obterTituloMetodoPagamento(method: string | null) {
 }
 
 function normalizarEstado(status: string) {
-  if (status === "Pedido recebido") return "A aguardar pagamento";
-  if (status === "A aguardar aprovação") return "A aguardar pagamento";
+  if (status === "Pedido recebido") return "A aguardar aprovação";
+  if (status === "A aguardar aprovação") return "A aguardar aprovação";
   if (status === "Aprovada - aguarda pagamento") return "A aguardar pagamento";
   if (status === "Pendente de pagamento") return "A aguardar pagamento";
   if (status === "Em confirmação") return "Pago";
@@ -194,12 +195,21 @@ function normalizarEstado(status: string) {
 function obterMensagemEstado(encomenda: Encomenda) {
   const status = normalizarEstado(encomenda.status);
 
+  if (status === "A aguardar aprovação") {
+    return {
+      titulo: "Encomenda recebida — a aguardar aprovação.",
+      texto:
+        "A New & Recycled está a analisar o seu pedido. Após aprovação, receberá os dados de pagamento por email.",
+      classe: "border-amber-200 bg-amber-50 text-amber-900",
+    };
+  }
+
   if (status === "A aguardar pagamento") {
     return {
-      titulo: "Encomenda recebida — aguarda pagamento.",
+      titulo: "Encomenda aprovada — aguarda pagamento.",
       texto:
-        "Vai receber os dados de pagamento (Multibanco ou MB WAY) por email. Após confirmação do pagamento, a encomenda avança automaticamente.",
-      classe: "border-amber-200 bg-amber-50 text-amber-900",
+        "Receberá os dados de pagamento (Multibanco ou MB WAY) por email. Após confirmação do pagamento, a encomenda avança automaticamente.",
+      classe: "border-blue-200 bg-blue-50 text-blue-900",
     };
   }
 
@@ -776,7 +786,7 @@ export default function ContaPage() {
           Estado da encomenda
         </p>
 
-        <div className="mt-4 grid gap-3 md:grid-cols-6">
+        <div className="mt-4 grid gap-3 grid-cols-3 md:grid-cols-6">
           {estadosProgresso.map((estado, index) => {
             const concluido = ativo >= 0 && index <= ativo;
             const atual = ativo >= 0 && index === ativo;

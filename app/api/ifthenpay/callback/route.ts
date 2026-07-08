@@ -24,6 +24,34 @@ export async function GET(req: NextRequest) {
       return new NextResponse("orderId em falta", { status: 400 });
     }
 
+    // Verificar se a encomenda existe e se o valor bate certo
+    const { data: encomenda, error: erroLeitura } = await supabaseAdmin
+      .from("orders")
+      .select("id, total_amount, status")
+      .eq("id", orderId)
+      .single();
+
+    if (erroLeitura || !encomenda) {
+      console.warn(`Callback Ifthenpay: encomenda não encontrada: ${orderId}`);
+      return new NextResponse("Encomenda não encontrada", { status: 404 });
+    }
+
+    if (encomenda.status === "Confirmado") {
+      // Pagamento já foi processado anteriormente — responder OK sem duplicar
+      return new NextResponse("OK", { status: 200 });
+    }
+
+    if (amount && encomenda.total_amount !== null) {
+      const valorRecebido = parseFloat(amount);
+      const valorEsperado = Number(encomenda.total_amount);
+      if (Math.abs(valorRecebido - valorEsperado) > 0.01) {
+        console.error(
+          `Callback Ifthenpay: valor incorreto na encomenda ${orderId} — recebido ${valorRecebido}, esperado ${valorEsperado}`
+        );
+        return new NextResponse("Valor incorreto", { status: 400 });
+      }
+    }
+
     // Confirmar pagamento na encomenda
     const { error } = await supabaseAdmin
       .from("orders")

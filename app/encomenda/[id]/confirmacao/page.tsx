@@ -76,6 +76,12 @@ export default function ConfirmacaoEncomendaPage() {
         return;
       }
 
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        window.location.href = `/entrar?redirect=/encomenda/${id}/confirmacao`;
+        return;
+      }
+
       const { data, error } = await supabase
         .from("orders")
         .select(
@@ -115,14 +121,11 @@ export default function ConfirmacaoEncomendaPage() {
         `
         )
         .eq("id", id)
+        .eq("user_id", user.id)
         .single();
 
       if (error || !data) {
-        setErro(
-          `Não foi possível carregar a encomenda: ${
-            error?.message || "sem dados"
-          }`
-        );
+        setErro("Encomenda não encontrada ou sem permissão para a visualizar.");
         setACarregar(false);
         return;
       }

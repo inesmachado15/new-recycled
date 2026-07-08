@@ -17,29 +17,29 @@ const passos = [
     numero: "3",
     titulo: "Submeta a encomenda",
     texto:
-      "Confirme os produtos no carrinho, preencha os dados de faturação e entrega, e finalize a encomenda. O pagamento é feito nesta etapa.",
+      "Confirme os produtos no carrinho, preencha os dados de faturação e entrega, e finalize a encomenda. A New & Recycled analisa e aprova o pedido em breve.",
   },
   {
     numero: "4",
     titulo: "Pagamento e envio",
     texto:
-      "Efectue o pagamento por Multibanco ou MB WAY. Após confirmação, a encomenda é processada automaticamente e receberá actualizações do estado por email.",
+      "Após aprovação, recebe os dados de pagamento por email. Pague por Multibanco ou MB WAY — o pagamento é confirmado automaticamente e a encomenda avança para envio.",
   },
 ];
 
 const estados = [
   "A aguardar aprovação",
-  "Aprovada",
-  "Pagamento confirmado",
+  "Aprovada — aguarda pagamento",
+  "Confirmado",
   "Em preparação",
-  "Enviada",
+  "Enviado",
 ];
 
 const perguntas = [
   {
-    titulo: "Tenho de pagar logo?",
+    titulo: "Quando é que pago?",
     texto:
-      "Sim. O pagamento é feito no momento da encomenda. Após confirmação do pagamento, a encomenda é processada automaticamente.",
+      "Não imediatamente. Após submeter a encomenda, a New & Recycled analisa e aprova o pedido. Só depois recebe os dados de pagamento por email (Multibanco ou MB WAY). Após confirmação do pagamento, a encomenda avança automaticamente.",
   },
   {
     titulo: "E se o produto estiver por encomenda?",
@@ -75,8 +75,8 @@ export default function ComoEncomendarPage() {
 
               <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
                 Adicione os produtos ao carrinho, inicie sessão e finalize a encomenda.
-                O pagamento é feito no checkout por Multibanco ou MB WAY — após confirmação,
-                a encomenda avança automaticamente.
+                Após aprovação pela New & Recycled, recebe os dados de pagamento por email.
+                Pague por Multibanco ou MB WAY — a confirmação é automática.
               </p>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -107,7 +107,7 @@ export default function ComoEncomendarPage() {
                     Pagamento
                   </p>
                   <p className="mt-1 text-sm leading-6 text-slate-600">
-                    Feito no momento da encomenda, de forma segura.
+                    Após aprovação do pedido, recebe os dados por email. Multibanco ou MB WAY.
                   </p>
                 </div>
 
@@ -178,11 +178,11 @@ export default function ComoEncomendarPage() {
             </p>
 
             <h2 className="mt-4 text-2xl font-black">
-              Pagamento seguro no momento
+              Pagamento simples e seguro
             </h2>
 
             <p className="mt-4 leading-7 text-slate-600">
-              O pagamento é feito no checkout, de forma segura. Aceitamos Referência Multibanco e MB WAY. Após confirmação do pagamento, a encomenda avança automaticamente.
+              Após a aprovação do pedido pela New & Recycled, receberá os dados de pagamento por email. Aceitamos Referência Multibanco e MB WAY — o pagamento é confirmado automaticamente.
             </p>
 
             <div className="mt-6 rounded-2xl bg-green-50 p-5">

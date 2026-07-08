@@ -63,8 +63,6 @@ export default function Header() {
 
     window.addEventListener("storage", atualizarQuantidade);
 
-    const intervalo = setInterval(atualizarQuantidade, 500);
-
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -73,7 +71,6 @@ export default function Header() {
 
     return () => {
       window.removeEventListener("storage", atualizarQuantidade);
-      clearInterval(intervalo);
       subscription.unsubscribe();
     };
   }, []);
@@ -99,7 +96,7 @@ export default function Header() {
           <img
             src="/logotipo.png"
             alt="New & Recycled"
-            className="h-28 w-auto object-contain sm:h-32"
+            className="h-16 w-auto object-contain sm:h-20"
           />
         </Link>
 

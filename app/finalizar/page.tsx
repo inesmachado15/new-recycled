@@ -53,9 +53,6 @@ type DadosCliente = {
 const metodosPagamento = [
   "Referência Multibanco",
   "MB WAY",
-  "Cartão de crédito/débito",
-  "Apple Pay",
-  "Google Pay",
 ];
 
 const preferenciasContacto = ["Email", "Telefone"];
@@ -68,27 +65,6 @@ function produtoDisponivel(produto: Produto) {
   return produto.active && (produto.stock > 0 || produto.allow_backorder);
 }
 
-function normalizarTexto(texto: string | null | undefined) {
-  return String(texto || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-function produtoETonerOuTinteiro(produto: Produto) {
-  const categoria = normalizarTexto(produto.category);
-  const nome = normalizarTexto(produto.name);
-
-  return (
-    categoria.includes("toner") ||
-    categoria.includes("tinteiro") ||
-    categoria.includes("tinteiros") ||
-    categoria.includes("toners") ||
-    nome.includes("toner") ||
-    nome.includes("tinteiro") ||
-    nome.includes("tinteiros")
-  );
-}
 
 function calcularPortes(
   produtosNoCarrinho: ProdutoNoCarrinho[],
@@ -99,18 +75,6 @@ function calcularPortes(
       shippingCost: 0,
       shippingSobConsulta: false,
       shippingText: "0,00€",
-    };
-  }
-
-  const todosSaoTonersOuTinteiros = produtosNoCarrinho.every((produto) =>
-    produtoETonerOuTinteiro(produto)
-  );
-
-  if (!todosSaoTonersOuTinteiros) {
-    return {
-      shippingCost: null,
-      shippingSobConsulta: true,
-      shippingText: "Sob consulta",
     };
   }
 
@@ -555,8 +519,8 @@ export default function FinalizarPage() {
 
             <p className="mt-4 max-w-2xl text-slate-600">
               Para submeter uma encomenda tem de iniciar sessão ou criar uma
-              conta. Assim poderá acompanhar o estado da encomenda, consultar os
-              receber atualizações sobre o estado da encomenda.
+              conta. Assim poderá acompanhar o estado da encomenda e receber
+              atualizações por email.
             </p>
 
             <div className="mt-6 grid gap-3 rounded-2xl bg-green-50 p-5 text-sm leading-6 text-green-800">

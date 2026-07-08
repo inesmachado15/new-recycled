@@ -60,7 +60,7 @@ export default function TermosPage() {
               2. Funcionamento das encomendas
             </h2>
             <p className="mt-2">
-              Os pedidos efectuados através do site implicam pagamento imediato no checkout. Após confirmação do pagamento, a New & Recycled processa a encomenda e procede ao envio.
+              Após submeter uma encomenda, a New & Recycled analisa e aprova o pedido. Após aprovação, o cliente recebe por email os dados de pagamento (Referência Multibanco ou pedido MB WAY). O pagamento é confirmado automaticamente pela plataforma de pagamentos e, a partir desse momento, a encomenda é processada e enviada.
             </p>
           </section>
 
@@ -221,7 +221,27 @@ export default function TermosPage() {
 
           <section>
             <h2 className="text-xl font-bold text-slate-900">
-              13. Lei aplicável
+              13. Resolução de litígios online (ODR)
+            </h2>
+            <p className="mt-2">
+              Nos termos do Regulamento (UE) n.º 524/2013, os consumidores
+              residentes na União Europeia podem recorrer à plataforma europeia
+              de resolução de litígios em linha (ODR), disponível em:{" "}
+              <a
+                href="https://ec.europa.eu/consumers/odr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="break-all font-bold text-green-700 hover:text-green-800"
+              >
+                https://ec.europa.eu/consumers/odr
+              </a>
+              .
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-slate-900">
+              14. Lei aplicável
             </h2>
             <p className="mt-2">
               Os presentes termos e condições são regidos pela lei portuguesa.
@@ -233,7 +253,7 @@ export default function TermosPage() {
 
           <section>
             <h2 className="text-xl font-bold text-slate-900">
-              14. Contacto
+              15. Contacto
             </h2>
             <p className="mt-2">
               Para qualquer dúvida relacionada com produtos, encomendas,
