@@ -1,8 +1,10 @@
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 import { Platform } from 'react-native';
+import { fmtMinutes, hasClock } from './clock';
 import {
   avg,
+  comparisonRows,
   eff,
   fga,
   fgm,
@@ -43,11 +45,16 @@ const css = `
   footer { margin-top: 24px; font-size: 9px; color: #6B7570; text-align: center; }
 `;
 
+const comparisonTable = (us: string, them: string, rows: { label: string; us: string; them: string }[]) => `
+  <table><tr><th>${esc(us)}</th><th></th><th>${esc(them)}</th></tr>
+  ${rows.map((r) => `<tr><td><b>${r.us}</b></td><td class="muted">${r.label}</td><td><b>${r.them}</b></td></tr>`).join('')}
+  </table>`;
+
 const page = (title: string, body: string) =>
   `<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title><style>${css}</style></head><body>${body}<footer>Gerado com Basket Stats · ${new Date().toLocaleString('pt-PT')}</footer></body></html>`;
 
-function lineCells(l: StatLine) {
-  return `
+function lineCells(l: StatLine, timed: boolean) {
+  return `${timed ? `<td>${fmtMinutes(l.secs)}</td>` : ''}
     <td><b>${l.pts}</b></td>
     <td>${fgm(l)}/${fga(l)}</td><td>${pct(fgm(l), fga(l))}</td>
     <td>${l.inm}/${l.ina}</td>
@@ -58,18 +65,19 @@ function lineCells(l: StatLine) {
     <td>${l.plusMinus > 0 ? '+' : ''}${l.plusMinus}</td><td>${eff(l)}</td>`;
 }
 
-const boxHead = (labels: { inside: string; outside: string }) => `
-  <tr><th class="l">#</th><th class="l">Jogador</th><th>PTS</th><th>LC</th><th>LC%</th>
+const boxHead = (labels: { inside: string; outside: string }, timed: boolean) => `
+  <tr><th class="l">#</th><th class="l">Jogador</th>${timed ? '<th>MIN</th>' : ''}<th>PTS</th><th>LC</th><th>LC%</th>
   <th>${labels.inside}</th><th>${labels.outside}</th><th>${labels.outside}%</th><th>LL</th><th>LL%</th>
   <th>RO</th><th>RD</th><th>RT</th><th>AS</th><th>RB</th><th>DS</th><th>PE</th><th>FC</th><th>+/-</th><th>VAL</th></tr>`;
 
 export function gameReportHtml(game: Game, team: Team, s: GameSummary = summarizeGame(game)) {
   const labels = shotLabels(game.format);
+  const timed = hasClock(game);
   const rows = game.roster
     .map((id) => team.players.find((p) => p.id === id))
     .filter(Boolean)
     .map(
-      (p) => `<tr><td class="l">${esc(p!.number)}</td><td class="l">${esc(p!.name)}</td>${lineCells(s.players[p!.id])}</tr>`,
+      (p) => `<tr><td class="l">${esc(p!.number)}</td><td class="l">${esc(p!.name)}</td>${lineCells(s.players[p!.id], timed)}</tr>`,
     )
     .join('');
   const periods = s.byPeriod
@@ -111,17 +119,11 @@ export function gameReportHtml(game: Game, team: Team, s: GameSummary = summariz
       <div class="card">Roubos<b>${leaders[2]}</b></div>
     </div>
     <h2>Ficha de jogo</h2>
-    <table>${boxHead(labels)}${rows}
-      <tr class="total"><td></td><td class="l">Equipa</td>${lineCells(t)}</tr>
+    <table>${boxHead(labels, timed)}${rows}
+      <tr class="total"><td></td><td class="l">Equipa</td>${lineCells(t, timed)}</tr>
     </table>
-    <h2>Resumo da equipa</h2>
-    <div class="cards">
-      <div class="card">Lanç. campo<b>${pct(fgm(t), fga(t))}</b>${fgm(t)}/${fga(t)}</div>
-      <div class="card">${labels.outside}<b>${pct(t.outm, t.outa)}</b>${t.outm}/${t.outa}</div>
-      <div class="card">Lances livres<b>${pct(t.ftm, t.fta)}</b>${t.ftm}/${t.fta}</div>
-      <div class="card">Ressaltos<b>${reb(t)}</b>${t.oreb} of. · ${t.dreb} def.</div>
-      <div class="card">Perdas<b>${t.tov}</b>${t.ast} assist.</div>
-    </div>
+    <h2>${esc(team.name)} vs ${esc(game.opponent)}</h2>
+    ${comparisonTable(team.name, game.opponent, comparisonRows(t, s.opp, game.format))}
     <p class="muted" style="margin-top:12px">LC: lançamentos de campo · LL: lances livres · RO/RD/RT: ressaltos ofensivos/defensivos/total ·
     AS: assistências · RB: roubos · DS: desarmes · PE: perdas · FC: faltas · VAL: valorização</p>
   `,
@@ -129,10 +131,13 @@ export function gameReportHtml(game: Game, team: Team, s: GameSummary = summariz
 }
 
 export function seasonReportHtml(team: Team, s: SeasonSummary) {
+  const timed = s.timedGames > 0;
+  const format = s.games[s.games.length - 1]?.format ?? '5x5';
   const rows = s.players
     .filter((sp) => sp.gp > 0)
-    .map(({ player, gp, totals: l }) => `
+    .map(({ player, gp, timedGp, totals: l }) => `
       <tr><td class="l">${esc(player.number)}</td><td class="l">${esc(player.name)}</td><td>${gp}</td>
+      ${timed ? `<td>${timedGp ? avg(l.secs / 60, timedGp) : '-'}</td>` : ''}
       <td><b>${avg(l.pts, gp)}</b></td><td>${avg(reb(l), gp)}</td><td>${avg(l.ast, gp)}</td>
       <td>${avg(l.stl, gp)}</td><td>${avg(l.blk, gp)}</td><td>${avg(l.tov, gp)}</td><td>${avg(l.pf, gp)}</td>
       <td>${pct(fgm(l), fga(l))}</td><td>${pct(l.outm, l.outa)}</td><td>${pct(l.ftm, l.fta)}</td>
@@ -157,8 +162,10 @@ export function seasonReportHtml(team: Team, s: SeasonSummary) {
       <div class="card">Pontos sofridos<b>${avg(s.ptsAgainst, n)}</b>por jogo</div>
       <div class="card">Lanç. campo<b>${pct(fgm(s.team), fga(s.team))}</b></div>
     </div>
+    <h2>Médias por jogo: ${esc(team.name)} vs adversários</h2>
+    ${comparisonTable(team.name, 'Adversários', comparisonRows(s.team, s.opp, format, n || 1))}
     <h2>Médias por jogador</h2>
-    <table><tr><th class="l">#</th><th class="l">Jogador</th><th>J</th><th>PTS</th><th>RES</th><th>AST</th><th>RB</th><th>DS</th>
+    <table><tr><th class="l">#</th><th class="l">Jogador</th><th>J</th>${timed ? '<th>MIN</th>' : ''}<th>PTS</th><th>RES</th><th>AST</th><th>RB</th><th>DS</th>
       <th>PE</th><th>FC</th><th>LC%</th><th>Ext%</th><th>LL%</th><th>VAL</th><th>PTS tot.</th></tr>${rows}</table>
     <h2>Jogos</h2>
     <table><tr><th class="l">Data</th><th class="l">Adversário</th><th>Formato</th><th>Res.</th><th>Marcador</th></tr>${games}</table>

@@ -1,10 +1,13 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Alert, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
+import { Comparison } from '../../../components/Comparison';
 import { StatTable } from '../../../components/StatTable';
 import { Button, Card, H2, Muted } from '../../../components/ui';
+import { fmtMinutes, hasClock } from '../../../lib/clock';
 import { exportPdf, gameReportHtml, printHtml } from '../../../lib/report';
 import {
+  comparisonRows,
   eff,
   fga,
   fgm,
@@ -30,7 +33,9 @@ export default function GameReportScreen() {
   if (!game || !team || !s) return null;
   const labels = shotLabels(game.format);
 
+  const timed = hasClock(game);
   const values = (l: StatLine) => ({
+    min: fmtMinutes(l.secs),
     pts: l.pts,
     fg: `${fgm(l)}/${fga(l)}`,
     fgp: pct(fgm(l), fga(l)),
@@ -147,6 +152,7 @@ export default function GameReportScreen() {
       <H2 style={{ marginBottom: 0 }}>Ficha de jogo</H2>
       <StatTable
         columns={[
+          ...(timed ? [{ key: 'min', label: 'MIN', width: 54 }] : []),
           { key: 'pts', label: 'PTS', bold: true },
           { key: 'fg', label: 'LC', width: 54 },
           { key: 'fgp', label: 'LC%', width: 50 },
@@ -169,13 +175,8 @@ export default function GameReportScreen() {
       </Muted>
 
       <Card>
-        <H2>Equipa</H2>
-        <View style={styles.leaders}>
-          <Stat label="Lanç. campo" value={pct(fgm(t), fga(t))} sub={`${fgm(t)}/${fga(t)}`} />
-          <Stat label={labels.outside} value={pct(t.outm, t.outa)} sub={`${t.outm}/${t.outa}`} />
-          <Stat label="Lances livres" value={pct(t.ftm, t.fta)} sub={`${t.ftm}/${t.fta}`} />
-          <Stat label="Ressaltos" value={String(reb(t))} sub={`${t.oreb} of · ${t.dreb} def`} />
-        </View>
+        <H2>{team.name} vs {game.opponent}</H2>
+        <Comparison us={team.name} them={game.opponent} rows={comparisonRows(t, s.opp, game.format)} />
       </Card>
 
       {game.finished ? (
@@ -191,16 +192,6 @@ export default function GameReportScreen() {
         <Button title="Voltar ao jogo" variant="accent" onPress={() => router.back()} />
       )}
     </ScrollView>
-  );
-}
-
-function Stat({ label, value, sub }: { label: string; value: string; sub: string }) {
-  return (
-    <View style={styles.leader}>
-      <Muted style={{ fontSize: 12 }}>{label}</Muted>
-      <Text style={styles.leaderVal}>{value}</Text>
-      <Muted style={{ fontSize: 12 }}>{sub}</Muted>
-    </View>
   );
 }
 

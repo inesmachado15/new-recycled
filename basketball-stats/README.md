@@ -8,21 +8,30 @@ de jogo e da época em PDF.
 
 - **Equipas e jogadores** – nome e número de camisola.
 - **Novo jogo** – adversário, local, formato **5x5 ou 3x3**, nº de períodos,
-  convocados e cinco inicial (⭐).
+  minutos por período (ou sem relógio), convocados e cinco inicial (⭐).
+- **Relógio de jogo** – toca para iniciar/parar, mantém premido para acertar o tempo;
+  para sozinho no fim do período. Conta os **minutos de cada jogador** em campo
+  (as substituições entram na conta) e regista o tempo de cada jogada.
+  O ecrã não se apaga durante o jogo.
 - **Registo ao vivo com um toque** – toca na ação e depois no jogador
   (ou no jogador e depois na ação):
   - lançamentos de 2P/3P (1P/2P em 3x3) e lances livres, convertidos ✓ ou falhados ✗
   - ressaltos ofensivos/defensivos, assistências, roubos, desarmes, perdas e faltas
-  - pontos do adversário (+1/+2/+3)
-  - após um cesto, sugere logo **“Assistência de…”**
+  - **roubo de bola** da nossa equipa regista automaticamente uma **perda do adversário**
+    (o desfazer remove as duas)
+  - **adversário como equipa** (sem jogador): lançamentos de 2P/3P/LL convertidos e
+    falhados, ressaltos ofensivos/defensivos, perdas e faltas
+  - após um cesto, sugere logo **“Assistência de…”**; após um lançamento falhado
+    (nosso ou deles), sugere **“Ressalto”** – um jogador nosso ou o adversário
   - marcador, período/prolongamento, faltas de equipa por período, faltas por jogador
   - substituições, desfazer e histórico das últimas jogadas (mantém premido para apagar)
   - vibração (haptics) em cada registo
 - **Relatório do jogo** – parciais por período, destaques, ficha de jogo completa
-  (PTS, LC, 3P, LL, RO/RD, AST, RB, DS, PE, FC, +/-, valorização), exportação em
+  (MIN, PTS, LC, 3P, LL, RO/RD, AST, RB, DS, PE, FC, +/-, valorização), comparação
+  **equipa vs adversário** (lançamentos, ressaltos, perdas, faltas), exportação em
   **PDF**, impressão (AirPrint) e partilha em texto (WhatsApp, etc.).
-- **Relatório da época** – registo V/D, médias por jogador ordenáveis, percentagens
-  de lançamento, lista de jogos e exportação em PDF.
+- **Relatório da época** – registo V/D, médias por jogador ordenáveis (incl. minutos),
+  médias da equipa vs adversários, lista de jogos e exportação em PDF.
 - Tudo guardado no próprio telemóvel (funciona sem internet).
 
 ## Experimentar no iPhone

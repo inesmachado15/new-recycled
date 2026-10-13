@@ -22,10 +22,18 @@ interface Store extends Data {
   createGame: (g: Omit<Game, 'id' | 'events' | 'finished' | 'currentPeriod'>) => Game;
   updateGame: (id: string, patch: Partial<Omit<Game, 'id'>>) => void;
   deleteGame: (id: string) => void;
-  addEvent: (gameId: string, e: Omit<GameEvent, 'id' | 'at'>) => void;
+  mutateGame: (id: string, fn: (g: Game) => Game) => void;
+  /** Adiciona um ou mais eventos ligados (o desfazer remove-os em conjunto). */
+  addEvents: (gameId: string, events: NewEvent[]) => void;
   removeEvent: (gameId: string, eventId: string) => void;
   undo: (gameId: string) => void;
 }
+
+export type NewEvent = Omit<GameEvent, 'id' | 'at' | 'group'>;
+
+/** Remove o evento e todos os que pertencem ao mesmo grupo. */
+const withoutGroup = (events: GameEvent[], target?: GameEvent) =>
+  !target ? events : events.filter((e) => e.id !== target.id && (!target.group || e.group !== target.group));
 
 const Ctx = createContext<Store | null>(null);
 
@@ -89,11 +97,16 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       },
       updateGame: (id, patch) => mapGame(id, (g) => ({ ...g, ...patch })),
       deleteGame: (id) => setData((d) => ({ ...d, games: d.games.filter((g) => g.id !== id) })),
-      addEvent: (gameId, e) =>
-        mapGame(gameId, (g) => ({ ...g, events: [...g.events, { ...e, id: uid(), at: Date.now() }] })),
+      mutateGame: mapGame,
+      addEvents: (gameId, list) => {
+        const at = Date.now();
+        const group = list.length > 1 ? uid() : undefined;
+        const created = list.map((e) => ({ ...e, id: uid(), at, group }));
+        mapGame(gameId, (g) => ({ ...g, events: [...g.events, ...created] }));
+      },
       removeEvent: (gameId, eventId) =>
-        mapGame(gameId, (g) => ({ ...g, events: g.events.filter((e) => e.id !== eventId) })),
-      undo: (gameId) => mapGame(gameId, (g) => ({ ...g, events: g.events.slice(0, -1) })),
+        mapGame(gameId, (g) => ({ ...g, events: withoutGroup(g.events, g.events.find((e) => e.id === eventId)) })),
+      undo: (gameId) => mapGame(gameId, (g) => ({ ...g, events: withoutGroup(g.events, g.events[g.events.length - 1]) })),
     }),
     [data, ready, mapTeam, mapGame],
   );

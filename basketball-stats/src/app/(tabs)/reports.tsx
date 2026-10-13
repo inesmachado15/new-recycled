@@ -1,10 +1,11 @@
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Comparison } from '../../components/Comparison';
 import { StatTable } from '../../components/StatTable';
 import { Button, Card, Chip, Empty, H2, Muted } from '../../components/ui';
 import { exportPdf, seasonReportHtml } from '../../lib/report';
-import { avg, eff, fga, fgm, formatDate, pct, reb, summarizeGame, summarizeSeason } from '../../lib/stats';
+import { avg, comparisonRows, eff, fga, fgm, formatDate, pct, reb, summarizeGame, summarizeSeason } from '../../lib/stats';
 import { useStore } from '../../lib/store';
 import { colors, radius } from '../../lib/theme';
 
@@ -88,6 +89,7 @@ export default function ReportsScreen() {
           <StatTable
             columns={[
               { key: 'gp', label: 'J', width: 34 },
+              ...(s.timedGames > 0 ? [{ key: 'min', label: 'MIN', width: 48 }] : []),
               { key: 'pts', label: 'PTS', bold: true, width: 48 },
               { key: 'reb', label: 'RES', width: 48 },
               { key: 'ast', label: 'AST', width: 48 },
@@ -99,11 +101,12 @@ export default function ReportsScreen() {
               { key: 'ftp', label: 'LL%', width: 50 },
               { key: 'eff', label: 'VAL', width: 48 },
             ]}
-            rows={players.map(({ player, gp, totals: l }) => ({
+            rows={players.map(({ player, gp, timedGp, totals: l }) => ({
               key: player.id,
               name: `${player.number} ${player.name}`,
               values: {
                 gp,
+                min: timedGp ? avg(l.secs / 60, timedGp) : '-',
                 pts: avg(l.pts, gp),
                 reb: avg(reb(l), gp),
                 ast: avg(l.ast, gp),
@@ -118,6 +121,11 @@ export default function ReportsScreen() {
             }))}
           />
           <Muted style={{ fontSize: 12 }}>Ext%: lançamentos exteriores (3P em 5x5, 2P em 3x3)</Muted>
+
+          <Card>
+            <H2>Médias por jogo vs adversários</H2>
+            <Comparison us={team.name} them="Adversários" rows={comparisonRows(s.team, s.opp, s.games[n - 1].format, n)} />
+          </Card>
 
           <Card>
             <H2>Jogos</H2>

@@ -1,3 +1,4 @@
+import { playedSeconds } from './clock';
 import { ActionType, Format, Game, GameEvent, Player, Team } from './types';
 
 export interface StatLine {
@@ -16,6 +17,8 @@ export interface StatLine {
   tov: number;
   pf: number;
   plusMinus: number;
+  /** segundos jogados */
+  secs: number;
 }
 
 export const emptyLine = (): StatLine => ({
@@ -34,6 +37,7 @@ export const emptyLine = (): StatLine => ({
   tov: 0,
   pf: 0,
   plusMinus: 0,
+  secs: 0,
 });
 
 export const shotValues = (format: Format) =>
@@ -125,12 +129,17 @@ export interface GameSummary {
   byPeriod: { us: number; them: number }[];
   players: Record<string, StatLine>;
   team: StatLine;
+  /** Estatísticas do adversário (só como equipa) */
+  opp: StatLine;
 }
+
+export const isTheirs = (e: GameEvent) => e.side === 'them' || e.type === 'OPP';
 
 export function summarizeGame(game: Game): GameSummary {
   const players: Record<string, StatLine> = {};
   game.roster.forEach((id) => (players[id] = emptyLine()));
   const team = emptyLine();
+  const opp = emptyLine();
   const byPeriod = Array.from({ length: Math.max(game.periods, game.currentPeriod) }, () => ({
     us: 0,
     them: 0,
@@ -141,10 +150,12 @@ export function summarizeGame(game: Game): GameSummary {
   for (const e of game.events) {
     const pts = eventPoints(e, game.format);
     const p = byPeriod[e.period - 1] ?? (byPeriod[e.period - 1] = { us: 0, them: 0 });
-    if (e.type === 'OPP') {
+    if (isTheirs(e)) {
       them += pts;
       p.them += pts;
       e.onCourt?.forEach((id) => players[id] && (players[id].plusMinus -= pts));
+      if (e.type === 'OPP') opp.pts += pts;
+      else applyEvent(opp, e, game.format);
       continue;
     }
     if (isOurScore(e.type)) {
@@ -159,12 +170,20 @@ export function summarizeGame(game: Game): GameSummary {
     }
   }
   team.plusMinus = us - them;
-  return { us, them, byPeriod, players, team };
+  opp.plusMinus = them - us;
+  const now = Date.now();
+  for (const id of Object.keys(players)) {
+    players[id].secs = playedSeconds(game, id, now);
+    team.secs += players[id].secs;
+  }
+  return { us, them, byPeriod, players, team, opp };
 }
 
 export interface SeasonPlayer {
   player: Player;
   gp: number;
+  /** jogos com relógio (para a média de minutos) */
+  timedGp: number;
   totals: StatLine;
 }
 
@@ -176,6 +195,9 @@ export interface SeasonSummary {
   ptsAgainst: number;
   players: SeasonPlayer[];
   team: StatLine;
+  opp: StatLine;
+  /** Jogos com relógio (para médias de minutos) */
+  timedGames: number;
 }
 
 export function summarizeSeason(team: Team, games: Game[]): SeasonSummary {
@@ -183,12 +205,14 @@ export function summarizeSeason(team: Team, games: Game[]): SeasonSummary {
     .filter((g) => g.teamId === team.id && g.events.length > 0)
     .sort((a, b) => a.date - b.date);
   const map = new Map<string, SeasonPlayer>();
-  team.players.forEach((p) => map.set(p.id, { player: p, gp: 0, totals: emptyLine() }));
+  team.players.forEach((p) => map.set(p.id, { player: p, gp: 0, timedGp: 0, totals: emptyLine() }));
   let wins = 0;
   let losses = 0;
   let ptsFor = 0;
   let ptsAgainst = 0;
   let teamTotals = emptyLine();
+  let oppTotals = emptyLine();
+  let timedGames = 0;
 
   for (const g of list) {
     const s = summarizeGame(g);
@@ -199,10 +223,13 @@ export function summarizeSeason(team: Team, games: Game[]): SeasonSummary {
       else if (s.us < s.them) losses++;
     }
     teamTotals = addLines(teamTotals, s.team);
+    oppTotals = addLines(oppTotals, s.opp);
+    if (g.periodLength) timedGames++;
     for (const id of g.roster) {
       const sp = map.get(id);
       if (!sp) continue;
       sp.gp++;
+      if (g.periodLength) sp.timedGp++;
       sp.totals = addLines(sp.totals, s.players[id] ?? emptyLine());
     }
   }
@@ -214,6 +241,8 @@ export function summarizeSeason(team: Team, games: Game[]): SeasonSummary {
     ptsAgainst,
     players: [...map.values()].sort((a, b) => b.totals.pts / (b.gp || 1) - a.totals.pts / (a.gp || 1)),
     team: teamTotals,
+    opp: oppTotals,
+    timedGames,
   };
 }
 
@@ -230,3 +259,45 @@ export const shotLabels = (format: Format) =>
 
 export const formatDate = (ts: number) =>
   new Date(ts).toLocaleDateString('pt-PT', { day: '2-digit', month: 'short', year: 'numeric' });
+
+export function actionLabel(type: ActionType, format: Format, points?: number) {
+  const l = shotLabels(format);
+  const map: Record<ActionType, string> = {
+    INM: `${l.inside} ✓`,
+    INX: `${l.inside} ✗`,
+    OUTM: `${l.outside} ✓`,
+    OUTX: `${l.outside} ✗`,
+    FTM: 'LL ✓',
+    FTX: 'LL ✗',
+    OREB: 'Ress. Of.',
+    DREB: 'Ress. Def.',
+    AST: 'Assist.',
+    STL: 'Roubo',
+    BLK: 'Desarme',
+    TOV: 'Perda',
+    PF: 'Falta',
+    OPP: `+${points ?? 0}`,
+  };
+  return map[type];
+}
+
+/** Linhas de comparação entre a nossa equipa e o adversário (por jogo ou média). */
+export function comparisonRows(us: StatLine, them: StatLine, format: Format, games = 1) {
+  const l = shotLabels(format);
+  const n = (v: number) => (games === 1 ? String(v) : avg(v, games));
+  const shot = (m: number, a: number) => (a === 0 ? `${n(m)}/${n(a)}` : `${n(m)}/${n(a)} · ${pct(m, a)}`);
+  return [
+    { label: 'Pontos', us: n(us.pts), them: n(them.pts) },
+    { label: 'Lanç. campo', us: shot(fgm(us), fga(us)), them: shot(fgm(them), fga(them)) },
+    { label: l.inside, us: shot(us.inm, us.ina), them: shot(them.inm, them.ina) },
+    { label: l.outside, us: shot(us.outm, us.outa), them: shot(them.outm, them.outa) },
+    { label: 'Lances livres', us: shot(us.ftm, us.fta), them: shot(them.ftm, them.fta) },
+    { label: 'Ress. ofensivos', us: n(us.oreb), them: n(them.oreb) },
+    { label: 'Ress. defensivos', us: n(us.dreb), them: n(them.dreb) },
+    { label: 'Ressaltos', us: n(reb(us)), them: n(reb(them)) },
+    { label: 'Perdas de bola', us: n(us.tov), them: n(them.tov) },
+    { label: 'Roubos', us: n(us.stl), them: '–' },
+    { label: 'Assistências', us: n(us.ast), them: '–' },
+    { label: 'Faltas', us: n(us.pf), them: n(them.pf) },
+  ];
+}

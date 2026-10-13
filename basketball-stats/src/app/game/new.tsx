@@ -13,6 +13,7 @@ export default function NewGameScreen() {
   const [location, setLocation] = useState('');
   const [format, setFormat] = useState<Format>('5x5');
   const [periods, setPeriods] = useState(4);
+  const [minutes, setMinutes] = useState(10);
   const team = teams.find((t) => t.id === teamId) ?? teams[0];
   const [roster, setRoster] = useState<string[]>([]);
   const [starters, setStarters] = useState<string[]>([]);
@@ -53,6 +54,9 @@ export default function NewGameScreen() {
       date: Date.now(),
       format,
       periods,
+      periodLength: minutes * 60,
+      clockRemaining: minutes * 60,
+      secondsPlayed: {},
       roster,
       onCourt: starters.length ? starters : roster.slice(0, maxOnCourt),
     });
@@ -90,6 +94,18 @@ export default function NewGameScreen() {
             <Chip key={n} label={String(n)} active={periods === n} onPress={() => setPeriods(n)} />
           ))}
         </View>
+        <H2 style={{ marginTop: 14 }}>Minutos por período</H2>
+        <View style={styles.wrap}>
+          {[0, 5, 8, 10, 12].map((n) => (
+            <Chip
+              key={n}
+              label={n === 0 ? 'Sem relógio' : `${n} min`}
+              active={minutes === n}
+              onPress={() => setMinutes(n)}
+            />
+          ))}
+        </View>
+        {minutes === 0 && <Muted style={{ marginTop: 8 }}>Sem relógio não são contados os minutos dos jogadores.</Muted>}
       </Card>
 
       <Card>

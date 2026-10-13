@@ -31,14 +31,22 @@ export type ActionType =
   | 'BLK'
   | 'TOV'
   | 'PF'
-  | 'OPP'; // pontos do adversário (usa `points`)
+  | 'OPP'; // legado: pontos do adversário sem detalhe (usa `points`)
+
+export type Side = 'us' | 'them';
 
 export interface GameEvent {
   id: string;
   at: number;
   period: number;
   type: ActionType;
+  /** 'them' = estatística do adversário (só equipa, sem jogador) */
+  side?: Side;
   playerId?: string;
+  /** Eventos criados em conjunto (ex.: roubo + perda do adversário) partilham o grupo */
+  group?: string;
+  /** Tempo restante no relógio (segundos) quando foi registado */
+  clock?: number;
   /** Apenas para OPP */
   points?: number;
   /** Jogadores em campo no momento (para +/-) */
@@ -58,4 +66,11 @@ export interface Game {
   events: GameEvent[];
   finished: boolean;
   location?: string;
+  /** Duração de cada período em segundos (0/undefined = sem relógio) */
+  periodLength?: number;
+  clockRemaining?: number;
+  clockRunning?: boolean;
+  clockStartedAt?: number;
+  /** Segundos jogados por jogador (acumulado até à última paragem/substituição) */
+  secondsPlayed?: Record<string, number>;
 }
