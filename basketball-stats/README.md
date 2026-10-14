@@ -1,6 +1,7 @@
 # Basket Stats 🏀
 
-App de estatísticas de basquetebol para iPhone (Expo / React Native), inspirada no
+App de estatísticas de basquetebol para iPhone (Expo / React Native), personalizada
+para as **Sub14 Feminino do Paço de Arcos Clube** e inspirada no
 *Basketball Stats Assistant*: regista cada jogada **com um toque** e gera relatórios
 de jogo e da época em PDF.
 
@@ -19,6 +20,8 @@ de jogo e da época em PDF.
   - ressaltos ofensivos/defensivos, assistências, roubos, desarmes, perdas e faltas
   - **roubo de bola** da nossa equipa regista automaticamente uma **perda do adversário**
     (o desfazer remove as duas)
+  - **desarme** da nossa equipa regista automaticamente um **lançamento interior falhado
+    do adversário** e pergunta logo pelo ressalto
   - **adversário como equipa** (sem jogador): lançamentos de 2P/3P/LL convertidos e
     falhados, ressaltos ofensivos/defensivos, perdas e faltas
   - após um cesto, sugere logo **“Assistência de…”**; após um lançamento falhado
@@ -30,8 +33,17 @@ de jogo e da época em PDF.
   (MIN, PTS, LC, 3P, LL, RO/RD, AST, RB, DS, PE, FC, +/-, valorização), comparação
   **equipa vs adversário** (lançamentos, ressaltos, perdas, faltas), exportação em
   **PDF**, impressão (AirPrint) e partilha em texto (WhatsApp, etc.).
+- **Quintetos (+/-)** – cada combinação de 5 (ou 3 em 3x3) com minutos, pontos
+  marcados/sofridos e +/-, ordenada da melhor para a pior; no jogo e na época.
 - **Relatório da época** – registo V/D, médias por jogador ordenáveis (incl. minutos),
-  médias da equipa vs adversários, lista de jogos e exportação em PDF.
+  médias da equipa vs adversários, melhores quintetos, lista de jogos e exportação em PDF.
+
+## Imagem e identidade
+
+Ícone, ecrã de arranque e banner da página inicial são ilustrações originais
+(`assets/icon.png`, `assets/splash-icon.png`, `assets/banner.png`).
+O nome do clube e do escalão estão em `src/lib/club.ts`. Para usar o emblema do
+clube, substitui `assets/icon.png` por uma imagem PNG quadrada de 1024×1024.
 - Tudo guardado no próprio telemóvel (funciona sem internet).
 
 ## Experimentar no iPhone

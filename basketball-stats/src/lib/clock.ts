@@ -1,5 +1,8 @@
 import { Game } from './types';
 
+/** Identificador de um quinteto (independente da ordem). */
+export const lineupKey = (ids: string[]) => [...ids].sort().join(',');
+
 export const hasClock = (g: Game) => !!g.periodLength;
 
 export const overtimeLength = (g: Game) => Math.min(300, g.periodLength ?? 0);
@@ -20,7 +23,12 @@ export function settle(g: Game, now = Date.now()): Game {
   const elapsed = Math.min(r, Math.max(0, (now - g.clockStartedAt) / 1000));
   const secondsPlayed = { ...(g.secondsPlayed ?? {}) };
   g.onCourt.forEach((id) => (secondsPlayed[id] = (secondsPlayed[id] ?? 0) + elapsed));
-  return { ...g, clockRemaining: r - elapsed, clockStartedAt: now, secondsPlayed };
+  const lineupSeconds = { ...(g.lineupSeconds ?? {}) };
+  if (g.onCourt.length) {
+    const k = lineupKey(g.onCourt);
+    lineupSeconds[k] = (lineupSeconds[k] ?? 0) + elapsed;
+  }
+  return { ...g, clockRemaining: r - elapsed, clockStartedAt: now, secondsPlayed, lineupSeconds };
 }
 
 export function startClock(g: Game, now = Date.now()): Game {
@@ -42,6 +50,16 @@ export function playedSeconds(g: Game, id: string, now = Date.now()) {
   const base = g.secondsPlayed?.[id] ?? 0;
   if (!g.clockRunning || !g.clockStartedAt || !g.onCourt.includes(id)) return base;
   return base + (baseRemaining(g) - liveRemaining(g, now));
+}
+
+/** Segundos por quinteto, incluindo o tempo a correr agora. */
+export function lineupSecondsNow(g: Game, now = Date.now()) {
+  const out = { ...(g.lineupSeconds ?? {}) };
+  if (g.clockRunning && g.clockStartedAt && g.onCourt.length) {
+    const k = lineupKey(g.onCourt);
+    out[k] = (out[k] ?? 0) + (baseRemaining(g) - liveRemaining(g, now));
+  }
+  return out;
 }
 
 export function fmtClock(seconds: number) {

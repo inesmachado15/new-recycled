@@ -2,6 +2,7 @@ import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Alert, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 import { Comparison } from '../../../components/Comparison';
+import { Lineups } from '../../../components/Lineups';
 import { StatTable } from '../../../components/StatTable';
 import { Button, Card, H2, Muted } from '../../../components/ui';
 import { fmtMinutes, hasClock } from '../../../lib/clock';
@@ -18,6 +19,7 @@ import {
   shotLabels,
   StatLine,
   summarizeGame,
+  summarizeLineups,
 } from '../../../lib/stats';
 import { useStore } from '../../../lib/store';
 import { colors, radius } from '../../../lib/theme';
@@ -177,6 +179,11 @@ export default function GameReportScreen() {
       <Card>
         <H2>{team.name} vs {game.opponent}</H2>
         <Comparison us={team.name} them={game.opponent} rows={comparisonRows(t, s.opp, game.format)} />
+      </Card>
+
+      <Card>
+        <H2>Quintetos (+/-)</H2>
+        <Lineups lineups={summarizeLineups(game)} players={team.players} timed={timed} />
       </Card>
 
       {game.finished ? (

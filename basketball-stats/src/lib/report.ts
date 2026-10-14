@@ -5,6 +5,10 @@ import { fmtMinutes, hasClock } from './clock';
 import {
   avg,
   comparisonRows,
+  LineupLine,
+  plusMinusText,
+  seasonLineups,
+  summarizeLineups,
   eff,
   fga,
   fgm,
@@ -49,6 +53,28 @@ const comparisonTable = (us: string, them: string, rows: { label: string; us: st
   <table><tr><th>${esc(us)}</th><th></th><th>${esc(them)}</th></tr>
   ${rows.map((r) => `<tr><td><b>${r.us}</b></td><td class="muted">${r.label}</td><td><b>${r.them}</b></td></tr>`).join('')}
   </table>`;
+
+function lineupTable(list: LineupLine[], team: Team, timed: boolean, season = false) {
+  if (list.length === 0) return '<p class="muted">Sem dados de quintetos.</p>';
+  const name = (id: string) => team.players.find((p) => p.id === id);
+  const rows = list
+    .slice(0, 10)
+    .map((l) => {
+      const ps = l.ids
+        .map(name)
+        .filter((p): p is NonNullable<typeof p> => !!p)
+        .sort((a, b) => Number(a.number) - Number(b.number))
+        .map((p) => `${esc(p.number)} ${esc(p.name.split(' ')[0])}`)
+        .join(' · ');
+      return `<tr><td class="l">${ps}</td>${season ? `<td>${l.games}</td>` : ''}${
+        timed ? `<td>${fmtMinutes(l.secs)}</td>` : ''
+      }<td>${l.pf}</td><td>${l.pa}</td><td><b>${plusMinusText(l.pf - l.pa)}</b></td></tr>`;
+    })
+    .join('');
+  return `<table><tr><th class="l">Quinteto</th>${season ? '<th>J</th>' : ''}${
+    timed ? '<th>MIN</th>' : ''
+  }<th>Marc.</th><th>Sofr.</th><th>+/-</th></tr>${rows}</table>`;
+}
 
 const page = (title: string, body: string) =>
   `<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title><style>${css}</style></head><body>${body}<footer>Gerado com Basket Stats · ${new Date().toLocaleString('pt-PT')}</footer></body></html>`;
@@ -124,6 +150,8 @@ export function gameReportHtml(game: Game, team: Team, s: GameSummary = summariz
     </table>
     <h2>${esc(team.name)} vs ${esc(game.opponent)}</h2>
     ${comparisonTable(team.name, game.opponent, comparisonRows(t, s.opp, game.format))}
+    <h2>Quintetos (+/-)</h2>
+    ${lineupTable(summarizeLineups(game), team, timed)}
     <p class="muted" style="margin-top:12px">LC: lançamentos de campo · LL: lances livres · RO/RD/RT: ressaltos ofensivos/defensivos/total ·
     AS: assistências · RB: roubos · DS: desarmes · PE: perdas · FC: faltas · VAL: valorização</p>
   `,
@@ -167,6 +195,8 @@ export function seasonReportHtml(team: Team, s: SeasonSummary) {
     <h2>Médias por jogador</h2>
     <table><tr><th class="l">#</th><th class="l">Jogador</th><th>J</th>${timed ? '<th>MIN</th>' : ''}<th>PTS</th><th>RES</th><th>AST</th><th>RB</th><th>DS</th>
       <th>PE</th><th>FC</th><th>LC%</th><th>Ext%</th><th>LL%</th><th>VAL</th><th>PTS tot.</th></tr>${rows}</table>
+    <h2>Melhores quintetos</h2>
+    ${lineupTable(seasonLineups(s.games), team, timed, true)}
     <h2>Jogos</h2>
     <table><tr><th class="l">Data</th><th class="l">Adversário</th><th>Formato</th><th>Res.</th><th>Marcador</th></tr>${games}</table>
   `,

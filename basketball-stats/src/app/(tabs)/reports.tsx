@@ -2,10 +2,11 @@ import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Comparison } from '../../components/Comparison';
+import { Lineups } from '../../components/Lineups';
 import { StatTable } from '../../components/StatTable';
 import { Button, Card, Chip, Empty, H2, Muted } from '../../components/ui';
 import { exportPdf, seasonReportHtml } from '../../lib/report';
-import { avg, comparisonRows, eff, fga, fgm, formatDate, pct, reb, summarizeGame, summarizeSeason } from '../../lib/stats';
+import { avg, comparisonRows, seasonLineups, eff, fga, fgm, formatDate, pct, reb, summarizeGame, summarizeSeason } from '../../lib/stats';
 import { useStore } from '../../lib/store';
 import { colors, radius } from '../../lib/theme';
 
@@ -125,6 +126,11 @@ export default function ReportsScreen() {
           <Card>
             <H2>Médias por jogo vs adversários</H2>
             <Comparison us={team.name} them="Adversários" rows={comparisonRows(s.team, s.opp, s.games[n - 1].format, n)} />
+          </Card>
+
+          <Card>
+            <H2>Melhores quintetos da época</H2>
+            <Lineups lineups={seasonLineups(s.games)} players={team.players} timed={s.timedGames > 0} season />
           </Card>
 
           <Card>

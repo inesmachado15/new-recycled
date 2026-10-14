@@ -92,6 +92,9 @@ export default function LiveScreen() {
     const events = [base(action.type, action.side, playerId)];
     // Roubo nosso = perda de bola do adversário
     if (action.side === 'us' && action.type === 'STL') events.push(base('TOV', 'them'));
+    // Desarme nosso = lançamento interior falhado do adversário
+    const blocked = action.side === 'us' && action.type === 'BLK';
+    if (blocked) events.push(base('INX', 'them'));
     addEvents(game.id, events);
     Haptics.impactAsync(
       action.tone === 'make' ? Haptics.ImpactFeedbackStyle.Medium : Haptics.ImpactFeedbackStyle.Light,
@@ -100,6 +103,8 @@ export default function LiveScreen() {
     setSelPlayer(null);
     if (action.side === 'us' && (action.type === 'INM' || action.type === 'OUTM') && playerId && onCourt.length > 1) {
       setFollowUp({ kind: 'assist', scorer: playerId });
+    } else if (blocked) {
+      setFollowUp({ kind: 'rebound', shooter: 'them' });
     } else if (MISSES.includes(action.type)) {
       setFollowUp({ kind: 'rebound', shooter: action.side });
     } else {
@@ -385,7 +390,7 @@ export default function LiveScreen() {
         {/* Ações da nossa equipa */}
         <Text style={styles.section}>{team.name}</Text>
         {renderPad(ourPad, false)}
-        <Muted style={{ fontSize: 12, marginTop: -4 }}>Um roubo regista também uma perda de bola do adversário.</Muted>
+        <Muted style={{ fontSize: 12, marginTop: -4 }}>Roubo → perda de bola do adversário · Desarme → lançamento falhado do adversário.</Muted>
 
         {/* Ações do adversário (só equipa) */}
         <View style={styles.oppBox}>

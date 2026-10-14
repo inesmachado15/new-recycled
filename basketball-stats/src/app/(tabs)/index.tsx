@@ -1,12 +1,15 @@
 import { router } from 'expo-router';
-import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, FlatList, ImageBackground, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { Button, Empty, Muted } from '../../components/ui';
+import { CLUB } from '../../lib/club';
 import { formatDate, summarizeGame } from '../../lib/stats';
 import { useStore } from '../../lib/store';
 import { colors, radius } from '../../lib/theme';
 
 export default function GamesScreen() {
   const { games, teams, deleteGame, ready } = useStore();
+  const { width } = useWindowDimensions();
+  const heroWidth = width - 32;
   const teamName = (id: string) => teams.find((t) => t.id === id)?.name ?? 'Equipa';
 
   const newGame = () => {
@@ -22,12 +25,41 @@ export default function GamesScreen() {
 
   if (!ready) return null;
 
+  const record = games.reduce(
+    (acc, g) => {
+      if (!g.finished) return acc;
+      const s = summarizeGame(g);
+      if (s.us > s.them) acc.w++;
+      else if (s.us < s.them) acc.l++;
+      return acc;
+    },
+    { w: 0, l: 0 },
+  );
+
+  const hero = (
+    <ImageBackground
+      source={require('../../../assets/banner.png')}
+      style={[styles.hero, { width: heroWidth, height: (heroWidth * 520) / 1200 }]}
+      imageStyle={{ borderRadius: radius.lg }}
+      resizeMode="cover"
+    >
+      <Text style={styles.heroClub}>{CLUB.name.toUpperCase()}</Text>
+      <Text style={styles.heroTeam}>{CLUB.team}</Text>
+      <View style={styles.heroRecord}>
+        <Text style={styles.heroRecordText}>
+          {record.w}V · {record.l}D
+        </Text>
+      </View>
+    </ImageBackground>
+  );
+
   return (
     <View style={{ flex: 1 }}>
       <FlatList
         data={games}
         keyExtractor={(g) => g.id}
         contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: 100 }}
+        ListHeaderComponent={hero}
         ListEmptyComponent={
           <Empty
             title="Sem jogos"
@@ -111,5 +143,20 @@ const styles = StyleSheet.create({
   badgeText: { color: colors.white, fontWeight: '900', fontSize: 11, textAlign: 'center' },
   title: { fontSize: 16, fontWeight: '700', color: colors.text },
   score: { fontSize: 22, fontWeight: '900', color: colors.text, fontVariant: ['tabular-nums'] },
+  hero: {
+    justifyContent: 'center',
+    paddingHorizontal: 18,
+  },
+  heroClub: { color: '#CFE0D4', fontWeight: '800', fontSize: 12, letterSpacing: 1.5 },
+  heroTeam: { color: colors.white, fontWeight: '900', fontSize: 26, marginTop: 2, maxWidth: '58%' },
+  heroRecord: {
+    alignSelf: 'flex-start',
+    marginTop: 8,
+    backgroundColor: colors.orange,
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+  },
+  heroRecordText: { color: colors.white, fontWeight: '900', fontSize: 13 },
   fab: { position: 'absolute', left: 16, right: 16, bottom: 16 },
 });

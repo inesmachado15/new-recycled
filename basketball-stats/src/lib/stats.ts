@@ -1,4 +1,4 @@
-import { playedSeconds } from './clock';
+import { lineupKey, lineupSecondsNow, playedSeconds } from './clock';
 import { ActionType, Format, Game, GameEvent, Player, Team } from './types';
 
 export interface StatLine {
@@ -301,3 +301,64 @@ export function comparisonRows(us: StatLine, them: StatLine, format: Format, gam
     { label: 'Faltas', us: n(us.pf), them: n(them.pf) },
   ];
 }
+
+export interface LineupLine {
+  key: string;
+  ids: string[];
+  secs: number;
+  /** pontos marcados / sofridos com este quinteto em campo */
+  pf: number;
+  pa: number;
+  /** jogos em que foi utilizado (relatório da época) */
+  games: number;
+}
+
+const lineupSize = (format: Format) => (format === '3x3' ? 3 : 5);
+
+/** Quintetos completos utilizados num jogo, com minutos e pontos marcados/sofridos. */
+export function summarizeLineups(game: Game): LineupLine[] {
+  const size = lineupSize(game.format);
+  const map = new Map<string, LineupLine>();
+  const get = (ids: string[]) => {
+    const key = lineupKey(ids);
+    let l = map.get(key);
+    if (!l) map.set(key, (l = { key, ids: key.split(','), secs: 0, pf: 0, pa: 0, games: 1 }));
+    return l;
+  };
+  for (const [key, secs] of Object.entries(lineupSecondsNow(game))) {
+    if (key && key.split(',').length === size) get(key.split(',')).secs += secs;
+  }
+  for (const e of game.events) {
+    if (!e.onCourt || e.onCourt.length !== size) continue;
+    const pts = eventPoints(e, game.format);
+    if (!pts) continue;
+    const l = get(e.onCourt);
+    if (isTheirs(e)) l.pa += pts;
+    else l.pf += pts;
+  }
+  return sortLineups([...map.values()].filter((l) => l.secs >= 1 || l.pf || l.pa));
+}
+
+export function sortLineups(list: LineupLine[]) {
+  return list.sort((a, b) => b.pf - b.pa - (a.pf - a.pa) || b.secs - a.secs);
+}
+
+/** Junta os quintetos de vários jogos da mesma equipa. */
+export function seasonLineups(games: Game[]): LineupLine[] {
+  const map = new Map<string, LineupLine>();
+  for (const g of games) {
+    for (const l of summarizeLineups(g)) {
+      const cur = map.get(l.key);
+      if (!cur) map.set(l.key, { ...l });
+      else {
+        cur.secs += l.secs;
+        cur.pf += l.pf;
+        cur.pa += l.pa;
+        cur.games += 1;
+      }
+    }
+  }
+  return sortLineups([...map.values()]);
+}
+
+export const plusMinusText = (v: number) => (v > 0 ? `+${v}` : String(v));

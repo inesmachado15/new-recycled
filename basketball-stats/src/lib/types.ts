@@ -73,4 +73,6 @@ export interface Game {
   clockStartedAt?: number;
   /** Segundos jogados por jogador (acumulado até à última paragem/substituição) */
   secondsPlayed?: Record<string, number>;
+  /** Segundos jogados por cada quinteto (chave = ids ordenados, ver lineupKey) */
+  lineupSeconds?: Record<string, number>;
 }
