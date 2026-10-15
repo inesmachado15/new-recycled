@@ -144,8 +144,8 @@ export default function GameReportScreen() {
           {leaders.map((l) => (
             <View key={l.label} style={styles.leader}>
               <Muted style={{ fontSize: 12 }}>{l.label}</Muted>
-              <Text style={styles.leaderVal}>{l.v ?? 0}</Text>
-              <Text style={styles.leaderName} numberOfLines={1}>{l.p?.name ?? '-'}</Text>
+              <Text style={styles.leaderVal}>{l.v ? l.v : '–'}</Text>
+              <Text style={styles.leaderName} numberOfLines={1}>{l.v ? l.p?.name : 'Ninguém'}</Text>
             </View>
           ))}
         </View>

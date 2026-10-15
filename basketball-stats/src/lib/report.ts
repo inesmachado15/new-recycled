@@ -28,7 +28,7 @@ const esc = (s: string) =>
   s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
 const css = `
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   body { font-family: -apple-system, Helvetica, Arial, sans-serif; color: #1B2420; margin: 24px; font-size: 11px; }
   h1 { color: #2F6B45; margin: 0 0 4px; font-size: 22px; }
   h2 { color: #2F6B45; font-size: 14px; margin: 20px 0 6px; border-bottom: 2px solid #E8892F; padding-bottom: 3px; }
@@ -114,7 +114,7 @@ export function gameReportHtml(game: Game, team: Team, s: GameSummary = summariz
     const best = game.roster
       .map((id) => ({ p: team.players.find((x) => x.id === id), v: s.players[id]?.[k] ?? 0 }))
       .sort((a, b) => b.v - a.v)[0];
-    return best?.p ? `${esc(best.p.name)} (${best.v})` : '-';
+    return best?.p && best.v > 0 ? `${esc(best.p.name)} (${best.v})` : '-';
   });
   const rebLeader = game.roster
     .map((id) => ({ p: team.players.find((x) => x.id === id), v: s.players[id] ? reb(s.players[id]) : 0 }))
@@ -140,7 +140,7 @@ export function gameReportHtml(game: Game, team: Team, s: GameSummary = summariz
     <h2>Destaques</h2>
     <div class="cards">
       <div class="card">Pontos<b>${leaders[0]}</b></div>
-      <div class="card">Ressaltos<b>${rebLeader?.p ? `${esc(rebLeader.p.name)} (${rebLeader.v})` : '-'}</b></div>
+      <div class="card">Ressaltos<b>${rebLeader?.p && rebLeader.v > 0 ? `${esc(rebLeader.p.name)} (${rebLeader.v})` : '-'}</b></div>
       <div class="card">Assistências<b>${leaders[1]}</b></div>
       <div class="card">Roubos<b>${leaders[2]}</b></div>
     </div>
