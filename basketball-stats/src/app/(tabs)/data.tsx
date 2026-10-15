@@ -5,6 +5,7 @@ import { BackupData, exportBackup, exportCsv, mergeData, pickBackup } from '../.
 import { useStore } from '../../lib/store';
 import { colors, radius } from '../../lib/theme';
 import { useLayout } from '../../lib/useLayout';
+import { APP_VERSION, APP_VERSION_DATE, APP_VERSION_NOTES } from '../../lib/version';
 
 export default function DataScreen() {
   const { teams, games, replaceAll } = useStore();
@@ -91,6 +92,11 @@ export default function DataScreen() {
         </Muted>
         <Button title="Exportar para Excel (CSV)" variant="ghost" disabled={busy || games.length === 0} onPress={() => run(() => exportCsv({ teams, games }))} />
       </Card>
+
+      <Muted style={styles.version}>
+        Basket Stats · versão {APP_VERSION} ({APP_VERSION_DATE}){'\n'}
+        {APP_VERSION_NOTES}
+      </Muted>
     </ScrollView>
   );
 }
@@ -108,5 +114,6 @@ const styles = StyleSheet.create({
   stats: { flexDirection: 'row', gap: 8 },
   stat: { flex: 1, backgroundColor: colors.greenDark, borderRadius: radius.md, paddingVertical: 12, alignItems: 'center' },
   statVal: { color: colors.white, fontWeight: '900', fontSize: 22 },
+  version: { textAlign: 'center', fontSize: 12, marginTop: 8 },
   statLabel: { color: '#CFE0D4', fontSize: 12, fontWeight: '600' },
 });

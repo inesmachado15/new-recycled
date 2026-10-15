@@ -100,5 +100,7 @@ npm install
 npx eas update --branch production --message "Descrição da alteração"
 ```
 
+A versão aparece no fundo do separador **Dados** (definida em `src/lib/version.ts`).
+
 Da próxima vez que abrires a app no Expo Go, ela descarrega a versão nova.
 Os dados guardados no iPhone mantêm-se.
