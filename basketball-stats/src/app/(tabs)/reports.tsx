@@ -9,11 +9,13 @@ import { exportPdf, seasonReportHtml } from '../../lib/report';
 import { avg, comparisonRows, seasonLineups, eff, fga, fgm, formatDate, pct, reb, summarizeGame, summarizeSeason } from '../../lib/stats';
 import { useStore } from '../../lib/store';
 import { colors, radius } from '../../lib/theme';
+import { useLayout } from '../../lib/useLayout';
 
 type Sort = 'pts' | 'reb' | 'ast' | 'eff';
 
 export default function ReportsScreen() {
   const { teams, games } = useStore();
+  const { content } = useLayout();
   const [teamId, setTeamId] = useState<string | null>(null);
   const [sort, setSort] = useState<Sort>('pts');
   const [busy, setBusy] = useState(false);
@@ -50,7 +52,7 @@ export default function ReportsScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, gap: 14, paddingBottom: 40 }}>
+    <ScrollView contentContainerStyle={[{ padding: 16, gap: 14, paddingBottom: 40 }, content]}>
       {teams.length > 1 && (
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
           {teams.map((t) => (

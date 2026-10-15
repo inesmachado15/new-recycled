@@ -27,6 +27,8 @@ interface Store extends Data {
   addEvents: (gameId: string, events: NewEvent[]) => void;
   removeEvent: (gameId: string, eventId: string) => void;
   undo: (gameId: string) => void;
+  /** Substitui todos os dados (importar cópia de segurança). */
+  replaceAll: (data: Data) => void;
 }
 
 export type NewEvent = Omit<GameEvent, 'id' | 'at' | 'group'>;
@@ -106,6 +108,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       },
       removeEvent: (gameId, eventId) =>
         mapGame(gameId, (g) => ({ ...g, events: withoutGroup(g.events, g.events.find((e) => e.id === eventId)) })),
+      replaceAll: (next) => setData({ teams: next.teams, games: next.games }),
       undo: (gameId) => mapGame(gameId, (g) => ({ ...g, events: withoutGroup(g.events, g.events[g.events.length - 1]) })),
     }),
     [data, ready, mapTeam, mapGame],

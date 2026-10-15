@@ -23,10 +23,12 @@ import {
 } from '../../../lib/stats';
 import { useStore } from '../../../lib/store';
 import { colors, radius } from '../../../lib/theme';
+import { useLayout } from '../../../lib/useLayout';
 
 export default function GameReportScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { games, teams, updateGame } = useStore();
+  const { content } = useLayout();
   const game = games.find((g) => g.id === id);
   const team = teams.find((t) => t.id === game?.teamId);
   const s = useMemo(() => (game ? summarizeGame(game) : null), [game]);
@@ -95,7 +97,7 @@ export default function GameReportScreen() {
   const t = s.team;
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, gap: 14, paddingBottom: 40 }}>
+    <ScrollView contentContainerStyle={[{ padding: 16, gap: 14, paddingBottom: 40 }, content]}>
       <Stack.Screen options={{ title: `vs ${game.opponent}` }} />
 
       <View style={styles.board}>

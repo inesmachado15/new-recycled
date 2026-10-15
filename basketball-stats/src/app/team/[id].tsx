@@ -5,10 +5,12 @@ import { Button, Card, H2, Input, Muted } from '../../components/ui';
 import { useStore } from '../../lib/store';
 import { colors, radius } from '../../lib/theme';
 import { Player } from '../../lib/types';
+import { useLayout } from '../../lib/useLayout';
 
 export default function TeamScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { teams, updateTeam, deleteTeam, addPlayer, updatePlayer, removePlayer } = useStore();
+  const { content } = useLayout();
   const team = teams.find((t) => t.id === id);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -59,7 +61,7 @@ export default function TeamScreen() {
       <FlatList
         data={players}
         keyExtractor={(p) => p.id}
-        contentContainerStyle={{ padding: 16, gap: 8 }}
+        contentContainerStyle={[{ padding: 16, gap: 8 }, content]}
         ListHeaderComponent={
           <Card style={{ marginBottom: 8 }}>
             <H2>{editing ? 'Editar jogador' : 'Adicionar jogador'}</H2>

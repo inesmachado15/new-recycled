@@ -5,9 +5,11 @@ import { Button, Card, Chip, H2, Input, Muted } from '../../components/ui';
 import { useStore } from '../../lib/store';
 import { colors } from '../../lib/theme';
 import { Format } from '../../lib/types';
+import { useLayout } from '../../lib/useLayout';
 
 export default function NewGameScreen() {
   const { teams, createGame } = useStore();
+  const { content } = useLayout();
   const [teamId, setTeamId] = useState('');
   const [opponent, setOpponent] = useState('');
   const [location, setLocation] = useState('');
@@ -64,7 +66,7 @@ export default function NewGameScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, gap: 14, paddingBottom: 40 }}>
+    <ScrollView contentContainerStyle={[{ padding: 16, gap: 14, paddingBottom: 40 }, content]}>
       <Card>
         <H2>Equipa</H2>
         <View style={styles.wrap}>

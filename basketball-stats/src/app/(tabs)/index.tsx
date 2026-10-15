@@ -1,15 +1,16 @@
 import { router } from 'expo-router';
-import { Alert, FlatList, ImageBackground, Pressable, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Alert, FlatList, ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Button, Empty, Muted } from '../../components/ui';
 import { CLUB } from '../../lib/club';
 import { formatDate, summarizeGame } from '../../lib/stats';
 import { useStore } from '../../lib/store';
 import { colors, radius } from '../../lib/theme';
+import { useLayout } from '../../lib/useLayout';
 
 export default function GamesScreen() {
   const { games, teams, deleteGame, ready } = useStore();
-  const { width } = useWindowDimensions();
-  const heroWidth = width - 32;
+  const { content, contentWidth, width } = useLayout();
+  const heroWidth = contentWidth - 32;
   const teamName = (id: string) => teams.find((t) => t.id === id)?.name ?? 'Equipa';
 
   const newGame = () => {
@@ -58,7 +59,7 @@ export default function GamesScreen() {
       <FlatList
         data={games}
         keyExtractor={(g) => g.id}
-        contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: 100 }}
+        contentContainerStyle={[{ padding: 16, gap: 12, paddingBottom: 100 }, content]}
         ListHeaderComponent={hero}
         ListEmptyComponent={
           <Empty
@@ -115,7 +116,7 @@ export default function GamesScreen() {
           );
         }}
       />
-      <View style={styles.fab}>
+      <View style={[styles.fab, { left: (width - contentWidth) / 2 + 16, right: (width - contentWidth) / 2 + 16 }]}>
         <Button title="＋  Novo jogo" variant="accent" onPress={newGame} />
       </View>
     </View>

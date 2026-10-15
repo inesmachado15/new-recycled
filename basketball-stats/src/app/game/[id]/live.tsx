@@ -21,6 +21,7 @@ import {
 import { actionLabel, eventPoints, periodLabel, reb, summarizeGame } from '../../../lib/stats';
 import { NewEvent, useStore } from '../../../lib/store';
 import { colors, radius } from '../../../lib/theme';
+import { useLayout } from '../../../lib/useLayout';
 import { ActionType, GameEvent, Player, Side } from '../../../lib/types';
 
 type Tone = 'make' | 'miss' | 'neutral' | 'bad';
@@ -50,6 +51,7 @@ export default function LiveScreen() {
   const game = games.find((g) => g.id === id);
   const team = teams.find((t) => t.id === game?.teamId);
   const insets = useSafeAreaInsets();
+  const { wide, isTablet, content } = useLayout();
 
   const [selAction, setSelAction] = useState<PadAction | null>(null);
   const [selPlayer, setSelPlayer] = useState<string | null>(null);
@@ -240,15 +242,150 @@ export default function LiveScreen() {
             onPress={() => tapAction(a)}
             style={({ pressed }) => [
               styles.action,
+              isTablet && styles.actionTablet,
+              wide && styles.actionWide,
               dark ? darkTone[a.tone] : toneStyle[a.tone],
               active && styles.actionActive,
               pressed && { opacity: 0.6 },
             ]}
           >
-            <Text style={[styles.actionText, dark && { color: colors.white }]}>{actionLabel(a.type, fmt)}</Text>
+            <Text style={[styles.actionText, isTablet && styles.actionTextTablet, dark && { color: colors.white }]}>{actionLabel(a.type, fmt)}</Text>
           </Pressable>
         );
       })}
+    </View>
+  );
+
+  const hintEl = (
+    <Text style={[styles.hint, (selAction || selPlayer) && styles.hintActive]}>{hint}</Text>
+  );
+  const courtEl = (
+    <View style={styles.court}>
+      <View style={styles.courtArc} />
+      <View style={styles.players}>
+        {onCourt.map((p) => {
+          const l = summary.players[p.id];
+          const pf = l?.pf ?? 0;
+          const sel = selPlayer === p.id;
+          return (
+            <Pressable
+              key={p.id}
+              onPress={() => tapPlayer(p.id)}
+              style={({ pressed }) => [
+                styles.player,
+                sel && styles.playerSel,
+                !!selAction && styles.playerTarget,
+                pressed && { transform: [{ scale: 0.96 }] },
+              ]}
+            >
+              <View style={styles.playerTop}>
+                <View style={styles.jersey}>
+                  <Text style={styles.jerseyText}>{p.number}</Text>
+                </View>
+                <Text style={[styles.playerName, isTablet && styles.playerNameTablet]} numberOfLines={1}>{p.name}</Text>
+              </View>
+              <Text style={[styles.playerStats, isTablet && styles.playerStatsTablet]}>
+                {l?.pts ?? 0} pts · {l ? reb(l) : 0} r · {l?.ast ?? 0} a
+              </Text>
+              <View style={styles.foulRow}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <View
+                    key={i}
+                    style={[styles.foulDot, i < pf && { backgroundColor: pf >= 4 ? colors.red : colors.orange }]}
+                  />
+                ))}
+                {timed && <Text style={styles.mins}>{fmtMinutes(playedSeconds(game, p.id))}</Text>}
+              </View>
+            </Pressable>
+          );
+        })}
+        {onCourt.length === 0 && <Muted>Sem jogadores em campo — usa “Subst.”.</Muted>}
+      </View>
+    </View>
+  );
+  const followEl = (
+    <>
+      {followUp?.kind === 'assist' && (
+        <View style={styles.follow}>
+          <Text style={styles.followTitle}>Assistência de…</Text>
+          <View style={styles.followRow}>
+            {onCourt
+              .filter((p) => p.id !== followUp.scorer)
+              .map((p) => (
+                <Pressable key={p.id} style={styles.followBtn} onPress={() => giveAssist(p.id)}>
+                  <Text style={styles.followBtnText}>#{p.number}</Text>
+                </Pressable>
+              ))}
+            <Pressable style={[styles.followBtn, styles.followNone]} onPress={() => setFollowUp(null)}>
+              <Text style={[styles.followBtnText, { color: colors.muted }]}>Sem</Text>
+            </Pressable>
+          </View>
+        </View>
+      )}
+
+      {followUp?.kind === 'rebound' && (
+        <View style={styles.follow}>
+          <Text style={styles.followTitle}>
+            Ressalto {followUp.shooter === 'us' ? '(lançamento nosso)' : `(lançamento de ${game.opponent})`}
+          </Text>
+          <View style={styles.followRow}>
+            {onCourt.map((p) => (
+              <Pressable key={p.id} style={styles.followBtn} onPress={() => giveRebound(followUp.shooter, p.id)}>
+                <Text style={styles.followBtnText}>#{p.number}</Text>
+              </Pressable>
+            ))}
+            <Pressable
+              style={[styles.followBtn, { backgroundColor: colors.greenDark, borderColor: colors.greenDark }]}
+              onPress={() => giveRebound(followUp.shooter)}
+            >
+              <Text style={[styles.followBtnText, { color: colors.white }]}>Adversário</Text>
+            </Pressable>
+            <Pressable style={[styles.followBtn, styles.followNone]} onPress={() => setFollowUp(null)}>
+              <Text style={[styles.followBtnText, { color: colors.muted }]}>Ignorar</Text>
+            </Pressable>
+          </View>
+        </View>
+      )}
+    </>
+  );
+  const padsEl = (
+    <>
+      <Text style={styles.section}>{team.name}</Text>
+      {renderPad(ourPad, false)}
+      <Muted style={{ fontSize: 12, marginTop: -4 }}>Roubo → perda de bola do adversário · Desarme → lançamento falhado do adversário.</Muted>
+
+      {/* Ações do adversário (só equipa) */}
+      <View style={styles.oppBox}>
+        <Text style={[styles.section, { color: colors.white, marginBottom: 6 }]}>{game.opponent} · registo direto</Text>
+        {renderPad(theirPad, true)}
+      </View>
+    </>
+  );
+  const logEl = (
+    <View style={styles.log}>
+      <Text style={styles.logTitle}>Últimas jogadas</Text>
+      {recent.length === 0 && <Muted>Ainda nada registado.</Muted>}
+      {recent.map((e) => (
+        <Pressable
+          key={e.id}
+          onLongPress={() =>
+            Alert.alert('Apagar jogada?', describe(e), [
+              { text: 'Cancelar', style: 'cancel' },
+              { text: 'Apagar', style: 'destructive', onPress: () => removeEvent(game.id, e.id) },
+            ])
+          }
+          style={styles.logRow}
+        >
+          <Text style={styles.logPeriod}>
+            {periodLabel(fmt, game.periods, e.period)}
+            {e.clock != null ? ` ${fmtMinutes(Math.floor(e.clock))}` : ''}
+          </Text>
+          <Text style={[styles.logText, (e.side === 'them' || e.type === 'OPP') && { color: colors.muted }]} numberOfLines={1}>
+            {describe(e)}
+          </Text>
+        </Pressable>
+      ))}
+      {recent.length > 0 && <Muted style={{ fontSize: 12, marginTop: 4 }}>Mantém premido para apagar</Muted>}
     </View>
   );
 
@@ -298,133 +435,27 @@ export default function LiveScreen() {
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={{ padding: 12, gap: 10, paddingBottom: 12 }}>
-        <Text style={[styles.hint, (selAction || selPlayer) && styles.hintActive]}>{hint}</Text>
-
-        {/* Campo com jogadores */}
-        <View style={styles.court}>
-          <View style={styles.courtArc} />
-          <View style={styles.players}>
-            {onCourt.map((p) => {
-              const l = summary.players[p.id];
-              const pf = l?.pf ?? 0;
-              const sel = selPlayer === p.id;
-              return (
-                <Pressable
-                  key={p.id}
-                  onPress={() => tapPlayer(p.id)}
-                  style={({ pressed }) => [
-                    styles.player,
-                    sel && styles.playerSel,
-                    !!selAction && styles.playerTarget,
-                    pressed && { transform: [{ scale: 0.96 }] },
-                  ]}
-                >
-                  <View style={styles.playerTop}>
-                    <View style={styles.jersey}>
-                      <Text style={styles.jerseyText}>{p.number}</Text>
-                    </View>
-                    <Text style={styles.playerName} numberOfLines={1}>{p.name}</Text>
-                  </View>
-                  <Text style={styles.playerStats}>
-                    {l?.pts ?? 0} pts · {l ? reb(l) : 0} r · {l?.ast ?? 0} a
-                  </Text>
-                  <View style={styles.foulRow}>
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <View
-                        key={i}
-                        style={[styles.foulDot, i < pf && { backgroundColor: pf >= 4 ? colors.red : colors.orange }]}
-                      />
-                    ))}
-                    {timed && <Text style={styles.mins}>{fmtMinutes(playedSeconds(game, p.id))}</Text>}
-                  </View>
-                </Pressable>
-              );
-            })}
-            {onCourt.length === 0 && <Muted>Sem jogadores em campo — usa “Subst.”.</Muted>}
-          </View>
+      {wide ? (
+        <View style={styles.columns}>
+          <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.column}>
+            {hintEl}
+            {courtEl}
+            {logEl}
+          </ScrollView>
+          <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.column}>
+            {followEl}
+            {padsEl}
+          </ScrollView>
         </View>
-
-        {followUp?.kind === 'assist' && (
-          <View style={styles.follow}>
-            <Text style={styles.followTitle}>Assistência de…</Text>
-            <View style={styles.followRow}>
-              {onCourt
-                .filter((p) => p.id !== followUp.scorer)
-                .map((p) => (
-                  <Pressable key={p.id} style={styles.followBtn} onPress={() => giveAssist(p.id)}>
-                    <Text style={styles.followBtnText}>#{p.number}</Text>
-                  </Pressable>
-                ))}
-              <Pressable style={[styles.followBtn, styles.followNone]} onPress={() => setFollowUp(null)}>
-                <Text style={[styles.followBtnText, { color: colors.muted }]}>Sem</Text>
-              </Pressable>
-            </View>
-          </View>
-        )}
-
-        {followUp?.kind === 'rebound' && (
-          <View style={styles.follow}>
-            <Text style={styles.followTitle}>
-              Ressalto {followUp.shooter === 'us' ? '(lançamento nosso)' : `(lançamento de ${game.opponent})`}
-            </Text>
-            <View style={styles.followRow}>
-              {onCourt.map((p) => (
-                <Pressable key={p.id} style={styles.followBtn} onPress={() => giveRebound(followUp.shooter, p.id)}>
-                  <Text style={styles.followBtnText}>#{p.number}</Text>
-                </Pressable>
-              ))}
-              <Pressable
-                style={[styles.followBtn, { backgroundColor: colors.greenDark, borderColor: colors.greenDark }]}
-                onPress={() => giveRebound(followUp.shooter)}
-              >
-                <Text style={[styles.followBtnText, { color: colors.white }]}>Adversário</Text>
-              </Pressable>
-              <Pressable style={[styles.followBtn, styles.followNone]} onPress={() => setFollowUp(null)}>
-                <Text style={[styles.followBtnText, { color: colors.muted }]}>Ignorar</Text>
-              </Pressable>
-            </View>
-          </View>
-        )}
-
-        {/* Ações da nossa equipa */}
-        <Text style={styles.section}>{team.name}</Text>
-        {renderPad(ourPad, false)}
-        <Muted style={{ fontSize: 12, marginTop: -4 }}>Roubo → perda de bola do adversário · Desarme → lançamento falhado do adversário.</Muted>
-
-        {/* Ações do adversário (só equipa) */}
-        <View style={styles.oppBox}>
-          <Text style={[styles.section, { color: colors.white, marginBottom: 6 }]}>{game.opponent} · registo direto</Text>
-          {renderPad(theirPad, true)}
-        </View>
-
-        {/* Últimas jogadas */}
-        <View style={styles.log}>
-          <Text style={styles.logTitle}>Últimas jogadas</Text>
-          {recent.length === 0 && <Muted>Ainda nada registado.</Muted>}
-          {recent.map((e) => (
-            <Pressable
-              key={e.id}
-              onLongPress={() =>
-                Alert.alert('Apagar jogada?', describe(e), [
-                  { text: 'Cancelar', style: 'cancel' },
-                  { text: 'Apagar', style: 'destructive', onPress: () => removeEvent(game.id, e.id) },
-                ])
-              }
-              style={styles.logRow}
-            >
-              <Text style={styles.logPeriod}>
-                {periodLabel(fmt, game.periods, e.period)}
-                {e.clock != null ? ` ${fmtMinutes(Math.floor(e.clock))}` : ''}
-              </Text>
-              <Text style={[styles.logText, (e.side === 'them' || e.type === 'OPP') && { color: colors.muted }]} numberOfLines={1}>
-                {describe(e)}
-              </Text>
-            </Pressable>
-          ))}
-          {recent.length > 0 && <Muted style={{ fontSize: 12, marginTop: 4 }}>Mantém premido para apagar</Muted>}
-        </View>
-      </ScrollView>
+      ) : (
+        <ScrollView contentContainerStyle={[styles.column, content]}>
+          {hintEl}
+          {courtEl}
+          {followEl}
+          {padsEl}
+          {logEl}
+        </ScrollView>
+      )}
 
       <View style={[styles.bottom, { paddingBottom: Math.max(insets.bottom, 10) }]}>
         <Button small title={`Subst. (${bench.length})`} variant="ghost" style={{ flex: 1 }} onPress={() => setSubsOpen(true)} />
@@ -595,6 +626,13 @@ const styles = StyleSheet.create({
   },
   actionActive: { borderColor: colors.orange, borderWidth: 3, backgroundColor: colors.orangeLight },
   actionText: { fontWeight: '800', fontSize: 14, color: colors.text },
+  actionTablet: { paddingVertical: 22 },
+  actionWide: { width: '18%', paddingVertical: 18 },
+  playerNameTablet: { fontSize: 16 },
+  playerStatsTablet: { fontSize: 13 },
+  actionTextTablet: { fontSize: 18 },
+  columns: { flex: 1, flexDirection: 'row' },
+  column: { padding: 12, gap: 10, paddingBottom: 12 },
   oppBox: { backgroundColor: colors.greenDark, borderRadius: radius.lg, padding: 10 },
   log: { backgroundColor: colors.card, borderRadius: radius.md, padding: 12 },
   logTitle: { fontWeight: '800', color: colors.text, marginBottom: 6 },

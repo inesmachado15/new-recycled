@@ -44,7 +44,12 @@ de jogo e da época em PDF.
 (`assets/icon.png`, `assets/splash-icon.png`, `assets/banner.png`).
 O nome do clube e do escalão estão em `src/lib/club.ts`. Para usar o emblema do
 clube, substitui `assets/icon.png` por uma imagem PNG quadrada de 1024×1024.
-- Tudo guardado no próprio telemóvel (funciona sem internet).
+- **Dados (cópia de segurança)** – exportar tudo para um ficheiro (AirDrop, iCloud Drive,
+  email), importar noutro aparelho (juntar ou substituir) e exportar as estatísticas de
+  todos os jogos para Excel/Numbers (CSV).
+- **iPad** – ecrãs centrados; na horizontal o jogo fica em duas colunas (campo e jogadas
+  à esquerda, botões à direita). O iPhone fica sempre na vertical.
+- Tudo guardado no próprio aparelho (funciona sem internet).
 
 ## Experimentar no iPhone
 

@@ -35,6 +35,13 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => <Ionicons name="stats-chart" color={color} size={size} />,
         }}
       />
+      <Tabs.Screen
+        name="data"
+        options={{
+          title: 'Dados',
+          tabBarIcon: ({ color, size }) => <Ionicons name="cloud-upload" color={color} size={size} />,
+        }}
+      />
     </Tabs>
   );
 }

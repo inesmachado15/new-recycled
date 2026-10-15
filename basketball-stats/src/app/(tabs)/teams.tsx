@@ -4,9 +4,11 @@ import { FlatList, KeyboardAvoidingView, Pressable, StyleSheet, Text, View } fro
 import { Button, Empty, Input, Muted } from '../../components/ui';
 import { useStore } from '../../lib/store';
 import { colors, radius } from '../../lib/theme';
+import { useLayout } from '../../lib/useLayout';
 
 export default function TeamsScreen() {
   const { teams, addTeam } = useStore();
+  const { content } = useLayout();
   const [name, setName] = useState('');
 
   const create = () => {
@@ -22,7 +24,7 @@ export default function TeamsScreen() {
       <FlatList
         data={teams}
         keyExtractor={(t) => t.id}
-        contentContainerStyle={{ padding: 16, gap: 12 }}
+        contentContainerStyle={[{ padding: 16, gap: 12 }, content]}
         ListHeaderComponent={
           <View style={styles.add}>
             <Input
