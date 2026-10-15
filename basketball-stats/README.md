@@ -84,3 +84,16 @@ src/components/     componentes de UI
 ```
 
 Verificação: `npm run typecheck`
+
+## Publicar uma nova versão (sem Mac no jogo)
+
+O projeto está ligado ao Expo (`@inesmachadoo/basketball-stats`). Para enviar
+uma versão nova para o iPhone, na pasta `basketball-stats`:
+
+```bash
+npm install
+npx eas update --branch production --message "Descrição da alteração"
+```
+
+Da próxima vez que abrires a app no Expo Go, ela descarrega a versão nova.
+Os dados guardados no iPhone mantêm-se.

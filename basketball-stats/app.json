@@ -34,6 +34,18 @@
           "backgroundColor": "#1F4A30"
         }
       ]
-    ]
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a7148ec2-163e-4ac6-ab49-d891b6ff7a39"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a7148ec2-163e-4ac6-ab49-d891b6ff7a39"
+      }
+    },
+    "owner": "inesmachadoo"
   }
 }
