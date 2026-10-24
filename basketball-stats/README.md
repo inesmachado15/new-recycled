@@ -112,10 +112,10 @@ da loja) que publica só a pasta `basketball-stats/web`. Para atualizar:
 
 ```bash
 cd basketball-stats
-mv web/vercel.json /tmp/vercel.json && rm -rf web
-npx expo export --platform web --output-dir web
-mv /tmp/vercel.json web/vercel.json
+./scripts/build-web.sh
 ```
+
+e enviar para o GitHub (o Vercel publica sozinho).
 
 Os dados da versão web ficam guardados no browser; usa **Dados → Exportar cópia de
 segurança** para os passar para a app (e **Importar ficheiro** do outro lado).
