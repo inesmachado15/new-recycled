@@ -5,6 +5,10 @@ cd "$(dirname "$0")/.."
 rm -rf web
 npx expo export --platform web --output-dir web
 cp assets/icon.png web/apple-touch-icon.png
+# O Vercel e o git ignoram pastas chamadas node_modules (ícones, imagens da navegação)
+mv web/assets/node_modules web/assets/nm
+grep -rl "/assets/node_modules/" web/_expo | xargs sed -i.bak 's#/assets/node_modules/#/assets/nm/#g'
+find web/_expo -name "*.bak" -delete
 cat > web/vercel.json <<'JSON'
 {
   "framework": null,
@@ -21,6 +25,8 @@ const fs = require("fs");
 const p = "web/index.html";
 let h = fs.readFileSync(p, "utf8");
 h = h.replace(/<title>[^<]*<\/title>/, "<title>Basket Stats</title>");
+// Ecrã inteiro do iPhone/iPad: respeitar a zona da hora e do indicador; sem zoom acidental
+h = h.replace(/<meta name="viewport"[^>]*>/, "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover\" />");
 h = h.replace("</head>", [
   "<link rel=\"apple-touch-icon\" href=\"/apple-touch-icon.png\">",
   "<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">",
@@ -29,6 +35,7 @@ h = h.replace("</head>", [
   "<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">",
   "<meta name=\"theme-color\" content=\"#2F6B45\">",
   "<meta name=\"robots\" content=\"noindex\">",
+  "<style>html,body{background:#2F6B45;overscroll-behavior:none}</style>",
   "</head>"].join(""));
 fs.writeFileSync(p, h);
 '
