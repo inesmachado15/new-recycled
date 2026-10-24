@@ -105,15 +105,16 @@ A versão aparece no fundo do separador **Dados** (definida em `src/lib/version.
 Da próxima vez que abrires a app no Expo Go, ela descarrega a versão nova.
 Os dados guardados no iPhone mantêm-se.
 
-## Versão web (no site, sem Expo Go)
+## Versão web (pac-basket-stats.vercel.app)
 
-A app também corre no browser em `/basket` do site Next.js (pasta `public/basket`).
-Para atualizar essa versão:
+A app também corre no browser, num projeto Vercel próprio (repositório
+`pac-basket-stats`, separado do site da loja). Para gerar a versão web:
 
 ```bash
 cd basketball-stats
-WEB_BASE=/basket npx expo export --platform web --output-dir ../public/basket
+npx expo export --platform web --output-dir dist-web
 ```
 
-Os dados da versão web ficam guardados no browser; usa **Dados → Exportar cópia de
-segurança** para os passar para a app (e **Importar ficheiro** do outro lado).
+e copiar o conteúdo de `dist-web` para o repositório `pac-basket-stats`
+(mantendo o `vercel.json`). Os dados da versão web ficam guardados no browser;
+usa **Dados → Exportar cópia de segurança** para os passar para a app.
