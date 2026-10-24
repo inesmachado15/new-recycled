@@ -107,14 +107,15 @@ Os dados guardados no iPhone mantêm-se.
 
 ## Versão web (pac-basket-stats.vercel.app)
 
-A app também corre no browser, num projeto Vercel próprio (repositório
-`pac-basket-stats`, separado do site da loja). Para gerar a versão web:
+A app também corre no browser, num projeto Vercel próprio (separado do site
+da loja) que publica só a pasta `basketball-stats/web`. Para atualizar:
 
 ```bash
 cd basketball-stats
-npx expo export --platform web --output-dir dist-web
+mv web/vercel.json /tmp/vercel.json && rm -rf web
+npx expo export --platform web --output-dir web
+mv /tmp/vercel.json web/vercel.json
 ```
 
-e copiar o conteúdo de `dist-web` para o repositório `pac-basket-stats`
-(mantendo o `vercel.json`). Os dados da versão web ficam guardados no browser;
-usa **Dados → Exportar cópia de segurança** para os passar para a app.
+Os dados da versão web ficam guardados no browser; usa **Dados → Exportar cópia de
+segurança** para os passar para a app (e **Importar ficheiro** do outro lado).
