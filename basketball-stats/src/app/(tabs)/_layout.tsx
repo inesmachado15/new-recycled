@@ -11,6 +11,7 @@ export default function TabsLayout() {
         headerTitleStyle: { fontWeight: '800' },
         tabBarActiveTintColor: colors.green,
         tabBarInactiveTintColor: colors.muted,
+        tabBarLabelStyle: { fontSize: 12, lineHeight: 16, paddingBottom: 2 },
         sceneStyle: { backgroundColor: colors.bg },
       }}
     >

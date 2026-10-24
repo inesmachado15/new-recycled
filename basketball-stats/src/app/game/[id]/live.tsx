@@ -395,7 +395,7 @@ export default function LiveScreen() {
         options={{
           title: `vs ${game.opponent}`,
           headerRight: () => (
-            <Pressable hitSlop={10} onPress={() => router.push(`/game/${game.id}/report`)}>
+            <Pressable hitSlop={10} style={{ paddingHorizontal: 12 }} onPress={() => router.push(`/game/${game.id}/report`)}>
               <Text style={{ color: colors.white, fontWeight: '700' }}>Relatório</Text>
             </Pressable>
           ),
