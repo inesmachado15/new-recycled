@@ -1,6 +1,7 @@
 import * as DocumentPicker from 'expo-document-picker';
 import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
+import { Platform } from 'react-native';
 import { fmtMinutes } from './clock';
 import { eff, fga, fgm, reb, summarizeGame } from './stats';
 import { Game, Team } from './types';
@@ -20,6 +21,18 @@ const stamp = () => {
 };
 
 async function shareFile(name: string, content: string, mimeType: string, UTI: string, title: string) {
+  if (Platform.OS === 'web') {
+    // No browser: descarrega o ficheiro (no iPhone/iPad vai para a app Ficheiros)
+    const url = URL.createObjectURL(new Blob([content], { type: mimeType }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+    return;
+  }
   const file = new File(Paths.cache, name);
   if (file.exists) file.delete();
   file.create();
@@ -81,7 +94,13 @@ export async function pickBackup(): Promise<BackupData | null> {
     copyToCacheDirectory: true,
   });
   if (res.canceled || !res.assets?.length) return null;
-  const text = await new File(res.assets[0].uri).text();
+  const asset = res.assets[0];
+  const text =
+    Platform.OS === 'web'
+      ? asset.file
+        ? await asset.file.text()
+        : await (await fetch(asset.uri)).text()
+      : await new File(asset.uri).text();
   let parsed: unknown;
   try {
     parsed = JSON.parse(text.replace(/^﻿/, ''));

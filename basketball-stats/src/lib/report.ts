@@ -203,9 +203,25 @@ export function seasonReportHtml(team: Team, s: SeasonSummary) {
   );
 }
 
+/** No browser: imprime o relatório num iframe escondido (no iPad: Partilhar → Guardar em PDF). */
+function printOnWeb(html: string) {
+  const frame = document.createElement('iframe');
+  Object.assign(frame.style, { position: 'fixed', right: '0', bottom: '0', width: '0', height: '0', border: '0' });
+  document.body.appendChild(frame);
+  const doc = frame.contentWindow!.document;
+  doc.open();
+  doc.write(html);
+  doc.close();
+  setTimeout(() => {
+    frame.contentWindow!.focus();
+    frame.contentWindow!.print();
+    setTimeout(() => frame.remove(), 60000);
+  }, 300);
+}
+
 export async function exportPdf(html: string, title: string) {
   if (Platform.OS === 'web') {
-    await Print.printAsync({ html });
+    printOnWeb(html);
     return;
   }
   const { uri } = await Print.printToFileAsync({ html });
@@ -217,5 +233,9 @@ export async function exportPdf(html: string, title: string) {
 }
 
 export async function printHtml(html: string) {
+  if (Platform.OS === 'web') {
+    printOnWeb(html);
+    return;
+  }
   await Print.printAsync({ html });
 }

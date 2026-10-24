@@ -104,3 +104,16 @@ A versão aparece no fundo do separador **Dados** (definida em `src/lib/version.
 
 Da próxima vez que abrires a app no Expo Go, ela descarrega a versão nova.
 Os dados guardados no iPhone mantêm-se.
+
+## Versão web (no site, sem Expo Go)
+
+A app também corre no browser em `/basket` do site Next.js (pasta `public/basket`).
+Para atualizar essa versão:
+
+```bash
+cd basketball-stats
+WEB_BASE=/basket npx expo export --platform web --output-dir ../public/basket
+```
+
+Os dados da versão web ficam guardados no browser; usa **Dados → Exportar cópia de
+segurança** para os passar para a app (e **Importar ficheiro** do outro lado).

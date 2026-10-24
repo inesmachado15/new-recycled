@@ -14,6 +14,7 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // App móvel Expo (tem o seu próprio tsconfig)
     "basketball-stats/**",
+    "public/basket/**",
   ]),
 ]);
 

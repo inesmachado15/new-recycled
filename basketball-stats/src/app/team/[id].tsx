@@ -131,7 +131,7 @@ export default function TeamScreen() {
         ListFooterComponent={
           <View style={{ gap: 8, marginTop: 24 }}>
             <Muted style={{ textAlign: 'center' }}>Toca para editar · mantém premido para remover</Muted>
-            {Platform.OS === 'ios' && <Button title="Mudar nome da equipa" variant="ghost" onPress={rename} />}
+            {Platform.OS !== 'android' && <Button title="Mudar nome da equipa" variant="ghost" onPress={rename} />}
             <Button title="Apagar equipa" variant="danger" onPress={remove} />
           </View>
         }

@@ -1,3 +1,4 @@
+import '../lib/webShims';
 import { Stack } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useEffect } from 'react';

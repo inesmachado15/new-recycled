@@ -144,7 +144,7 @@ export default function LiveScreen() {
   const toggleClock = () => mutateGame(game.id, (g) => (g.clockRunning ? stopClock(g) : startClock(g)));
 
   const editClock = () => {
-    if (Platform.OS !== 'ios') return;
+    if (Platform.OS === 'android') return;
     Alert.prompt(
       'Acertar relógio',
       'Tempo restante no período (ex.: 7:32)',
