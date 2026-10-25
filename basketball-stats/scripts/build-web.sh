@@ -35,7 +35,7 @@ h = h.replace("</head>", [
   "<meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">",
   "<meta name=\"theme-color\" content=\"#2F6B45\">",
   "<meta name=\"robots\" content=\"noindex\">",
-  "<style>html,body{background:#2F6B45;overscroll-behavior:none;overflow:hidden}#root{position:fixed;top:0;right:0;bottom:0;left:0;height:auto!important}</style>",
+  "<style>html,body{background:#2F6B45;overscroll-behavior:none;overflow:hidden}#root{position:fixed;top:0;right:0;bottom:0;left:0;height:auto!important}@media (display-mode: standalone){#root{bottom:auto;height:100vh!important}}</style>",
   "</head>"].join(""));
 fs.writeFileSync(p, h);
 '

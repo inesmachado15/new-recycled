@@ -1,8 +1,10 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router/tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../lib/theme';
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
@@ -11,7 +13,9 @@ export default function TabsLayout() {
         headerTitleStyle: { fontWeight: '800' },
         tabBarActiveTintColor: colors.green,
         tabBarInactiveTintColor: colors.muted,
-        tabBarLabelStyle: { fontSize: 12, lineHeight: 16, paddingBottom: 2 },
+        // Altura explícita (ícone + nome + zona do indicador do iPhone) para os nomes não ficarem cortados
+        tabBarStyle: { height: 62 + insets.bottom, paddingTop: 6, paddingBottom: insets.bottom + 6 },
+        tabBarLabelStyle: { fontSize: 12, lineHeight: 16, height: 16, flexShrink: 0 },
         sceneStyle: { backgroundColor: colors.bg },
       }}
     >
