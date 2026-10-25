@@ -184,14 +184,16 @@ export default async function ProdutoDetalhePage({
                 <span className="font-bold text-slate-900">Referência:</span>{" "}
                 {produto.reference || "Sem referência"}
               </p>
-              <p>
-                <span className="font-bold text-slate-900">SKU:</span>{" "}
-                {produto.sku || "Sem SKU"}
-              </p>
+              {produto.sku && (
+                <p>
+                  <span className="font-bold text-slate-900">SKU:</span>{" "}
+                  {produto.sku}
+                </p>
+              )}
               <p>
                 <span className="font-bold text-slate-900">Stock:</span>{" "}
                 {emStock
-                  ? `${produto.stock} unidade(s)`
+                  ? produto.stock === 1 ? "1 unidade" : `${produto.stock} unidades`
                   : produto.allow_backorder
                   ? "Por encomenda"
                   : "Sem stock"}
