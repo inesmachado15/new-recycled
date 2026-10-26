@@ -506,7 +506,7 @@ function ProdutosConteudo() {
                   >
                     <Link
                       href={`/produtos/${produto.slug}`}
-                      className="flex h-40 items-center justify-center bg-slate-50 p-5"
+                      className="relative flex aspect-square w-full items-center justify-center bg-slate-50 p-6"
                     >
                       {produto.image_url ? (
                         <img
