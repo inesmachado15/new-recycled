@@ -55,7 +55,6 @@ const marcas = [
   { nome: "Kyocera", href: "/produtos?marca=Kyocera" },
   { nome: "Konica Minolta", href: "/produtos?marca=Konica Minolta" },
   { nome: "Apli", href: "/produtos?marca=Apli" },
-  { nome: "Milan", href: "/produtos?marca=Milan" },
 ];
 
 const corMarca = (i: number) =>
@@ -168,21 +167,21 @@ export default function HomePage() {
         <section className="mt-12">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">Marcas</p>
           <h2 className="mt-3 text-3xl font-black text-slate-950">Principais marcas disponíveis</h2>
-          <div className="mt-6 grid grid-cols-[repeat(11,1fr)] gap-2">
+          <div className="mt-6 flex flex-wrap gap-2.5">
             {marcas.map((m, i) => (
               <Link
                 key={m.nome}
                 href={m.href}
-                className={`rounded-full px-3 py-3 text-center text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${corMarca(i)}`}
+                className={`rounded-full px-5 py-2.5 text-base font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${corMarca(i)}`}
               >
                 {m.nome}
               </Link>
             ))}
             <Link
               href="/produtos"
-              className="rounded-full border border-dashed border-slate-300 bg-white px-3 py-3 text-center text-sm font-bold text-slate-400 transition hover:border-green-700 hover:text-green-700"
+              className="rounded-full border border-dashed border-slate-300 bg-white px-5 py-2.5 text-base font-bold text-slate-400 transition hover:border-green-700 hover:text-green-700"
             >
-              + outras
+              + muitas outras
             </Link>
           </div>
         </section>
