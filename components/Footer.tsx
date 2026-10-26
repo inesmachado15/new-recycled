@@ -20,30 +20,27 @@ const linksApoio = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-slate-950 px-6 py-12 text-white">
+    <footer className="border-t border-slate-200 bg-slate-950 px-6 py-8 text-white">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr]">
+        <div className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr]">
           <section>
             <Link href="/" className="inline-flex">
               <img
                 src="/logotipo.png"
                 alt="New & Recycled"
-                className="h-20 w-auto rounded-2xl bg-white p-2"
+                className="h-14 w-auto rounded-xl bg-white p-1.5"
               />
             </Link>
 
-            <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">
+            <p className="mt-3 max-w-md text-sm leading-6 text-slate-300">
               Toners, tinteiros, consumíveis e papelaria para empresas e particulares.
               Envio para todo o Portugal continental.
             </p>
 
-            <div className="mt-5 rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
-              <p className="text-sm font-bold text-white">
-                Portes fixos 3,75€
-              </p>
-
-              <p className="mt-2 text-sm leading-6 text-slate-300">
-                Envio para todo o Portugal continental. Portes grátis em compras iguais ou superiores a 60€.
+            <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/70 p-3">
+              <p className="text-sm font-bold text-white">Portes fixos 3,75€</p>
+              <p className="mt-1 text-xs leading-5 text-slate-300">
+                Portes grátis em compras iguais ou superiores a 60€.
               </p>
             </div>
           </section>
@@ -53,13 +50,9 @@ export default function Footer() {
               Loja
             </h3>
 
-            <nav className="mt-5 space-y-3 text-sm text-slate-300">
+            <nav className="mt-3 space-y-2 text-sm text-slate-300">
               {linksLoja.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block transition hover:text-white"
-                >
+                <Link key={link.href} href={link.href} className="block transition hover:text-white">
                   {link.label}
                 </Link>
               ))}
@@ -67,11 +60,8 @@ export default function Footer() {
           </section>
 
           <section>
-            <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-green-400">
-              Apoio
-            </h3>
-
-            <nav className="mt-5 space-y-3 text-sm text-slate-300">
+            <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-green-400">Apoio</h3>
+            <nav className="mt-3 space-y-2 text-sm text-slate-300">
               {linksApoio.map((link) => (
                 <Link
                   key={link.href}
@@ -84,81 +74,50 @@ export default function Footer() {
                 </Link>
               ))}
             </nav>
-
-            <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
-              <p className="text-sm font-bold text-white">
-                Dúvidas sobre compatibilidade?
-              </p>
-
-              <p className="mt-2 text-sm leading-6 text-slate-300">
-                Envie-nos o modelo da impressora ou a referência do tinteiro ou
-                toner antes de encomendar.
+            <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/70 p-3">
+              <p className="text-sm font-bold text-white">Dúvidas sobre compatibilidade?</p>
+              <p className="mt-1 text-xs leading-5 text-slate-300">
+                Envie-nos o modelo da impressora ou a referência antes de encomendar.
               </p>
             </div>
           </section>
 
           <section>
-            <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-green-400">
-              Contactos
-            </h3>
-
-            <div className="mt-5 space-y-4 text-sm text-slate-300">
+            <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-green-400">Contactos</h3>
+            <div className="mt-3 space-y-3 text-sm text-slate-300">
               <div>
                 <p className="font-bold text-white">Telefone / WhatsApp</p>
-
-                <a
-                  href="https://wa.me/351968120503"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-1 inline-block text-lg font-black text-white transition hover:text-green-400"
-                >
+                <a href="https://wa.me/351968120503" target="_blank" rel="noreferrer"
+                  className="mt-0.5 inline-block text-base font-black text-white transition hover:text-green-400">
                   968 120 503
                 </a>
               </div>
-
               <div>
                 <p className="font-bold text-white">Email</p>
-
-                <a
-                  href="mailto:machado.newrecycle@gmail.com"
-                  className="mt-1 inline-block break-all transition hover:text-white"
-                >
+                <a href="mailto:machado.newrecycle@gmail.com"
+                  className="mt-0.5 inline-block break-all transition hover:text-white">
                   machado.newrecycle@gmail.com
                 </a>
               </div>
-
               <div>
-                <p className="font-bold text-white">Responsável comercial</p>
-                <p className="mt-1 leading-6 text-slate-300">José Carlos Machado</p>
+                <p className="font-bold text-white">Responsável</p>
+                <p className="mt-0.5">José Carlos Machado</p>
               </div>
-
               <div>
                 <p className="font-bold text-white">Morada</p>
-                <p className="mt-1 leading-6 text-slate-300">
-                  Rua Bernardino Machado, nº 119<br />
-                  São Domingos de Rana
-                </p>
+                <p className="mt-0.5">Rua Bernardino Machado, nº 119, São Domingos de Rana</p>
               </div>
-
               <div>
                 <p className="font-bold text-white">NIF</p>
-                <p className="mt-1 text-slate-300">164 366 423</p>
+                <p className="mt-0.5">164 366 423</p>
               </div>
-
-              <div className="flex flex-col gap-3 pt-2">
-                <a
-                  href="https://wa.me/351968120503"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full bg-green-700 px-5 py-3 text-center text-sm font-bold text-white transition hover:bg-green-800"
-                >
+              <div className="flex flex-col gap-2 pt-1">
+                <a href="https://wa.me/351968120503" target="_blank" rel="noreferrer"
+                  className="rounded-full bg-green-700 px-5 py-2.5 text-center text-sm font-bold text-white transition hover:bg-green-800">
                   Abrir WhatsApp
                 </a>
-
-                <a
-                  href="mailto:machado.newrecycle@gmail.com"
-                  className="rounded-full border border-slate-700 px-5 py-3 text-center text-sm font-bold text-white transition hover:border-green-400 hover:text-green-400"
-                >
+                <a href="mailto:machado.newrecycle@gmail.com"
+                  className="rounded-full border border-slate-700 px-5 py-2.5 text-center text-sm font-bold text-white transition hover:border-green-400 hover:text-green-400">
                   Enviar email
                 </a>
               </div>
@@ -166,7 +125,7 @@ export default function Footer() {
           </section>
         </div>
 
-        <div className="mt-10 grid gap-4 border-t border-slate-800 pt-6 text-xs leading-6 text-slate-400 sm:grid-cols-[1fr_auto] sm:items-center">
+        <div className="mt-6 grid gap-2 border-t border-slate-800 pt-4 text-xs leading-6 text-slate-400 sm:grid-cols-[1fr_auto] sm:items-center">
           <p>© 2026 New & Recycled · NIF 164 366 423 · Rua Bernardino Machado, nº 119, São Domingos de Rana</p>
           <p className="sm:text-right">Todos os direitos reservados.</p>
         </div>
