@@ -92,13 +92,12 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-        <Link href="/" className="flex items-center gap-2.5" onClick={fecharMenu}>
-          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-green-700 text-[13px] font-black tracking-tight text-white">
-            N·R
-          </div>
-          <span className="text-[15px] font-black leading-none tracking-tight text-slate-950">
-            New <span className="text-green-700">&amp;</span> Recycled
-          </span>
+        <Link href="/" className="flex items-center" onClick={fecharMenu}>
+          <img
+            src="/logotipo.png"
+            alt="New & Recycled"
+            className="h-16 w-auto object-contain sm:h-20"
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex">

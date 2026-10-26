@@ -116,18 +116,29 @@ export default function HomePage() {
               </div>
             </div>
 
-            <aside className="flex flex-col gap-4">
-              {[
-                { num: "9 000+", label: "produtos disponíveis", cor: "bg-green-700 text-white" },
-                { num: "Grátis", label: "portes acima de 60 €", cor: "bg-slate-950 text-white" },
-                { num: "MB WAY", label: "e Multibanco aceites", cor: "bg-green-50 text-green-900 border border-green-200" },
-                { num: "Portugal", label: "entregas em todo o país", cor: "bg-slate-100 text-slate-950" },
-              ].map((s) => (
-                <div key={s.label} className={`flex items-center gap-4 rounded-2xl px-6 py-5 ${s.cor}`}>
-                  <span className="text-2xl font-black leading-none tracking-tight">{s.num}</span>
-                  <span className="text-sm font-medium leading-tight opacity-80">{s.label}</span>
+            <aside className="rounded-[1.75rem] bg-slate-950 p-3 text-white shadow-xl sm:p-5">
+              <div className="rounded-[1.35rem] bg-white p-5 text-center text-slate-950 sm:p-7">
+                <img
+                  src="/logotipo.png"
+                  alt="New & Recycled"
+                  className="mx-auto h-28 w-auto object-contain sm:h-40 lg:h-44"
+                />
+                <p className="mt-5 text-sm leading-7 text-slate-600">
+                  Consumíveis e papelaria para empresas, escolas e particulares.
+                </p>
+                <div className="mt-5 rounded-2xl bg-green-50 p-4 text-left text-sm text-green-900">
+                  <p className="font-black">Pagamento seguro.</p>
+                  <p className="mt-2 leading-6">
+                    Aceitamos Multibanco e MB WAY. Encomenda processada automaticamente após pagamento.
+                  </p>
                 </div>
-              ))}
+                <div className="mt-4 rounded-2xl bg-slate-50 p-4 text-left text-sm text-slate-600">
+                  <p className="font-bold text-slate-950">Contacto comercial</p>
+                  <p className="mt-1">José Carlos Machado</p>
+                  <p className="mt-1">968 120 503</p>
+                  <p className="mt-1 break-words">machado.newrecycle@gmail.com</p>
+                </div>
+              </div>
             </aside>
           </div>
         </div>
