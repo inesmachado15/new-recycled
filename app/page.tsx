@@ -81,7 +81,7 @@ const vantagens = [
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
-      <section className="mx-auto max-w-7xl px-6 py-12">
+      <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
 
         {/* Hero */}
         <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
