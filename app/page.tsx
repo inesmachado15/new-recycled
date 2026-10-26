@@ -58,6 +58,11 @@ const marcas = [
   { nome: "Milan", href: "/produtos?marca=Milan" },
 ];
 
+const corMarca = (i: number) =>
+  i % 2 === 0
+    ? "bg-green-700 text-white hover:bg-green-800"
+    : "bg-green-100 text-green-900 hover:bg-green-200";
+
 const vantagens = [
   {
     titulo: "Apoio na compatibilidade",
@@ -80,66 +85,54 @@ export default function HomePage() {
 
         {/* Hero */}
         <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-          <div className="grid gap-6 bg-gradient-to-br from-white via-slate-50 to-green-50 p-5 sm:p-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8 lg:p-10">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.3em] text-green-700">
+          <div className="grid gap-6 bg-gradient-to-br from-white via-slate-50 to-green-50 px-7 py-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10 lg:px-10 lg:py-10">
+            <div className="flex flex-col justify-center">
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-700">
                 New & Recycled
               </p>
-
-              <h1 className="mt-4 max-w-3xl text-4xl font-black leading-tight tracking-tight text-slate-950 sm:text-5xl">
+              <h1 className="mt-3 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
                 Toners, tinteiros e material de escritório para empresas e particulares.
               </h1>
-
-              <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-                Mais de 9.000 produtos — consumíveis de impressão, papelaria e equipamento.
-                Ajuda para escolher a referência certa e pagamento seguro online.
+              <p className="mt-3 text-base leading-7 text-slate-600">
+                Mais de 9.000 produtos. Pagamento por Multibanco ou MB WAY. Portes 3,75€ ou grátis acima de 60€.
               </p>
-
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/produtos"
-                  className="rounded-full bg-green-700 px-7 py-3 text-center text-sm font-bold text-white transition hover:bg-green-800"
-                >
+              <div className="mt-5 flex flex-wrap gap-2">
+                <Link href="/produtos" className="rounded-full bg-green-700 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-green-800">
                   Ver produtos
                 </Link>
-                <Link
-                  href="/como-encomendar"
-                  className="rounded-full border border-slate-300 bg-white px-7 py-3 text-center text-sm font-bold text-slate-800 transition hover:border-green-700 hover:text-green-700"
-                >
+                <Link href="/como-encomendar" className="rounded-full border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-800 transition hover:border-green-700 hover:text-green-700">
                   Como encomendar
                 </Link>
-                <Link
-                  href="/contacto"
-                  className="rounded-full border border-slate-300 bg-white px-7 py-3 text-center text-sm font-bold text-slate-800 transition hover:border-green-700 hover:text-green-700"
-                >
+                <Link href="/contacto" className="rounded-full border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-800 transition hover:border-green-700 hover:text-green-700">
                   Pedir ajuda
                 </Link>
               </div>
-
-              <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                {vantagens.map((v) => (
-                  <article key={v.titulo} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                    <p className="font-black text-slate-950">{v.titulo}</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{v.texto}</p>
-                  </article>
-                ))}
-              </div>
             </div>
 
-            <aside className="grid grid-cols-2 gap-3 content-start">
+            <aside className="grid grid-cols-2 gap-2.5 content-center">
               {[
-                { num: "9 000+", label: "produtos disponíveis", cor: "bg-green-700 text-white" },
+                { num: "9 000+", label: "produtos", cor: "bg-green-700 text-white" },
                 { num: "3,75€", label: "portes fixos", cor: "bg-green-100 text-green-900" },
-                { num: "MB WAY", label: "e Multibanco aceites", cor: "bg-green-100 text-green-900" },
-                { num: "Grátis", label: "portes acima de 60€", cor: "bg-green-700 text-white" },
+                { num: "MB WAY", label: "e Multibanco", cor: "bg-green-100 text-green-900" },
+                { num: "Grátis", label: "acima de 60€", cor: "bg-green-700 text-white" },
               ].map((s) => (
-                <div key={s.label} className={`flex flex-col justify-center rounded-2xl px-5 py-6 ${s.cor}`}>
-                  <span className="text-2xl font-black leading-none tracking-tight">{s.num}</span>
-                  <span className="mt-2 text-sm font-medium leading-tight opacity-80">{s.label}</span>
+                <div key={s.label} className={`flex flex-col justify-center rounded-xl px-4 py-4 ${s.cor}`}>
+                  <span className="text-xl font-black leading-none tracking-tight">{s.num}</span>
+                  <span className="mt-1.5 text-xs font-medium leading-tight opacity-80">{s.label}</span>
                 </div>
               ))}
             </aside>
           </div>
+        </div>
+
+        {/* Vantagens */}
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {vantagens.map((v) => (
+            <article key={v.titulo} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <p className="font-black text-slate-950">{v.titulo}</p>
+              <p className="mt-1 text-sm leading-6 text-slate-600">{v.texto}</p>
+            </article>
+          ))}
         </div>
 
         {/* Categorias */}
@@ -175,12 +168,12 @@ export default function HomePage() {
         <section className="mt-12">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">Marcas</p>
           <h2 className="mt-3 text-3xl font-black text-slate-950">Principais marcas disponíveis</h2>
-          <div className="mt-6 flex flex-wrap gap-3">
-            {marcas.map((m) => (
+          <div className="mt-6 flex flex-wrap gap-2.5">
+            {marcas.map((m, i) => (
               <Link
                 key={m.nome}
                 href={m.href}
-                className="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition hover:border-green-700 hover:text-green-700"
+                className={`rounded-full px-5 py-2.5 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${corMarca(i)}`}
               >
                 {m.nome}
               </Link>
