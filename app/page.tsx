@@ -12,26 +12,31 @@ const categorias = [
     titulo: "Toners",
     texto: "Toners originais e compatíveis para todas as marcas.",
     href: "/produtos?categoria=Toners",
+    cor: "bg-emerald-700 text-white hover:bg-emerald-800",
   },
   {
     titulo: "Tinteiros",
     texto: "Tinteiros para impressoras domésticas e profissionais.",
     href: "/produtos?categoria=Tinteiros",
+    cor: "bg-blue-700 text-white hover:bg-blue-800",
   },
   {
     titulo: "Consumíveis",
     texto: "Rolos térmicos, tambores, kits de manutenção e mais.",
     href: "/produtos?categoria=Consumíveis",
+    cor: "bg-violet-700 text-white hover:bg-violet-800",
   },
   {
     titulo: "Papelaria",
     texto: "Material de escritório, escolar e organização.",
     href: "/produtos?categoria=Papelaria",
+    cor: "bg-amber-500 text-white hover:bg-amber-600",
   },
   {
     titulo: "Equipamento",
     texto: "Impressoras, destruidoras e equipamento de escritório.",
     href: "/produtos?categoria=Equipamento de Escritório",
+    cor: "bg-slate-800 text-white hover:bg-slate-900",
   },
 ];
 
@@ -65,82 +70,79 @@ const vantagens = [
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-950">
-      <section className="mx-auto max-w-7xl px-6 py-12">
+    <main className="min-h-screen bg-white text-slate-950">
 
-        {/* Hero */}
-        <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-          <div className="grid gap-6 bg-gradient-to-br from-white via-slate-50 to-green-50 p-5 sm:p-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8 lg:p-10">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.3em] text-green-700">
-                New & Recycled
-              </p>
-
-              <h1 className="mt-4 max-w-3xl text-4xl font-black leading-tight tracking-tight text-slate-950 sm:text-5xl">
-                Toners, tinteiros e material de escritório para empresas e particulares.
-              </h1>
-
-              <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-                Mais de 9.000 produtos — consumíveis de impressão, papelaria e equipamento.
-                Ajuda para escolher a referência certa e pagamento seguro online.
-              </p>
-
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/produtos"
-                  className="rounded-full bg-green-700 px-7 py-3 text-center text-sm font-bold text-white transition hover:bg-green-800"
-                >
-                  Ver produtos
-                </Link>
-                <Link
-                  href="/como-encomendar"
-                  className="rounded-full border border-slate-300 bg-white px-7 py-3 text-center text-sm font-bold text-slate-800 transition hover:border-green-700 hover:text-green-700"
-                >
-                  Como encomendar
-                </Link>
-                <Link
-                  href="/contacto"
-                  className="rounded-full border border-slate-300 bg-white px-7 py-3 text-center text-sm font-bold text-slate-800 transition hover:border-green-700 hover:text-green-700"
-                >
-                  Pedir ajuda
-                </Link>
-              </div>
-
-              <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                {vantagens.map((v) => (
-                  <article key={v.titulo} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-                    <p className="font-black text-slate-950">{v.titulo}</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{v.texto}</p>
-                  </article>
-                ))}
-              </div>
+      {/* Hero — fundo verde escuro */}
+      <section className="bg-green-800">
+        <div className="mx-auto grid max-w-7xl gap-8 px-6 py-14 lg:grid-cols-[1.2fr_0.8fr] lg:py-20">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.3em] text-green-300">
+              New &amp; Recycled
+            </p>
+            <h1 className="mt-4 max-w-3xl text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl">
+              Toners, tinteiros e material de escritório para empresas e particulares.
+            </h1>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-green-100">
+              Mais de 9.000 produtos — consumíveis de impressão, papelaria e equipamento.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/produtos"
+                className="rounded-full bg-white px-7 py-3 text-center text-sm font-bold text-green-800 transition hover:bg-green-50"
+              >
+                Ver produtos
+              </Link>
+              <Link
+                href="/como-encomendar"
+                className="rounded-full border border-green-600 px-7 py-3 text-center text-sm font-bold text-white transition hover:bg-green-700"
+              >
+                Como encomendar
+              </Link>
+              <Link
+                href="/contacto"
+                className="rounded-full border border-green-600 px-7 py-3 text-center text-sm font-bold text-white transition hover:bg-green-700"
+              >
+                Pedir ajuda
+              </Link>
             </div>
-
-            <aside className="flex flex-col gap-4">
-              {[
-                { num: "9 000+", label: "produtos disponíveis", cor: "bg-green-700 text-white" },
-                { num: "Grátis", label: "portes acima de 60 €", cor: "bg-slate-950 text-white" },
-                { num: "MB WAY", label: "e Multibanco aceites", cor: "bg-green-50 text-green-900 border border-green-200" },
-                { num: "Portugal", label: "entregas em todo o país", cor: "bg-slate-100 text-slate-950" },
-              ].map((s) => (
-                <div key={s.label} className={`flex items-center gap-4 rounded-2xl px-6 py-5 ${s.cor}`}>
-                  <span className="text-2xl font-black leading-none tracking-tight">{s.num}</span>
-                  <span className="text-sm font-medium leading-tight opacity-80">{s.label}</span>
-                </div>
-              ))}
-            </aside>
           </div>
+
+          <aside className="flex flex-col gap-3">
+            {[
+              { num: "9 000+", label: "produtos disponíveis", cor: "bg-white text-green-800" },
+              { num: "Grátis", label: "portes acima de 60 €", cor: "bg-green-700 text-white" },
+              { num: "MB WAY", label: "e Multibanco aceites", cor: "bg-green-900 text-white" },
+              { num: "Portugal", label: "entregas em todo o país", cor: "bg-green-950 text-white" },
+            ].map((s) => (
+              <div key={s.label} className={`flex items-center gap-4 rounded-2xl px-6 py-5 ${s.cor}`}>
+                <span className="text-2xl font-black leading-none tracking-tight">{s.num}</span>
+                <span className="text-sm font-medium leading-tight opacity-80">{s.label}</span>
+              </div>
+            ))}
+          </aside>
         </div>
+      </section>
+
+      {/* Vantagens */}
+      <section className="bg-slate-50">
+        <div className="mx-auto grid max-w-7xl gap-4 px-6 py-10 sm:grid-cols-3">
+          {vantagens.map((v) => (
+            <article key={v.titulo} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="font-black text-slate-950">{v.titulo}</p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{v.texto}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-7xl px-6 py-12">
 
         {/* Categorias */}
-        <section className="mt-12">
+        <section>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">Categorias</p>
               <h2 className="mt-3 text-3xl font-black text-slate-950">O que pode encomendar</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-                Consulte o catálogo ou contacte-nos para confirmar disponibilidade e compatibilidades.
-              </p>
             </div>
             <Link href="/produtos" className="text-sm font-bold text-green-700 transition hover:text-green-800">
               Ver catálogo completo →
@@ -152,32 +154,32 @@ export default function HomePage() {
               <Link
                 key={cat.titulo}
                 href={cat.href}
-                className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-green-300 hover:bg-green-50 hover:shadow-md"
+                className={`rounded-3xl p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md ${cat.cor}`}
               >
-                <p className="text-lg font-black text-slate-950">{cat.titulo}</p>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{cat.texto}</p>
+                <p className="text-lg font-black">{cat.titulo}</p>
+                <p className="mt-2 text-sm leading-6 opacity-80">{cat.texto}</p>
               </Link>
             ))}
           </div>
         </section>
 
-        {/* Marcas */}
-        <section className="mt-12">
-          <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">Marcas</p>
-          <h2 className="mt-3 text-3xl font-black text-slate-950">Principais marcas disponíveis</h2>
+        {/* Marcas — fundo escuro */}
+        <section className="-mx-6 mt-12 bg-slate-950 px-6 py-10">
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-400">Marcas</p>
+          <h2 className="mt-3 text-3xl font-black text-white">Principais marcas disponíveis</h2>
           <div className="mt-6 flex flex-wrap gap-3">
             {marcas.map((m) => (
               <Link
                 key={m.nome}
                 href={m.href}
-                className="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition hover:border-green-700 hover:text-green-700"
+                className="rounded-full border border-slate-700 bg-slate-800 px-5 py-2.5 text-sm font-bold text-slate-200 transition hover:border-green-500 hover:text-green-400"
               >
                 {m.nome}
               </Link>
             ))}
             <Link
               href="/produtos"
-              className="rounded-full border border-dashed border-slate-300 bg-white px-5 py-2.5 text-sm font-bold text-slate-400 transition hover:border-green-700 hover:text-green-700"
+              className="rounded-full border border-dashed border-slate-600 px-5 py-2.5 text-sm font-bold text-slate-500 transition hover:border-green-500 hover:text-green-400"
             >
               + muitas outras
             </Link>
@@ -220,7 +222,7 @@ export default function HomePage() {
           </article>
         </section>
 
-      </section>
+      </div>
     </main>
   );
 }

@@ -24,12 +24,13 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr]">
           <section>
-            <Link href="/" className="inline-flex">
-              <img
-                src="/logotipo.png"
-                alt="New & Recycled"
-                className="h-20 w-auto rounded-2xl bg-white p-2"
-              />
+            <Link href="/" className="inline-flex items-center gap-2.5">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-green-600 text-[13px] font-black tracking-tight text-white">
+                N·R
+              </div>
+              <span className="text-[15px] font-black leading-none tracking-tight text-white">
+                New <span className="text-green-400">&amp;</span> Recycled
+              </span>
             </Link>
 
             <p className="mt-5 max-w-md text-sm leading-7 text-slate-300">
