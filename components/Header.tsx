@@ -100,7 +100,7 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex">
+        <nav className="hidden items-center gap-8 text-[15px] font-semibold text-slate-700 md:flex">
           <Link
             href="/"
             onClick={fecharMenu}
