@@ -60,8 +60,8 @@ const perguntas = [
 
 export default function ComoEncomendarPage() {
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-6 text-slate-900">
-      <section className="mx-auto max-w-7xl">
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
         <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
           <div className="grid gap-6 bg-gradient-to-br from-white via-slate-50 to-green-50 p-6 lg:grid-cols-[1.2fr_0.8fr] lg:p-8">
             <div>

@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 
 export default function ContactoPage() {
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-8 text-slate-900">
-      <section className="mx-auto max-w-6xl">
+    <main className="min-h-screen bg-slate-50 text-slate-900">
+      <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
         <div className="rounded-[2rem] border border-slate-100 bg-gradient-to-br from-white via-slate-50 to-green-50 p-6 shadow-sm sm:p-7">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-700">
             Contacto
