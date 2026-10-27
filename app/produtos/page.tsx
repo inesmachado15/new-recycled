@@ -379,48 +379,63 @@ function ProdutosConteudo() {
         <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
           {/* Linha 1: filtros */}
           <div className="flex flex-wrap gap-3">
-            <input
-              value={pesquisaInput}
-              onChange={(event) => setPesquisaInput(event.target.value)}
-              placeholder="Pesquisar por nome, marca ou referência..."
-              className="min-w-[200px] flex-1 rounded-2xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-green-700"
-            />
-            <select
-              value={categoria}
-              onChange={(event) => setCategoria(event.target.value)}
-              className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
-            >
-              {categorias.map((item) => (
-                <option key={item} value={item}>{item}</option>
-              ))}
-            </select>
-            <select
-              value={marca}
-              onChange={(event) => setMarca(event.target.value)}
-              className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
-            >
-              {marcas.map((item) => (
-                <option key={item} value={item}>{item}</option>
-              ))}
-            </select>
-            <select
-              value={disponibilidade}
-              onChange={(event) => setDisponibilidade(event.target.value)}
-              className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
-            >
-              {disponibilidades.map((item) => (
-                <option key={item} value={item}>{item}</option>
-              ))}
-            </select>
-            <select
-              value={ordenacao}
-              onChange={(event) => setOrdenacao(event.target.value)}
-              className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
-            >
-              {ordenacoes.map((item) => (
-                <option key={item} value={item}>{item}</option>
-              ))}
-            </select>
+            <div className="flex min-w-[200px] flex-1 flex-col gap-1">
+              <span className="px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400">Pesquisa</span>
+              <input
+                value={pesquisaInput}
+                onChange={(event) => setPesquisaInput(event.target.value)}
+                placeholder="Nome, marca ou referência..."
+                className="rounded-2xl border border-slate-300 px-4 py-2 text-sm outline-none transition focus:border-green-700"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400">Categoria</span>
+              <select
+                value={categoria}
+                onChange={(event) => setCategoria(event.target.value)}
+                className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
+              >
+                {categorias.map((item) => (
+                  <option key={item} value={item}>{item}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400">Marca</span>
+              <select
+                value={marca}
+                onChange={(event) => setMarca(event.target.value)}
+                className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
+              >
+                {marcas.map((item) => (
+                  <option key={item} value={item}>{item}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400">Disponibilidade</span>
+              <select
+                value={disponibilidade}
+                onChange={(event) => setDisponibilidade(event.target.value)}
+                className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
+              >
+                {disponibilidades.map((item) => (
+                  <option key={item} value={item}>{item}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400">Ordenar</span>
+              <select
+                value={ordenacao}
+                onChange={(event) => setOrdenacao(event.target.value)}
+                className="rounded-2xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-green-700"
+              >
+                {ordenacoes.map((item) => (
+                  <option key={item} value={item}>{item}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           {/* Linha 2: tipo + limpar + contagem */}
