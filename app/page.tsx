@@ -83,41 +83,38 @@ export default function HomePage() {
 
         {/* Hero */}
         <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-          <div className="grid gap-6 bg-gradient-to-br from-white via-slate-50 to-green-50 px-7 py-8 lg:grid-cols-[1fr_160px] lg:gap-8 lg:px-10 lg:py-10">
-            <div className="flex flex-col justify-center">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-700">
-                New & Recycled
-              </p>
-              <h1 className="mt-3 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
-                O toner certo. Ao melhor preço.
-              </h1>
-              <p className="mt-3 text-base leading-7 text-slate-600">
-                Mais de 9.000 produtos para impressoras, escritórios e escolas. Portes fixos 3,75€ ou grátis em compras iguais ou superiores a 60€.
-              </p>
-              <SearchBar />
-              <div className="mt-3 flex flex-wrap gap-2">
-                <Link href="/como-encomendar" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
-                  Como encomendar
-                </Link>
-                <Link href="/contacto" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
-                  Pedir ajuda
-                </Link>
-              </div>
-            </div>
-
-            <aside className="grid grid-cols-2 gap-1.5 content-center">
+          <div className="bg-gradient-to-br from-white via-slate-50 to-green-50 px-7 py-8 lg:px-10 lg:py-10">
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-700">
+              New & Recycled
+            </p>
+            <h1 className="mt-3 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+              O toner certo. Ao melhor preço.
+            </h1>
+            <p className="mt-3 text-base leading-7 text-slate-600">
+              Mais de 9.000 produtos para impressoras, escritórios e escolas.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
               {[
                 { num: "9 000+", label: "produtos", cor: "bg-green-700 text-white" },
                 { num: "3,75€", label: "portes fixos", cor: "bg-green-100 text-green-900" },
                 { num: "MB WAY", label: "e Multibanco", cor: "bg-green-100 text-green-900" },
                 { num: "Portes grátis", label: "a partir de 60€", cor: "bg-green-700 text-white" },
               ].map((s) => (
-                <div key={s.label} className={`flex flex-col justify-center rounded-lg px-2.5 py-2 ${s.cor}`}>
-                  <span className="text-xs font-black leading-none tracking-tight">{s.num}</span>
-                  <span className="mt-1 text-[10px] font-medium leading-tight opacity-80">{s.label}</span>
+                <div key={s.label} className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm ${s.cor}`}>
+                  <span className="font-black">{s.num}</span>
+                  <span className="opacity-75">{s.label}</span>
                 </div>
               ))}
-            </aside>
+            </div>
+            <SearchBar />
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Link href="/como-encomendar" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
+                Como encomendar
+              </Link>
+              <Link href="/contacto" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
+                Pedir ajuda
+              </Link>
+            </div>
           </div>
         </div>
 
