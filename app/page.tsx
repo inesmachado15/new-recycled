@@ -105,16 +105,16 @@ export default function HomePage() {
               </div>
             </div>
 
-            <aside className="grid grid-cols-2 gap-2.5 content-center">
+            <aside className="grid grid-cols-2 gap-2 content-center">
               {[
                 { num: "9 000+", label: "produtos", cor: "bg-green-700 text-white" },
                 { num: "3,75€", label: "portes fixos", cor: "bg-green-100 text-green-900" },
                 { num: "MB WAY", label: "e Multibanco", cor: "bg-green-100 text-green-900" },
-                { num: "Grátis", label: "a partir de 60€", cor: "bg-green-700 text-white" },
+                { num: "Portes grátis", label: "em compras ≥ 60€", cor: "bg-green-700 text-white" },
               ].map((s) => (
-                <div key={s.label} className={`flex flex-col justify-center rounded-xl px-4 py-4 ${s.cor}`}>
-                  <span className="text-xl font-black leading-none tracking-tight">{s.num}</span>
-                  <span className="mt-1.5 text-xs font-medium leading-tight opacity-80">{s.label}</span>
+                <div key={s.label} className={`flex flex-col justify-center rounded-xl px-3 py-3 ${s.cor}`}>
+                  <span className="text-sm font-black leading-none tracking-tight">{s.num}</span>
+                  <span className="mt-1 text-[11px] font-medium leading-tight opacity-80">{s.label}</span>
                 </div>
               ))}
             </aside>
