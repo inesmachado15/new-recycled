@@ -60,26 +60,26 @@ const perguntas = [
 
 export default function ComoEncomendarPage() {
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-6 py-6 text-slate-900">
       <section className="mx-auto max-w-7xl">
         <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-          <div className="grid gap-8 bg-gradient-to-br from-white via-slate-50 to-green-50 p-8 lg:grid-cols-[1.2fr_0.8fr] lg:p-10">
+          <div className="grid gap-6 bg-gradient-to-br from-white via-slate-50 to-green-50 p-6 lg:grid-cols-[1.2fr_0.8fr] lg:p-8">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.3em] text-green-700">
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-700">
                 Encomendas online
               </p>
 
-              <h1 className="mt-4 max-w-3xl text-4xl font-black tracking-tight sm:text-5xl">
+              <h1 className="mt-2 max-w-3xl text-2xl font-black tracking-tight sm:text-3xl">
                 Como encomendar na New & Recycled
               </h1>
 
-              <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
                 Adicione os produtos ao carrinho, inicie sessão e finalize a encomenda.
                 Após aprovação pela New & Recycled, recebe os dados de pagamento por email.
                 Pague por Multibanco ou MB WAY — a confirmação é automática.
               </p>
 
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-4 flex flex-wrap gap-2">
                 <Link
                   href="/produtos"
                   className="rounded-full bg-green-700 px-7 py-3 text-center text-sm font-bold text-white transition hover:bg-green-800"
@@ -134,14 +134,14 @@ export default function ComoEncomendarPage() {
           </div>
         </div>
 
-        <section className="mt-10">
+        <section className="mt-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">
                 Passo a passo
               </p>
 
-              <h2 className="mt-3 text-3xl font-black">
+              <h2 className="mt-3 text-2xl font-black">
                 O processo é simples
               </h2>
             </div>
@@ -155,7 +155,7 @@ export default function ComoEncomendarPage() {
             {passos.map((passo) => (
               <article
                 key={passo.numero}
-                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-xl font-black text-green-700">
                   {passo.numero}
@@ -171,8 +171,8 @@ export default function ComoEncomendarPage() {
           </div>
         </section>
 
-        <section className="mt-10 grid gap-6 lg:grid-cols-[1fr_1fr]">
-          <article className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+        <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_1fr]">
+          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-green-700">
               Importante
             </p>
@@ -195,7 +195,7 @@ export default function ComoEncomendarPage() {
             </div>
           </article>
 
-          <article className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-green-700">
               Estados da encomenda
             </p>
@@ -225,8 +225,8 @@ export default function ComoEncomendarPage() {
           </article>
         </section>
 
-        <section className="mt-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <article className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+        <section className="mt-6 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-green-700">
               Portes
             </p>
@@ -260,7 +260,7 @@ export default function ComoEncomendarPage() {
             </div>
           </article>
 
-          <article className="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+          <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-green-700">
               Compatibilidades
             </p>
@@ -287,14 +287,14 @@ export default function ComoEncomendarPage() {
           </article>
         </section>
 
-        <section className="mt-10 rounded-3xl border border-slate-200 bg-white p-7 shadow-sm">
+        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-green-700">
                 Perguntas frequentes
               </p>
 
-              <h2 className="mt-3 text-3xl font-black">
+              <h2 className="mt-3 text-2xl font-black">
                 Antes de finalizar a encomenda
               </h2>
             </div>
@@ -325,10 +325,10 @@ export default function ComoEncomendarPage() {
           </div>
         </section>
 
-        <section className="mt-10 rounded-3xl bg-slate-950 p-8 text-white shadow-sm">
+        <section className="mt-6 rounded-2xl bg-slate-950 p-6 text-white shadow-sm">
           <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <h2 className="text-3xl font-black">Pronto para encomendar?</h2>
+              <h2 className="text-2xl font-black">Pronto para encomendar?</h2>
 
               <p className="mt-3 max-w-2xl leading-7 text-slate-300">
                 Consulte o catálogo, adicione os produtos ao carrinho e finalize
