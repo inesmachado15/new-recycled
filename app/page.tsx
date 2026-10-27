@@ -83,7 +83,7 @@ export default function HomePage() {
 
         {/* Hero */}
         <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-          <div className="grid gap-6 bg-gradient-to-br from-white via-slate-50 to-green-50 px-7 py-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10 lg:px-10 lg:py-10">
+          <div className="grid gap-6 bg-gradient-to-br from-white via-slate-50 to-green-50 px-7 py-8 lg:grid-cols-[1fr_160px] lg:gap-8 lg:px-10 lg:py-10">
             <div className="flex flex-col justify-center">
               <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-700">
                 New & Recycled
