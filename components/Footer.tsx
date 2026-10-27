@@ -103,14 +103,6 @@ export default function Footer() {
                 <p className="font-bold text-white">Responsável</p>
                 <p className="mt-0.5">José Carlos Machado</p>
               </div>
-              <div>
-                <p className="font-bold text-white">Morada</p>
-                <p className="mt-0.5">Rua Bernardino Machado, nº 119, São Domingos de Rana</p>
-              </div>
-              <div>
-                <p className="font-bold text-white">NIF</p>
-                <p className="mt-0.5">164 366 423</p>
-              </div>
               <div className="flex flex-col gap-2 pt-1">
                 <a href="https://wa.me/351968120503" target="_blank" rel="noreferrer"
                   className="rounded-full bg-green-700 px-5 py-2.5 text-center text-sm font-bold text-white transition hover:bg-green-800">
