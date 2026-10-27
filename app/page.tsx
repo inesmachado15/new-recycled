@@ -1,8 +1,12 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import SearchBar from "@/components/SearchBar";
+
+export const metadata: Metadata = {
+  title: "New & Recycled | Toners, tinteiros e material de escritório",
+  description:
+    "Mais de 9.000 produtos: toners, tinteiros e consumíveis para empresas e particulares. Portes fixos 3,75€ ou grátis em compras iguais ou superiores a 60€. Pagamento por Multibanco ou MB WAY.",
+};
 
 const categorias = [
   {
@@ -78,15 +82,6 @@ const vantagens = [
 ];
 
 export default function HomePage() {
-  const router = useRouter();
-  const [termoPesquisa, setTermoPesquisa] = useState("");
-
-  function pesquisar(e: React.FormEvent) {
-    e.preventDefault();
-    const q = termoPesquisa.trim();
-    router.push(q ? `/produtos?q=${encodeURIComponent(q)}` : "/produtos");
-  }
-
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
       <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
@@ -104,18 +99,7 @@ export default function HomePage() {
               <p className="mt-3 text-base leading-7 text-slate-600">
                 Mais de 9.000 produtos para impressoras, escritórios e escolas. Portes fixos 3,75€ ou grátis em compras iguais ou superiores a 60€.
               </p>
-              <form onSubmit={pesquisar} className="mt-5 flex gap-2">
-                <input
-                  type="text"
-                  value={termoPesquisa}
-                  onChange={(e) => setTermoPesquisa(e.target.value)}
-                  placeholder="Pesquisar produto ou referência…"
-                  className="flex-1 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-green-700 focus:ring-2 focus:ring-green-100"
-                />
-                <button type="submit" className="rounded-full bg-green-700 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-green-800">
-                  Pesquisar
-                </button>
-              </form>
+              <SearchBar />
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link href="/como-encomendar" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
                   Como encomendar
