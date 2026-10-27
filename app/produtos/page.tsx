@@ -125,9 +125,10 @@ function ProdutosConteudo() {
   const searchParams = useSearchParams();
   const categoriaInicial = searchParams.get("categoria") || "Todas";
   const marcaInicial = searchParams.get("marca") || "Todas";
+  const qInicial = searchParams.get("q") || "";
 
-  const [pesquisaInput, setPesquisaInput] = useState("");
-  const [pesquisa, setPesquisa] = useState("");
+  const [pesquisaInput, setPesquisaInput] = useState(qInicial);
+  const [pesquisa, setPesquisa] = useState(qInicial);
   const [categoria, setCategoria] = useState(
     categorias.includes(categoriaInicial) ? categoriaInicial : "Todas"
   );

@@ -1,11 +1,8 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+"use client";
 
-export const metadata: Metadata = {
-  title: "New & Recycled | Toners, tinteiros e material de escritório",
-  description:
-    "Loja online de toners, tinteiros, consumíveis e papelaria para empresas e particulares em Portugal. Pagamento por Multibanco e MB WAY.",
-};
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const categorias = [
   {
@@ -64,20 +61,32 @@ const corMarca = (i: number) =>
 
 const vantagens = [
   {
-    titulo: "Apoio na compatibilidade",
-    texto: "Ajudamos a confirmar referências de toners e tinteiros antes da encomenda.",
+    icone: "🔍",
+    titulo: "Compatibilidade garantida",
+    texto: "Ajudamos a confirmar a referência certa para a tua impressora.",
   },
   {
-    titulo: "Pagamento seguro",
-    texto: "Multibanco e MB WAY. Portes fixos de 3,75€ ou grátis acima de 60€.",
+    icone: "💳",
+    titulo: "Pagamento fácil",
+    texto: "MB WAY e Multibanco. Portes 3,75€ ou grátis acima de 60€.",
   },
   {
+    icone: "📦",
     titulo: "Para empresas e particulares",
-    texto: "Soluções para escritórios, escolas, negócios e uso doméstico.",
+    texto: "Escritórios, escolas, negócios e uso doméstico.",
   },
 ];
 
 export default function HomePage() {
+  const router = useRouter();
+  const [termoPesquisa, setTermoPesquisa] = useState("");
+
+  function pesquisar(e: React.FormEvent) {
+    e.preventDefault();
+    const q = termoPesquisa.trim();
+    router.push(q ? `/produtos?q=${encodeURIComponent(q)}` : "/produtos");
+  }
+
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
       <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
@@ -90,19 +99,28 @@ export default function HomePage() {
                 New & Recycled
               </p>
               <h1 className="mt-3 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
-                Toners, tinteiros e material de escritório para empresas e particulares.
+                O toner certo. Ao melhor preço.
               </h1>
               <p className="mt-3 text-base leading-7 text-slate-600">
-                Mais de 9.000 produtos. Pagamento por Multibanco ou MB WAY. Portes 3,75€ ou grátis acima de 60€.
+                Mais de 9.000 produtos para impressoras, escritórios e escolas. Portes fixos 3,75€ ou grátis acima de 60€.
               </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                <Link href="/produtos" className="rounded-full bg-green-700 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-green-800">
-                  Ver produtos
-                </Link>
-                <Link href="/como-encomendar" className="rounded-full border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-800 transition hover:border-green-700 hover:text-green-700">
+              <form onSubmit={pesquisar} className="mt-5 flex gap-2">
+                <input
+                  type="text"
+                  value={termoPesquisa}
+                  onChange={(e) => setTermoPesquisa(e.target.value)}
+                  placeholder="Pesquisar produto ou referência…"
+                  className="flex-1 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-green-700 focus:ring-2 focus:ring-green-100"
+                />
+                <button type="submit" className="rounded-full bg-green-700 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-green-800">
+                  Pesquisar
+                </button>
+              </form>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link href="/como-encomendar" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
                   Como encomendar
                 </Link>
-                <Link href="/contacto" className="rounded-full border border-slate-300 bg-white px-6 py-2.5 text-sm font-bold text-slate-800 transition hover:border-green-700 hover:text-green-700">
+                <Link href="/contacto" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
                   Pedir ajuda
                 </Link>
               </div>
@@ -128,7 +146,8 @@ export default function HomePage() {
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {vantagens.map((v) => (
             <article key={v.titulo} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="font-black text-slate-950">{v.titulo}</p>
+              <p className="text-2xl">{v.icone}</p>
+              <p className="mt-2 font-black text-slate-950">{v.titulo}</p>
               <p className="mt-1 text-sm leading-6 text-slate-600">{v.texto}</p>
             </article>
           ))}
