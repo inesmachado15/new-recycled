@@ -68,7 +68,7 @@ const vantagens = [
   {
     icone: "💳",
     titulo: "Pagamento fácil",
-    texto: "MB WAY e Multibanco. Portes 3,75€ ou grátis acima de 60€.",
+    texto: "MB WAY e Multibanco. Portes 3,75€ ou grátis em compras iguais ou superiores a 60€.",
   },
   {
     icone: "📦",
@@ -102,7 +102,7 @@ export default function HomePage() {
                 O toner certo. Ao melhor preço.
               </h1>
               <p className="mt-3 text-base leading-7 text-slate-600">
-                Mais de 9.000 produtos para impressoras, escritórios e escolas. Portes fixos 3,75€ ou grátis acima de 60€.
+                Mais de 9.000 produtos para impressoras, escritórios e escolas. Portes fixos 3,75€ ou grátis em compras iguais ou superiores a 60€.
               </p>
               <form onSubmit={pesquisar} className="mt-5 flex gap-2">
                 <input
@@ -131,7 +131,7 @@ export default function HomePage() {
                 { num: "9 000+", label: "produtos", cor: "bg-green-700 text-white" },
                 { num: "3,75€", label: "portes fixos", cor: "bg-green-100 text-green-900" },
                 { num: "MB WAY", label: "e Multibanco", cor: "bg-green-100 text-green-900" },
-                { num: "Grátis", label: "acima de 60€", cor: "bg-green-700 text-white" },
+                { num: "Grátis", label: "a partir de 60€", cor: "bg-green-700 text-white" },
               ].map((s) => (
                 <div key={s.label} className={`flex flex-col justify-center rounded-xl px-4 py-4 ${s.cor}`}>
                   <span className="text-xl font-black leading-none tracking-tight">{s.num}</span>
@@ -214,7 +214,7 @@ export default function HomePage() {
               Adicione produtos ao carrinho, crie conta e finalize a encomenda.
               O pagamento é feito no checkout por Multibanco ou MB WAY.
               Após confirmação, a encomenda é processada automaticamente.
-              Portes fixos de 3,75€ — grátis a partir de 60€.
+              Portes fixos de 3,75€ — grátis em compras iguais ou superiores a 60€.
             </p>
             <Link
               href="/como-encomendar"

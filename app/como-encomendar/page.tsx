@@ -116,7 +116,7 @@ export default function ComoEncomendarPage() {
                     Portes de envio
                   </p>
                   <p className="mt-1 text-sm leading-6 text-slate-600">
-                    3,75€ fixos para Portugal continental. Grátis a partir de 60€.
+                    3,75€ fixos para Portugal continental. Grátis em compras iguais ou superiores a 60€.
                   </p>
                 </div>
 
@@ -245,7 +245,7 @@ export default function ComoEncomendarPage() {
                   Todos os produtos
                 </p>
                 <p className="mt-1 text-sm text-slate-600">
-                  Portes de 3,75€ ou grátis a partir de 60€.
+                  Portes de 3,75€ ou grátis em compras iguais ou superiores a 60€.
                 </p>
               </div>
 

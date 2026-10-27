@@ -569,7 +569,27 @@ export default function CarrinhoPage() {
               </div>
             </div>
 
-            <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-500">
+            {portes > 0 && (
+              <div className="mt-5 rounded-2xl bg-green-50 p-4">
+                <div className="flex justify-between text-xs font-bold text-green-800">
+                  <span>Faltam {(60 - subtotal).toFixed(2).replace(".", ",")}€ para portes grátis</span>
+                  <span>60€</span>
+                </div>
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-green-200">
+                  <div
+                    className="h-full rounded-full bg-green-600 transition-all duration-300"
+                    style={{ width: `${Math.min((subtotal / 60) * 100, 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            {portes === 0 && subtotal > 0 && (
+              <div className="mt-5 rounded-2xl bg-green-50 p-4 text-xs font-bold text-green-800">
+                ✓ Portes grátis aplicados nesta encomenda
+              </div>
+            )}
+
+            <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-500">
               Portes fixos 3,75€ para todo o Portugal continental. Portes grátis em compras iguais ou superiores a 60€.
             </p>
 
