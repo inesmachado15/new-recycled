@@ -11,38 +11,33 @@ export const metadata: Metadata = {
 const categorias = [
   {
     titulo: "Toners",
-    texto: "Toners originais e compatíveis para todas as marcas.",
+    texto: "Originais e compatíveis para todas as marcas.",
     href: "/produtos?categoria=Toners",
-    cor: "bg-green-700 text-white hover:bg-green-800",
-    textoCor: "text-green-200",
+    imagem: "/categorias/toners.jpg",
   },
   {
     titulo: "Tinteiros",
-    texto: "Tinteiros para impressoras domésticas e profissionais.",
+    texto: "Para impressoras domésticas e profissionais.",
     href: "/produtos?categoria=Tinteiros",
-    cor: "bg-green-100 text-green-900 hover:bg-green-200",
-    textoCor: "text-green-700",
+    imagem: "/categorias/tinteiros.jpg",
   },
   {
     titulo: "Consumíveis",
-    texto: "Rolos térmicos, tambores, kits de manutenção e mais.",
+    texto: "Rolos térmicos, tambores e kits de manutenção.",
     href: "/produtos?categoria=Consumíveis",
-    cor: "bg-green-700 text-white hover:bg-green-800",
-    textoCor: "text-green-200",
+    imagem: "/categorias/consumiveis.jpg",
   },
   {
     titulo: "Papelaria",
     texto: "Material de escritório, escolar e organização.",
     href: "/produtos?categoria=Papelaria",
-    cor: "bg-green-100 text-green-900 hover:bg-green-200",
-    textoCor: "text-green-700",
+    imagem: "/categorias/papelaria.jpg",
   },
   {
     titulo: "Equipamento",
     texto: "Impressoras, destruidoras e equipamento de escritório.",
     href: "/produtos?categoria=Equipamento de Escritório",
-    cor: "bg-green-700 text-white hover:bg-green-800",
-    textoCor: "text-green-200",
+    imagem: "/categorias/equipamento.jpg",
   },
 ];
 
@@ -157,10 +152,19 @@ export default function HomePage() {
               <Link
                 key={cat.titulo}
                 href={cat.href}
-                className={`rounded-3xl p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md ${cat.cor}`}
+                className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
-                <p className="text-lg font-black">{cat.titulo}</p>
-                <p className={`mt-2 text-sm leading-6 ${cat.textoCor}`}>{cat.texto}</p>
+                <div className="h-36 overflow-hidden bg-slate-100">
+                  <img
+                    src={cat.imagem}
+                    alt={cat.titulo}
+                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-4">
+                  <p className="font-black text-slate-950">{cat.titulo}</p>
+                  <p className="mt-1 text-xs leading-5 text-slate-500">{cat.texto}</p>
+                </div>
               </Link>
             ))}
           </div>
