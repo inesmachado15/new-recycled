@@ -129,10 +129,10 @@ export default function HomePage() {
               <Link
                 key={m.nome}
                 href={m.href}
-                className="flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="flex h-10 w-24 items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
               >
                 {m.logo ? (
-                  <img src={m.logo} alt={m.nome} className="h-5 w-auto object-contain" />
+                  <img src={m.logo} alt={m.nome} className="h-5 w-16 object-contain" />
                 ) : (
                   <span className="text-xs font-bold text-slate-700">{m.nome}</span>
                 )}
