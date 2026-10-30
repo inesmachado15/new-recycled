@@ -42,15 +42,15 @@ const categorias = [
 ];
 
 const marcas = [
-  { nome: "HP", href: "/produtos?marca=HP" },
-  { nome: "Canon", href: "/produtos?marca=Canon" },
-  { nome: "Brother", href: "/produtos?marca=Brother" },
-  { nome: "Epson", href: "/produtos?marca=Epson" },
-  { nome: "Xerox", href: "/produtos?marca=Xerox" },
-  { nome: "Lexmark", href: "/produtos?marca=Lexmark" },
-  { nome: "Kyocera", href: "/produtos?marca=Kyocera" },
-  { nome: "Konica Minolta", href: "/produtos?marca=Konica Minolta" },
-  { nome: "Apli", href: "/produtos?marca=Apli" },
+  { nome: "HP", href: "/produtos?marca=HP", logo: "/marcas/hp.svg" },
+  { nome: "Canon", href: "/produtos?marca=Canon", logo: "/marcas/canon.svg" },
+  { nome: "Brother", href: "/produtos?marca=Brother", logo: "/marcas/brother.svg" },
+  { nome: "Epson", href: "/produtos?marca=Epson", logo: "/marcas/epson.svg" },
+  { nome: "Xerox", href: "/produtos?marca=Xerox", logo: "/marcas/xerox.svg" },
+  { nome: "Lexmark", href: "/produtos?marca=Lexmark", logo: "/marcas/lexmark.svg" },
+  { nome: "Kyocera", href: "/produtos?marca=Kyocera", logo: "/marcas/kyocera.svg" },
+  { nome: "Konica Minolta", href: "/produtos?marca=Konica Minolta", logo: "/marcas/konicaminolta.svg" },
+  { nome: "Apli", href: "/produtos?marca=Apli", logo: "/marcas/apli.svg" },
 ];
 
 const corMarca = (i: number) =>
@@ -129,9 +129,9 @@ export default function HomePage() {
               <Link
                 key={m.nome}
                 href={m.href}
-                className="flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-bold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 hover:shadow-md"
+                className="flex h-10 w-28 items-center justify-center rounded-xl border border-slate-200 bg-white px-3 shadow-sm transition hover:-translate-y-0.5 hover:border-green-600 hover:shadow-md"
               >
-                {m.nome}
+                <img src={m.logo} alt={m.nome} className="max-h-5 w-full object-contain" />
               </Link>
             ))}
             <Link
