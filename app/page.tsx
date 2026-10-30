@@ -89,9 +89,9 @@ async function getProdutosDestaque() {
     .in("category", ["Toners", "Tinteiros", "Consumíveis"])
     .not("image_url", "is", null)
     .not("price", "is", null)
-    .gt("price", 0)
-    .order("price", { ascending: true })
-    .limit(8);
+    .gt("price", 8)
+    .order("name", { ascending: true })
+    .limit(16);
   return data || [];
 }
 
@@ -206,13 +206,13 @@ export default async function HomePage() {
                   href={`/produtos/${p.slug}`}
                   className="group flex flex-col rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                 >
-                  <div className="flex h-36 items-center justify-center overflow-hidden rounded-t-xl bg-slate-50 p-3">
+                  <div className="flex h-44 items-center justify-center overflow-hidden rounded-t-xl bg-slate-50 p-2">
                     <Image
                       src={p.image_url!}
                       alt={p.name}
                       width={160}
                       height={120}
-                      className="max-h-28 w-auto object-contain"
+                      className="max-h-36 w-auto object-contain"
                       unoptimized
                     />
                   </div>
@@ -225,6 +225,14 @@ export default async function HomePage() {
                   </div>
                 </Link>
               ))}
+            </div>
+            <div className="mt-6 text-center">
+              <Link
+                href="/produtos"
+                className="inline-flex items-center gap-2 rounded-full bg-green-700 px-8 py-3 text-sm font-bold text-white transition hover:bg-green-800"
+              >
+                Ver todos os produtos →
+              </Link>
             </div>
           </section>
         )}
