@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
+import { createClient } from "@supabase/supabase-js";
 import SearchBar from "@/components/SearchBar";
 
 export const metadata: Metadata = {
@@ -75,7 +77,26 @@ const vantagens = [
   },
 ];
 
-export default function HomePage() {
+async function getProdutosDestaque() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+  const { data } = await supabase
+    .from("products")
+    .select("slug, name, category, brand, reference, image_url, price, price_text")
+    .eq("active", true)
+    .in("category", ["Toners", "Tinteiros", "Consumíveis"])
+    .not("image_url", "is", null)
+    .not("price", "is", null)
+    .gt("price", 0)
+    .order("price", { ascending: true })
+    .limit(8);
+  return data || [];
+}
+
+export default async function HomePage() {
+  const produtosDestaque = await getProdutosDestaque();
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
       <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
@@ -167,40 +188,46 @@ export default function HomePage() {
         </section>
 
         {/* Produtos em destaque */}
-        <section className="mt-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-green-700">Mais vendidos</p>
-              <h2 className="mt-1 text-xl font-black text-slate-950">Produtos em destaque</h2>
-            </div>
-            <Link href="/produtos" className="text-xs font-bold text-green-700 transition hover:text-green-800">
-              Ver catálogo →
-            </Link>
-          </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { ref: "TN1050", nome: "Toner Brother TN1050 Compatível", marca: "Brother", categoria: "Toners", slug: "toner-brother-tn1050-compativel" },
-              { ref: "603XL", nome: "Pack HP 603XL Compatível", marca: "HP", categoria: "Tinteiros", slug: "pack-hp-603xl-compativel" },
-              { ref: "3YM62AE", nome: "Tinteiro HP 305XL Preto Original", marca: "HP", categoria: "Tinteiros", slug: "tinteiro-hp-305xl-preto-original" },
-              { ref: "BT-DR1050", nome: "Tambor Brother DR1050 Compatível", marca: "Brother", categoria: "Consumíveis", slug: "tambor-brother-dr1050-compativel" },
-              { ref: "EI-604XLBK", nome: "Tinteiro Epson 604XL Preto Compatível", marca: "Epson", categoria: "Tinteiros", slug: "tinteiro-epson-604xl-preto-compativel" },
-              { ref: "HT-W1420A", nome: "Toner HP 142A XL Preto Compatível", marca: "HP", categoria: "Toners", slug: "toner-hp-142a-xl-preto-compativel" },
-              { ref: "BT-TN2510XL", nome: "Toner Brother TN2510XL Preto Compatível", marca: "Brother", categoria: "Toners", slug: "toner-brother-tn2510xl-preto-compativel" },
-              { ref: "3YM63AE", nome: "Tinteiro HP 305XL Cor Original", marca: "HP", categoria: "Tinteiros", slug: "tinteiro-hp-305xl-cor-original" },
-            ].map((p) => (
-              <Link
-                key={p.ref}
-                href={`/produtos/${p.slug}`}
-                className="group rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-              >
-                <span className="inline-block rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold uppercase text-green-700">{p.categoria}</span>
-                <p className="mt-2 text-sm font-black leading-snug text-slate-950 group-hover:text-green-700">{p.nome}</p>
-                <p className="mt-1 text-xs text-slate-400">{p.marca} · {p.ref}</p>
-                <p className="mt-3 text-xs font-semibold text-green-700">Ver produto →</p>
+        {produtosDestaque.length > 0 && (
+          <section className="mt-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-green-700">Mais vendidos</p>
+                <h2 className="mt-1 text-xl font-black text-slate-950">Produtos em destaque</h2>
+              </div>
+              <Link href="/produtos" className="text-xs font-bold text-green-700 transition hover:text-green-800">
+                Ver catálogo →
               </Link>
-            ))}
-          </div>
-        </section>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {produtosDestaque.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={`/produtos/${p.slug}`}
+                  className="group flex flex-col rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <div className="flex h-36 items-center justify-center overflow-hidden rounded-t-xl bg-slate-50 p-3">
+                    <Image
+                      src={p.image_url!}
+                      alt={p.name}
+                      width={160}
+                      height={120}
+                      className="max-h-28 w-auto object-contain"
+                      unoptimized
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col p-3">
+                    <span className="inline-block w-fit rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold uppercase text-green-700">{p.category}</span>
+                    <p className="mt-1.5 text-sm font-black leading-snug text-slate-950 group-hover:text-green-700">{p.name}</p>
+                    <p className="mt-auto pt-2 text-base font-black text-green-700">
+                      {p.price ? `${p.price.toFixed(2).replace(".", ",")}€` : "Sob consulta"}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Vantagens */}
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
