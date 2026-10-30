@@ -42,15 +42,15 @@ const categorias = [
 ];
 
 const marcas = [
-  { nome: "HP", href: "/produtos?marca=HP" },
-  { nome: "Canon", href: "/produtos?marca=Canon" },
-  { nome: "Brother", href: "/produtos?marca=Brother" },
-  { nome: "Epson", href: "/produtos?marca=Epson" },
-  { nome: "Xerox", href: "/produtos?marca=Xerox" },
-  { nome: "Lexmark", href: "/produtos?marca=Lexmark" },
-  { nome: "Kyocera", href: "/produtos?marca=Kyocera" },
-  { nome: "Konica Minolta", href: "/produtos?marca=Konica Minolta" },
-  { nome: "Apli", href: "/produtos?marca=Apli" },
+  { nome: "HP", href: "/produtos?marca=HP", logo: "https://cdn.simpleicons.org/hp/000000" },
+  { nome: "Canon", href: "/produtos?marca=Canon", logo: "https://cdn.simpleicons.org/canon/000000" },
+  { nome: "Brother", href: "/produtos?marca=Brother", logo: "https://cdn.simpleicons.org/brother/000000" },
+  { nome: "Epson", href: "/produtos?marca=Epson", logo: "https://cdn.simpleicons.org/epson/000000" },
+  { nome: "Xerox", href: "/produtos?marca=Xerox", logo: null },
+  { nome: "Lexmark", href: "/produtos?marca=Lexmark", logo: null },
+  { nome: "Kyocera", href: "/produtos?marca=Kyocera", logo: null },
+  { nome: "Konica Minolta", href: "/produtos?marca=Konica Minolta", logo: null },
+  { nome: "Apli", href: "/produtos?marca=Apli", logo: null },
 ];
 
 const corMarca = (i: number) =>
@@ -123,23 +123,57 @@ export default function HomePage() {
 
         {/* Marcas — logo após o hero */}
         <section className="mt-4">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-slate-500">Marcas</p>
-          <div className="flex flex-wrap gap-2">
-            {marcas.map((m, i) => (
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-slate-500">Marcas</p>
+          <div className="flex flex-wrap items-center gap-3">
+            {marcas.map((m) => (
               <Link
                 key={m.nome}
                 href={m.href}
-                className={`rounded-full px-4 py-2 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${corMarca(i)}`}
+                className="flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
               >
-                {m.nome}
+                {m.logo ? (
+                  <img src={m.logo} alt={m.nome} className="h-5 w-auto object-contain" />
+                ) : (
+                  <span className="text-xs font-bold text-slate-700">{m.nome}</span>
+                )}
               </Link>
             ))}
             <Link
               href="/produtos"
-              className="rounded-full border border-dashed border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-400 transition hover:border-green-700 hover:text-green-700"
+              className="flex h-10 items-center rounded-xl border border-dashed border-slate-300 bg-white px-4 text-xs font-bold text-slate-400 transition hover:border-green-700 hover:text-green-700"
             >
               + outras
             </Link>
+          </div>
+        </section>
+
+        {/* Categorias — logo após marcas */}
+        <section className="mt-6">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-green-700">Categorias</p>
+            <Link href="/produtos" className="text-xs font-bold text-green-700 transition hover:text-green-800">
+              Ver tudo →
+            </Link>
+          </div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            {categorias.map((cat) => (
+              <Link
+                key={cat.titulo}
+                href={cat.href}
+                className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              >
+                <div className="h-24 overflow-hidden bg-slate-100">
+                  <img
+                    src={cat.imagem}
+                    alt={cat.titulo}
+                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-3">
+                  <p className="text-sm font-black text-slate-950">{cat.titulo}</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </section>
 
@@ -153,44 +187,6 @@ export default function HomePage() {
             </article>
           ))}
         </div>
-
-        {/* Categorias */}
-        <section className="mt-12">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">Categorias</p>
-              <h2 className="mt-3 text-3xl font-black text-slate-950">O que pode encomendar</h2>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-                Consulte o catálogo ou contacte-nos para confirmar disponibilidade e compatibilidades.
-              </p>
-            </div>
-            <Link href="/produtos" className="text-sm font-bold text-green-700 transition hover:text-green-800">
-              Ver catálogo completo →
-            </Link>
-          </div>
-
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {categorias.map((cat) => (
-              <Link
-                key={cat.titulo}
-                href={cat.href}
-                className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-              >
-                <div className="h-36 overflow-hidden bg-slate-100">
-                  <img
-                    src={cat.imagem}
-                    alt={cat.titulo}
-                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-4">
-                  <p className="font-black text-slate-950">{cat.titulo}</p>
-                  <p className="mt-1 text-xs leading-5 text-slate-500">{cat.texto}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
 
         {/* Como funciona + Ajuda */}
         <section className="mt-12 grid gap-6 lg:grid-cols-2">
