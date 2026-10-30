@@ -83,15 +83,15 @@ export default function HomePage() {
 
         {/* Hero */}
         <div className="overflow-hidden rounded-[2rem] border border-green-900 bg-green-800 shadow-sm">
-          <div className="grid gap-4 bg-green-800 px-7 py-5 lg:grid-cols-[1fr_210px] lg:gap-6 lg:px-10 lg:py-6">
+          <div className="grid gap-3 bg-green-800 px-6 py-4 lg:grid-cols-[1fr_180px] lg:gap-4 lg:px-8 lg:py-4">
             <div className="flex flex-col justify-center">
               <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-300">
                 New & Recycled
               </p>
-              <h1 className="mt-3 text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl">
+              <h1 className="mt-2 text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl">
                 O toner certo. Ao melhor preço.
               </h1>
-              <p className="mt-3 text-base leading-7 text-green-100">
+              <p className="mt-2 text-sm leading-6 text-green-100">
                 Mais de 9.000 produtos para impressoras, escritórios e escolas. Portes fixos 3,75€ ou grátis em compras iguais ou superiores a 60€.
               </p>
               <SearchBar />

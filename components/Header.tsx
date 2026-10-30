@@ -96,7 +96,7 @@ export default function Header() {
           <img
             src="/logotipo.png"
             alt="New & Recycled"
-            className="h-8 w-auto object-contain mix-blend-multiply sm:h-10"
+            className="h-10 w-auto object-contain mix-blend-multiply sm:h-12"
           />
         </Link>
 
