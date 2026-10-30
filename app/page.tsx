@@ -42,15 +42,15 @@ const categorias = [
 ];
 
 const marcas = [
-  { nome: "HP", href: "/produtos?marca=HP", logo: "https://cdn.simpleicons.org/hp/000000" },
-  { nome: "Canon", href: "/produtos?marca=Canon", logo: "https://cdn.simpleicons.org/canon/000000" },
-  { nome: "Brother", href: "/produtos?marca=Brother", logo: "https://cdn.simpleicons.org/brother/000000" },
-  { nome: "Epson", href: "/produtos?marca=Epson", logo: "https://cdn.simpleicons.org/epson/000000" },
-  { nome: "Xerox", href: "/produtos?marca=Xerox", logo: null },
-  { nome: "Lexmark", href: "/produtos?marca=Lexmark", logo: null },
-  { nome: "Kyocera", href: "/produtos?marca=Kyocera", logo: null },
-  { nome: "Konica Minolta", href: "/produtos?marca=Konica Minolta", logo: null },
-  { nome: "Apli", href: "/produtos?marca=Apli", logo: null },
+  { nome: "HP", href: "/produtos?marca=HP" },
+  { nome: "Canon", href: "/produtos?marca=Canon" },
+  { nome: "Brother", href: "/produtos?marca=Brother" },
+  { nome: "Epson", href: "/produtos?marca=Epson" },
+  { nome: "Xerox", href: "/produtos?marca=Xerox" },
+  { nome: "Lexmark", href: "/produtos?marca=Lexmark" },
+  { nome: "Kyocera", href: "/produtos?marca=Kyocera" },
+  { nome: "Konica Minolta", href: "/produtos?marca=Konica Minolta" },
+  { nome: "Apli", href: "/produtos?marca=Apli" },
 ];
 
 const corMarca = (i: number) =>
@@ -129,13 +129,9 @@ export default function HomePage() {
               <Link
                 key={m.nome}
                 href={m.href}
-                className="flex h-10 w-24 items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-bold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-green-600 hover:text-green-700 hover:shadow-md"
               >
-                {m.logo ? (
-                  <img src={m.logo} alt={m.nome} className="h-5 w-16 object-contain" />
-                ) : (
-                  <span className="text-xs font-bold text-slate-700">{m.nome}</span>
-                )}
+                {m.nome}
               </Link>
             ))}
             <Link
