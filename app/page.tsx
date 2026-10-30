@@ -82,16 +82,16 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
 
         {/* Hero */}
-        <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
-          <div className="grid gap-6 bg-gradient-to-br from-white via-slate-50 to-green-50 px-7 py-8 lg:grid-cols-[1fr_210px] lg:gap-6 lg:px-10 lg:py-10">
+        <div className="overflow-hidden rounded-[2rem] border border-green-900 bg-green-800 shadow-sm">
+          <div className="grid gap-6 bg-green-800 px-7 py-8 lg:grid-cols-[1fr_210px] lg:gap-6 lg:px-10 lg:py-10">
             <div className="flex flex-col justify-center">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-700">
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-300">
                 New & Recycled
               </p>
-              <h1 className="mt-3 text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl">
+              <h1 className="mt-3 text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl">
                 O toner certo. Ao melhor preço.
               </h1>
-              <p className="mt-3 text-base leading-7 text-slate-600">
+              <p className="mt-3 text-base leading-7 text-green-100">
                 Mais de 9.000 produtos para impressoras, escritórios e escolas. Portes fixos 3,75€ ou grátis em compras iguais ou superiores a 60€.
               </p>
               <SearchBar />
@@ -107,10 +107,10 @@ export default function HomePage() {
 
             <aside className="grid grid-cols-2 gap-2 content-center">
               {[
-                { num: "9 000+", label: "produtos", cor: "bg-green-700 text-white" },
-                { num: "3,75€", label: "portes fixos", cor: "bg-green-100 text-green-900" },
-                { num: "MB WAY", label: "e Multibanco", cor: "bg-green-100 text-green-900" },
-                { num: "Grátis", label: "a partir de 60€", cor: "bg-green-700 text-white" },
+                { num: "9 000+", label: "produtos", cor: "bg-white/20 text-white" },
+                { num: "3,75€", label: "portes fixos", cor: "bg-white/10 text-white" },
+                { num: "MB WAY", label: "e Multibanco", cor: "bg-white/10 text-white" },
+                { num: "Grátis", label: "a partir de 60€", cor: "bg-white/20 text-white" },
               ].map((s) => (
                 <div key={s.label} className={`flex flex-col justify-center rounded-xl px-3 py-3 ${s.cor}`}>
                   <span className="text-base font-black leading-none tracking-tight">{s.num}</span>
