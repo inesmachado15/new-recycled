@@ -50,7 +50,6 @@ const marcas = [
   { nome: "Lexmark", href: "/produtos?marca=Lexmark", logo: "/marcas/lexmark.webp" },
   { nome: "Kyocera", href: "/produtos?marca=Kyocera", logo: "/marcas/kyocera.png" },
   { nome: "Konica Minolta", href: "/produtos?marca=Konica Minolta", logo: "/marcas/konica.png" },
-  { nome: "Apli", href: "/produtos?marca=Apli", logo: "/marcas/apli.webp" },
 ];
 
 const corMarca = (i: number) =>
@@ -134,12 +133,6 @@ export default function HomePage() {
                 <img src={m.logo} alt={m.nome} className="max-h-7 w-full object-contain mix-blend-multiply" />
               </Link>
             ))}
-            <Link
-              href="/produtos"
-              className="flex h-10 items-center rounded-xl border border-dashed border-slate-300 bg-white px-4 text-xs font-bold text-slate-400 transition hover:border-green-700 hover:text-green-700"
-            >
-              + outras
-            </Link>
           </div>
         </section>
 
