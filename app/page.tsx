@@ -123,6 +123,7 @@ export default function HomePage() {
 
         {/* Marcas — logo após o hero */}
         <section className="mt-4">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-slate-500">Marcas</p>
           <div className="flex flex-wrap gap-2">
             {marcas.map((m, i) => (
               <Link
