@@ -155,7 +155,7 @@ export default function HomePage() {
                   <img
                     src={cat.imagem}
                     alt={cat.titulo}
-                    className="h-full w-full object-contain p-3 transition duration-300 group-hover:scale-105"
+                    className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-3">
