@@ -42,14 +42,14 @@ const categorias = [
 ];
 
 const marcas = [
-  { nome: "HP", href: "/produtos?marca=HP", logo: "/marcas/hp.png" },
-  { nome: "Canon", href: "/produtos?marca=Canon", logo: "/marcas/canon.png" },
-  { nome: "Brother", href: "/produtos?marca=Brother", logo: "/marcas/brother.webp" },
-  { nome: "Epson", href: "/produtos?marca=Epson", logo: "/marcas/epson.png" },
-  { nome: "Xerox", href: "/produtos?marca=Xerox", logo: "/marcas/xerox.png" },
-  { nome: "Lexmark", href: "/produtos?marca=Lexmark", logo: "/marcas/lexmark.webp" },
-  { nome: "Kyocera", href: "/produtos?marca=Kyocera", logo: "/marcas/kyocera.png" },
-  { nome: "Konica Minolta", href: "/produtos?marca=Konica Minolta", logo: "/marcas/konica.png" },
+  { nome: "HP", href: "/produtos?marca=HP", logo: "/marcas/hp.png", imgClass: "max-h-7 max-w-[3rem]" },
+  { nome: "Canon", href: "/produtos?marca=Canon", logo: "/marcas/canon.png", imgClass: "max-h-9 max-w-[5rem]" },
+  { nome: "Brother", href: "/produtos?marca=Brother", logo: "/marcas/brother.webp", imgClass: "max-h-8 max-w-[5.5rem]" },
+  { nome: "Epson", href: "/produtos?marca=Epson", logo: "/marcas/epson.png", imgClass: "max-h-6 max-w-[4.5rem]" },
+  { nome: "Xerox", href: "/produtos?marca=Xerox", logo: "/marcas/xerox.png", imgClass: "max-h-8 max-w-[4.5rem]" },
+  { nome: "Lexmark", href: "/produtos?marca=Lexmark", logo: "/marcas/lexmark.webp", imgClass: "max-h-6 max-w-[5rem]" },
+  { nome: "Kyocera", href: "/produtos?marca=Kyocera", logo: "/marcas/kyocera.png", imgClass: "max-h-6 max-w-[5rem]" },
+  { nome: "Konica Minolta", href: "/produtos?marca=Konica Minolta", logo: "/marcas/konica.png", imgClass: "max-h-6 max-w-[4.5rem]" },
 ];
 
 const corMarca = (i: number) =>
@@ -123,14 +123,14 @@ export default function HomePage() {
         {/* Marcas — logo após o hero */}
         <section className="mt-4">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-slate-500">Marcas</p>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="grid grid-cols-8 gap-2">
             {marcas.map((m) => (
               <Link
                 key={m.nome}
                 href={m.href}
-                className="flex h-12 w-32 items-center justify-center rounded-xl border border-slate-200 bg-white p-2 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white p-2 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
               >
-                <img src={m.logo} alt={m.nome} className="max-h-7 w-full object-contain mix-blend-multiply" />
+                <img src={m.logo} alt={m.nome} className={`object-contain mix-blend-multiply ${m.imgClass}`} />
               </Link>
             ))}
           </div>
