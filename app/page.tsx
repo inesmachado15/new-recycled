@@ -166,6 +166,42 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Produtos em destaque */}
+        <section className="mt-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-green-700">Mais vendidos</p>
+              <h2 className="mt-1 text-xl font-black text-slate-950">Produtos em destaque</h2>
+            </div>
+            <Link href="/produtos" className="text-xs font-bold text-green-700 transition hover:text-green-800">
+              Ver catálogo →
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { ref: "TN1050", nome: "Toner Brother TN1050 Compatível", marca: "Brother", categoria: "Toners", slug: "toner-brother-tn1050-compativel" },
+              { ref: "603XL", nome: "Pack HP 603XL Compatível", marca: "HP", categoria: "Tinteiros", slug: "pack-hp-603xl-compativel" },
+              { ref: "3YM62AE", nome: "Tinteiro HP 305XL Preto Original", marca: "HP", categoria: "Tinteiros", slug: "tinteiro-hp-305xl-preto-original" },
+              { ref: "BT-DR1050", nome: "Tambor Brother DR1050 Compatível", marca: "Brother", categoria: "Consumíveis", slug: "tambor-brother-dr1050-compativel" },
+              { ref: "EI-604XLBK", nome: "Tinteiro Epson 604XL Preto Compatível", marca: "Epson", categoria: "Tinteiros", slug: "tinteiro-epson-604xl-preto-compativel" },
+              { ref: "HT-W1420A", nome: "Toner HP 142A XL Preto Compatível", marca: "HP", categoria: "Toners", slug: "toner-hp-142a-xl-preto-compativel" },
+              { ref: "BT-TN2510XL", nome: "Toner Brother TN2510XL Preto Compatível", marca: "Brother", categoria: "Toners", slug: "toner-brother-tn2510xl-preto-compativel" },
+              { ref: "3YM63AE", nome: "Tinteiro HP 305XL Cor Original", marca: "HP", categoria: "Tinteiros", slug: "tinteiro-hp-305xl-cor-original" },
+            ].map((p) => (
+              <Link
+                key={p.ref}
+                href={`/produtos/${p.slug}`}
+                className="group rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <span className="inline-block rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold uppercase text-green-700">{p.categoria}</span>
+                <p className="mt-2 text-sm font-black leading-snug text-slate-950 group-hover:text-green-700">{p.nome}</p>
+                <p className="mt-1 text-xs text-slate-400">{p.marca} · {p.ref}</p>
+                <p className="mt-3 text-xs font-semibold text-green-700">Ver produto →</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {/* Vantagens */}
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {vantagens.map((v) => (
