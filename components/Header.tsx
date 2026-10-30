@@ -91,16 +91,16 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-1">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-0">
         <Link href="/" className="flex items-center" onClick={fecharMenu}>
           <img
             src="/logotipo.png"
             alt="New & Recycled"
-            className="h-20 w-auto object-contain sm:h-28"
+            className="h-16 w-auto object-contain mix-blend-multiply sm:h-20"
           />
         </Link>
 
-        <nav className="hidden items-center gap-8 text-[15px] font-semibold text-slate-700 md:flex">
+        <nav className="hidden items-center gap-8 text-[17px] font-bold text-slate-700 md:flex">
           <Link
             href="/"
             onClick={fecharMenu}

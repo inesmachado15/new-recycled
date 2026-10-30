@@ -83,7 +83,7 @@ export default function HomePage() {
 
         {/* Hero */}
         <div className="overflow-hidden rounded-[2rem] border border-green-900 bg-green-800 shadow-sm">
-          <div className="grid gap-6 bg-green-800 px-7 py-8 lg:grid-cols-[1fr_210px] lg:gap-6 lg:px-10 lg:py-10">
+          <div className="grid gap-4 bg-green-800 px-7 py-5 lg:grid-cols-[1fr_210px] lg:gap-6 lg:px-10 lg:py-6">
             <div className="flex flex-col justify-center">
               <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-300">
                 New & Recycled
@@ -121,8 +121,29 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Marcas — logo após o hero */}
+        <section className="mt-4">
+          <div className="flex flex-wrap gap-2">
+            {marcas.map((m, i) => (
+              <Link
+                key={m.nome}
+                href={m.href}
+                className={`rounded-full px-4 py-2 text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${corMarca(i)}`}
+              >
+                {m.nome}
+              </Link>
+            ))}
+            <Link
+              href="/produtos"
+              className="rounded-full border border-dashed border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-400 transition hover:border-green-700 hover:text-green-700"
+            >
+              + outras
+            </Link>
+          </div>
+        </section>
+
         {/* Vantagens */}
-        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {vantagens.map((v) => (
             <article key={v.titulo} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
               <p className="text-2xl">{v.icone}</p>
@@ -167,29 +188,6 @@ export default function HomePage() {
                 </div>
               </Link>
             ))}
-          </div>
-        </section>
-
-        {/* Marcas */}
-        <section className="mt-12">
-          <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">Marcas</p>
-          <h2 className="mt-3 text-3xl font-black text-slate-950">Principais marcas disponíveis</h2>
-          <div className="mt-6 grid grid-cols-5 gap-2 sm:grid-cols-10">
-            {marcas.map((m, i) => (
-              <Link
-                key={m.nome}
-                href={m.href}
-                className={`rounded-full py-2.5 text-center text-sm font-bold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${corMarca(i)}`}
-              >
-                {m.nome}
-              </Link>
-            ))}
-            <Link
-              href="/produtos"
-              className="rounded-full border border-dashed border-slate-300 bg-white py-2.5 text-center text-sm font-bold text-slate-400 transition hover:border-green-700 hover:text-green-700"
-            >
-              + outras
-            </Link>
           </div>
         </section>
 
