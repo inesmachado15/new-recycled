@@ -151,11 +151,11 @@ export default function HomePage() {
                 href={cat.href}
                 className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
-                <div className="h-24 overflow-hidden bg-slate-100">
+                <div className="h-24 overflow-hidden bg-white">
                   <img
                     src={cat.imagem}
                     alt={cat.titulo}
-                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                    className="h-full w-full object-contain p-2 transition duration-300 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-3">
