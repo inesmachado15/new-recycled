@@ -98,7 +98,7 @@ async function getProdutosDestaque() {
 export default async function HomePage() {
   const produtosDestaque = await getProdutosDestaque();
   return (
-    <main className="min-h-screen bg-[#e2e8d0] text-slate-950">
+    <main className="min-h-screen bg-[#e8ead8] text-slate-950">
       <section className="mx-auto max-w-7xl px-6 pb-12 pt-4">
 
         {/* Hero */}
