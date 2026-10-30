@@ -220,7 +220,11 @@ export default async function HomePage() {
                     <span className="inline-block w-fit rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold uppercase text-green-700">{p.category}</span>
                     <p className="mt-1.5 text-sm font-black leading-snug text-slate-950 group-hover:text-green-700">{p.name}</p>
                     <p className="mt-auto pt-2 text-base font-black text-green-700">
-                      {p.price ? `${p.price.toFixed(2).replace(".", ",")}€` : "Sob consulta"}
+                      {p.price_text
+                        ? p.price_text
+                        : p.price
+                        ? `${p.price.toFixed(2).replace(".", ",")}€`
+                        : "Sob consulta"}
                     </p>
                   </div>
                 </Link>
