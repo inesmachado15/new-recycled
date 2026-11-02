@@ -63,7 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-PT">
-      <body>
+      <body className="bg-[#e8ead8]">
         <Header />
         {children}
         <Footer />
