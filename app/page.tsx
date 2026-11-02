@@ -103,19 +103,34 @@ export default async function HomePage() {
 
         {/* Hero */}
         <div className="overflow-hidden rounded-[2rem] border border-green-900 bg-green-800 shadow-sm">
-          <div className="grid gap-3 bg-green-800 px-6 py-4 lg:grid-cols-[1fr_180px] lg:gap-4 lg:px-8 lg:py-4">
-            <div className="flex flex-col justify-center">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-green-300">
+          <div className="flex flex-col gap-3 bg-green-800 px-5 py-5 sm:px-8 lg:grid lg:grid-cols-[1fr_200px] lg:items-center lg:gap-6 lg:px-10 lg:py-6">
+
+            {/* Logo — mobile: centrado no topo; desktop: coluna direita */}
+            <div className="flex justify-center lg:order-2 lg:justify-center">
+              <Image
+                src="/logotipo.png"
+                alt="New & Recycled"
+                width={220}
+                height={220}
+                className="h-auto w-24 object-contain drop-shadow-lg sm:w-28 lg:w-48"
+                priority
+              />
+            </div>
+
+            {/* Texto + pesquisa — desktop: coluna esquerda */}
+            <div className="flex flex-col lg:order-1">
+              <p className="text-center text-xs font-bold uppercase tracking-[0.3em] text-green-300 lg:text-left">
                 New & Recycled
               </p>
-              <h1 className="mt-2 text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl">
+              <h1 className="mt-2 text-center text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl lg:text-left">
                 O toner certo. Ao melhor preço.
               </h1>
-              <p className="mt-2 text-sm leading-6 text-green-100">
-                Mais de 9.000 produtos para impressoras, escritórios e escolas. Portes fixos 3,75€ ou grátis em compras iguais ou superiores a 60€.
+              <p className="mt-2 text-center text-sm leading-6 text-green-100 lg:text-left">
+                Mais de 9.000 produtos para impressoras, escritórios e escolas.{" "}
+                Portes fixos 3,75€ ou grátis em compras ≥ 60€.
               </p>
               <SearchBar />
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-3 flex flex-wrap justify-center gap-2 lg:justify-start">
                 <Link href="/sobre" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
                   Como encomendar
                 </Link>
@@ -124,17 +139,6 @@ export default async function HomePage() {
                 </a>
               </div>
             </div>
-
-            <aside className="hidden items-center justify-center lg:flex">
-              <Image
-                src="/logotipo.png"
-                alt="New & Recycled"
-                width={220}
-                height={220}
-                className="h-auto w-full max-w-[200px] object-contain drop-shadow-lg"
-                priority
-              />
-            </aside>
           </div>
         </div>
 
