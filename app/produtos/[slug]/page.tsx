@@ -91,7 +91,7 @@ export default async function ProdutoDetalhePage({
   }
 
   const produto = data as Produto;
-  const disponivel = produto.active && (produto.stock > 0 || produto.allow_backorder);
+  const disponivel = produto.active;
   const emStock = produto.stock > 0;
   const semPreco = produto.price === null;
 
@@ -191,12 +191,8 @@ export default async function ProdutoDetalhePage({
                 </p>
               )}
               <p>
-                <span className="font-bold text-slate-900">Stock:</span>{" "}
-                {emStock
-                  ? produto.stock === 1 ? "1 unidade" : `${produto.stock} unidades`
-                  : produto.allow_backorder
-                  ? "Por encomenda"
-                  : "Sem stock"}
+                <span className="font-bold text-slate-900">Disponibilidade:</span>{" "}
+                {emStock ? "Em stock" : produto.allow_backorder ? "Por encomenda" : "Consultar disponibilidade"}
               </p>
             </div>
 
@@ -231,7 +227,7 @@ export default async function ProdutoDetalhePage({
           </div>
         </section>
 
-        <section className="mt-8 grid gap-6 lg:grid-cols-2">
+        <section className={`mt-8 grid gap-6 ${produto.compatibility ? "lg:grid-cols-2" : ""}`}>
           <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-green-700">
               Descrição
@@ -242,16 +238,17 @@ export default async function ProdutoDetalhePage({
             </p>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-green-700">
-              Compatibilidade
-            </p>
-            <h2 className="mt-3 text-2xl font-black">Informação técnica</h2>
-            <p className="mt-4 whitespace-pre-line text-sm leading-7 text-slate-600">
-              {produto.compatibility ||
-                "Não existe informação de compatibilidade disponível para este produto."}
-            </p>
-          </div>
+          {produto.compatibility && (
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-green-700">
+                Compatibilidade
+              </p>
+              <h2 className="mt-3 text-2xl font-black">Informação técnica</h2>
+              <p className="mt-4 whitespace-pre-line text-sm leading-7 text-slate-600">
+                {produto.compatibility}
+              </p>
+            </div>
+          )}
         </section>
       </section>
     </main>

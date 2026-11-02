@@ -141,12 +141,12 @@ export default async function HomePage() {
         {/* Marcas — logo após o hero */}
         <section className="mt-4">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-slate-500">Marcas</p>
-          <div className="grid grid-cols-8 gap-2">
+          <div className="flex gap-2 overflow-x-auto pb-1 sm:grid sm:grid-cols-8">
             {marcas.map((m) => (
               <Link
                 key={m.nome}
                 href={m.href}
-                className="flex h-12 items-center justify-center rounded-xl border border-slate-200 bg-white p-2 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="flex h-12 w-20 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white p-2 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:w-auto"
               >
                 <img src={m.logo} alt={m.nome} className={`object-contain mix-blend-multiply ${m.imgClass}`} />
               </Link>
