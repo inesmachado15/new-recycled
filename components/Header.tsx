@@ -118,27 +118,11 @@ export default function Header() {
           </Link>
 
           <Link
-            href="/como-encomendar"
-            onClick={fecharMenu}
-            className="transition hover:text-green-700"
-          >
-            Como encomendar?
-          </Link>
-
-          <Link
             href="/sobre"
             onClick={fecharMenu}
             className="transition hover:text-green-700"
           >
             Sobre nós
-          </Link>
-
-          <Link
-            href="/contacto"
-            onClick={fecharMenu}
-            className="transition hover:text-green-700"
-          >
-            Contacto
           </Link>
 
           <Link
@@ -204,27 +188,11 @@ export default function Header() {
             </Link>
 
             <Link
-              href="/como-encomendar"
-              onClick={fecharMenu}
-              className="rounded-2xl px-4 py-3 transition hover:bg-green-50 hover:text-green-700"
-            >
-              Como encomendar?
-            </Link>
-
-            <Link
               href="/sobre"
               onClick={fecharMenu}
               className="rounded-2xl px-4 py-3 transition hover:bg-green-50 hover:text-green-700"
             >
               Sobre nós
-            </Link>
-
-            <Link
-              href="/contacto"
-              onClick={fecharMenu}
-              className="rounded-2xl px-4 py-3 transition hover:bg-green-50 hover:text-green-700"
-            >
-              Contacto
             </Link>
 
             <Link
