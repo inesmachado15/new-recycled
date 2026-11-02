@@ -116,27 +116,24 @@ export default async function HomePage() {
               </p>
               <SearchBar />
               <div className="mt-3 flex flex-wrap gap-2">
-                <Link href="/como-encomendar" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
+                <Link href="/sobre" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
                   Como encomendar
                 </Link>
-                <Link href="/contacto" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
+                <a href="https://wa.me/351968120503" target="_blank" rel="noreferrer" className="rounded-full border border-slate-300 bg-white px-5 py-2 text-sm font-bold text-slate-700 transition hover:border-green-700 hover:text-green-700">
                   Pedir ajuda
-                </Link>
+                </a>
               </div>
             </div>
 
-            <aside className="grid grid-cols-2 gap-2 content-center">
-              {[
-                { num: "9 000+", label: "produtos", cor: "bg-white/20 text-white" },
-                { num: "3,75€", label: "portes fixos", cor: "bg-white/10 text-white" },
-                { num: "MB WAY", label: "e Multibanco", cor: "bg-white/10 text-white" },
-                { num: "Grátis", label: "a partir de 60€", cor: "bg-white/20 text-white" },
-              ].map((s) => (
-                <div key={s.label} className={`flex flex-col justify-center rounded-xl px-3 py-3 ${s.cor}`}>
-                  <span className="text-base font-black leading-none tracking-tight">{s.num}</span>
-                  <span className="mt-1 text-xs font-medium leading-tight opacity-80">{s.label}</span>
-                </div>
-              ))}
+            <aside className="hidden items-center justify-center lg:flex">
+              <Image
+                src="/logotipo.png"
+                alt="New & Recycled"
+                width={220}
+                height={220}
+                className="h-auto w-full max-w-[200px] object-contain drop-shadow-lg"
+                priority
+              />
             </aside>
           </div>
         </div>
