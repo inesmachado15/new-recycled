@@ -96,7 +96,7 @@ export default async function ProdutoDetalhePage({
   const semPreco = produto.price === null;
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+    <main className="min-h-screen px-6 py-12 text-slate-900">
       <section className="mx-auto max-w-6xl">
         <nav className="flex items-center gap-2 text-sm text-slate-500">
           <Link href="/produtos" className="font-bold text-green-700 hover:text-green-800">

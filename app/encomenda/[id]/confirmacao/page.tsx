@@ -139,7 +139,7 @@ export default function ConfirmacaoEncomendaPage() {
 
   if (aCarregar) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <p className="text-sm font-semibold text-slate-600">
             A carregar confirmação...
@@ -151,7 +151,7 @@ export default function ConfirmacaoEncomendaPage() {
 
   if (erro || !encomenda) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-4xl rounded-3xl border border-red-100 bg-white p-8 shadow-sm">
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-red-600">
             Encomenda
@@ -178,7 +178,7 @@ export default function ConfirmacaoEncomendaPage() {
   const totalVisivel = encomenda.total_amount || encomenda.total_estimated || 0;
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+    <main className="min-h-screen px-6 py-12 text-slate-900">
       <section className="mx-auto max-w-5xl">
         <div className="rounded-[2rem] border border-green-100 bg-white p-8 shadow-sm">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">

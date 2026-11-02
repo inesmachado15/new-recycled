@@ -301,7 +301,7 @@ setPedidos(pedidosNormalizados as PedidoDevolucao[]);
 
   if (aCarregar) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <p className="text-sm font-semibold text-slate-600">
             A carregar devoluções...
@@ -313,7 +313,7 @@ setPedidos(pedidosNormalizados as PedidoDevolucao[]);
 
   if (!autorizado) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-red-600">
             Acesso restrito
@@ -348,7 +348,7 @@ setPedidos(pedidosNormalizados as PedidoDevolucao[]);
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+    <main className="min-h-screen px-6 py-12 text-slate-900">
       <section className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>

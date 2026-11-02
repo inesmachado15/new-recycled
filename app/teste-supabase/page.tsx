@@ -1,6 +1,6 @@
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#f4f8f3] text-slate-950">
+    <main className="min-h-screen text-slate-950">
       <section className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-2 lg:items-center">
         <div>
           <p className="text-sm font-black uppercase tracking-[0.35em] text-green-700">

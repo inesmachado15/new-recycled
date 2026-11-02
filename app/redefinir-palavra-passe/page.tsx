@@ -160,7 +160,7 @@ export default function RedefinirPalavraPassePage() {
 
   if (aValidarSessao) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <p className="text-sm font-semibold text-slate-600">
             A validar link de recuperação...
@@ -172,7 +172,7 @@ export default function RedefinirPalavraPassePage() {
 
   if (!sessaoValida) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-red-600">
             Link inválido
@@ -205,7 +205,7 @@ export default function RedefinirPalavraPassePage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+    <main className="min-h-screen px-6 py-12 text-slate-900">
       <section className="mx-auto max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-green-700">
           Conta

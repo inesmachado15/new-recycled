@@ -487,7 +487,7 @@ export default function FinalizarPage() {
 
   if (aCarregar) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <p className="text-sm font-semibold text-slate-600">
             A carregar checkout...
@@ -499,7 +499,7 @@ export default function FinalizarPage() {
 
   if (sessaoVerificada && !userId) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-5xl">
           <Link
             href="/carrinho"
@@ -563,7 +563,7 @@ export default function FinalizarPage() {
 
   if (carrinho.length === 0 || produtosNoCarrinho.length === 0) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-5xl rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center shadow-sm">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-green-700">
             Finalizar encomenda
@@ -587,7 +587,7 @@ export default function FinalizarPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+    <main className="min-h-screen px-6 py-12 text-slate-900">
       <section className="mx-auto max-w-6xl">
         <Link
           href="/carrinho"

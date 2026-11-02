@@ -209,7 +209,7 @@ export default function PagamentoEncomendaPage() {
 
   if (aCarregar) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <p className="text-sm font-semibold text-slate-600">
             A carregar pagamento...
@@ -221,7 +221,7 @@ export default function PagamentoEncomendaPage() {
 
   if (erro || !encomenda) {
     return (
-      <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+      <main className="min-h-screen px-6 py-12 text-slate-900">
         <section className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <h1 className="text-2xl font-black">Pagamento não encontrado</h1>
 
@@ -245,7 +245,7 @@ export default function PagamentoEncomendaPage() {
   const pagamentoPago = encomenda.payment_status === "Pago";
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-12 text-slate-900">
+    <main className="min-h-screen px-6 py-12 text-slate-900">
       <section className="mx-auto max-w-6xl">
         <button
           type="button"
