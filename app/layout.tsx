@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   authors: [{ name: "New & Recycled" }],
   creator: "New & Recycled",
   publisher: "New & Recycled",
-  metadataBase: new URL("https://new-recycled.vercel.app"),
+  metadataBase: new URL("https://www.new-recycled.pt"),
   openGraph: {
     type: "website",
     locale: "pt_PT",
