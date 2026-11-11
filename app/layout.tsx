@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   creator: "New & Recycled",
   publisher: "New & Recycled",
   metadataBase: new URL("https://www.new-recycled.pt"),
+  verification: {
+    google: "rjNhsxl0ILzQcrp-xlY-nE3HAw2JpXs75oJPiQ23EUc",
+  },
   openGraph: {
     type: "website",
     locale: "pt_PT",
