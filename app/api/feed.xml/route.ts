@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 const BASE_URL = "https://www.new-recycled.pt";
-const SHOP_NAME = "New & Recycled";
+const SHOP_NAME = "New &amp; Recycled";
 
 function escapeXml(str: string | null | undefined): string {
   if (!str) return "";
