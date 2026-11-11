@@ -25,9 +25,15 @@ const categorias = [
   },
   {
     titulo: "Consumíveis",
-    texto: "Rolos térmicos, tambores e kits de manutenção.",
+    texto: "Tambores, kits de manutenção e acessórios.",
     href: "/produtos?categoria=Consumíveis",
     imagem: "/categorias/consumiveis.jpg",
+  },
+  {
+    titulo: "Rolos Térmicos",
+    texto: "Rolos para caixas, TPAs e terminais de pagamento.",
+    href: "/produtos?categoria=Rolos Térmicos",
+    imagem: "/categorias/rolos-termicos.jpg",
   },
   {
     titulo: "Papelaria",
@@ -166,22 +172,22 @@ export default async function HomePage() {
               Ver tudo →
             </Link>
           </div>
-          <div className="mt-3 grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="mt-3 grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
             {categorias.map((cat) => (
               <Link
                 key={cat.titulo}
                 href={cat.href}
                 className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
-                <div className="h-36 overflow-hidden bg-white">
+                <div className="h-24 overflow-hidden bg-white">
                   <img
                     src={cat.imagem}
                     alt={cat.titulo}
                     className="h-full w-full object-contain transition duration-300 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-3">
-                  <p className="text-sm font-black text-slate-950">{cat.titulo}</p>
+                <div className="p-2">
+                  <p className="text-xs font-black text-slate-950">{cat.titulo}</p>
                 </div>
               </Link>
             ))}
