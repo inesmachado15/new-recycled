@@ -15,6 +15,9 @@ type Produto = {
   description: string | null;
   compatibility: string | null;
   image_url: string | null;
+  supplier_price: number | null;
+  cost: number | null;
+  pvpr: number | null;
   price: number | null;
   price_text: string | null;
   stock: number;
@@ -22,6 +25,7 @@ type Produto = {
   active: boolean;
   featured: boolean;
   allow_backorder: boolean;
+  mucho_url: string | null;
   created_at: string;
 };
 
@@ -65,6 +69,9 @@ const camposProdutos = `
   description,
   compatibility,
   image_url,
+  supplier_price,
+  cost,
+  pvpr,
   price,
   price_text,
   stock,
@@ -72,6 +79,7 @@ const camposProdutos = `
   active,
   featured,
   allow_backorder,
+  mucho_url,
   created_at
 `;
 

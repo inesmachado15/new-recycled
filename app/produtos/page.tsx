@@ -58,6 +58,7 @@ const categorias = [
   "Tinteiros",
   "Consumíveis",
   "Papelaria",
+  "Rolos Térmicos",
   "Equipamento de Escritório",
 ];
 
