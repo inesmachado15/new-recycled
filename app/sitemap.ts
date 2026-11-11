@@ -20,11 +20,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
-    const { data } = await supabase
-      .from("products")
-      .select("slug, updated_at")
-      .eq("active", true)
-      .limit(5000);
+    // Buscar todos os produtos em páginas de 1000
+    let todos: { slug: string; updated_at: string }[] = [];
+    let from = 0;
+    while (true) {
+      const { data: lote } = await supabase
+        .from("products")
+        .select("slug, updated_at")
+        .eq("active", true)
+        .range(from, from + 999);
+      if (!lote || lote.length === 0) break;
+      todos = todos.concat(lote);
+      if (lote.length < 1000) break;
+      from += 1000;
+    }
+    const data = todos;
 
     const productRoutes: MetadataRoute.Sitemap = (data || []).map((p) => ({
       url: `${baseUrl}/produtos/${p.slug}`,
