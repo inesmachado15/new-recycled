@@ -412,7 +412,7 @@ export default function FinalizarPage() {
         shipping_cost: portesValidados,
         total_amount: totalValidado,
         total_estimated: totalValidado,
-        status: "A aguardar aprovação",
+        status: "Aprovada - aguarda pagamento",
         stock_deducted: false,
       })
       .select("id")
@@ -482,7 +482,7 @@ export default function FinalizarPage() {
     setMensagem("Encomenda submetida com sucesso.");
     setASubmeter(false);
 
-    router.push(`/encomenda/${orderId}/confirmacao`);
+    router.push(`/encomenda/${orderId}/pagamento`);
   }
 
   if (aCarregar) {
@@ -612,19 +612,19 @@ export default function FinalizarPage() {
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             <div className="rounded-2xl bg-white p-4 shadow-sm">
               <p className="text-sm font-black text-slate-950">
-                1. Submete o pedido
+                1. Preenche os dados
               </p>
               <p className="mt-1 text-sm leading-6 text-slate-600">
-                A encomenda fica registada na sua conta.
+                Dados de faturação e entrega.
               </p>
             </div>
 
             <div className="rounded-2xl bg-white p-4 shadow-sm">
               <p className="text-sm font-black text-slate-950">
-                2. Pagamento seguro
+                2. Pagamento imediato
               </p>
               <p className="mt-1 text-sm leading-6 text-slate-600">
-                Aceitamos Multibanco e MB WAY.
+                Multibanco ou MB WAY — sem esperas.
               </p>
             </div>
 
@@ -853,9 +853,7 @@ export default function FinalizarPage() {
               </h2>
 
               <p className="mt-2 text-sm leading-6 text-slate-500">
-                O método de pagamento escolhido é apenas uma preferência. Os
-                dados finais de pagamento serão enviados após validação da
-                encomenda.
+                Escolhe o método de pagamento. Após submeter serás redirecionado para efetuar o pagamento.
               </p>
 
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
@@ -936,8 +934,7 @@ export default function FinalizarPage() {
             <h2 className="text-xl font-black">Resumo da encomenda</h2>
 
             <p className="mt-2 text-sm leading-6 text-slate-500">
-              Reveja os produtos antes de submeter. Ainda não será cobrado
-              qualquer pagamento.
+              Reveja os produtos antes de submeter. Será redirecionado para o pagamento de seguida.
             </p>
 
             <div className="mt-5 space-y-4">
@@ -998,7 +995,7 @@ export default function FinalizarPage() {
             <div className="mt-5 space-y-3">
               <p className="rounded-2xl bg-green-50 p-4 text-xs leading-5 text-green-800">
                 <span className="font-black">Pagamento seguro.</span>{" "}
-                Aceitamos Multibanco e MB WAY. Após confirmação do pagamento a encomenda é processada automaticamente.
+                Aceitamos Multibanco e MB WAY. Após submeter, és redirecionado diretamente para o pagamento.
               </p>
 
               <p className="rounded-2xl bg-slate-50 p-4 text-xs leading-5 text-slate-500">
@@ -1016,7 +1013,7 @@ export default function FinalizarPage() {
               disabled={!podeSubmeter || aSubmeter}
               className="mt-6 w-full rounded-full bg-green-700 px-6 py-4 text-sm font-bold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-300"
             >
-              {aSubmeter ? "A submeter encomenda..." : "Submeter encomenda"}
+              {aSubmeter ? "A processar..." : "Avançar para pagamento"}
             </button>
 
             {!podeSubmeter && (
