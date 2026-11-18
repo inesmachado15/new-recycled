@@ -72,11 +72,11 @@ function emailAdminHtml(order: OrderData) {
         </p>
 
         <h1 style="margin: 12px 0 0; font-size: 28px; color: #0f172a;">
-          Nova encomenda para aprovação
+          Nova encomenda recebida
         </h1>
 
         <p style="font-size: 15px; line-height: 1.7; color: #475569;">
-          Foi recebida uma nova encomenda no site. Deve ser analisada e aprovada no painel de administração.
+          Foi recebida uma nova encomenda. O pagamento foi iniciado automaticamente e o cliente foi notificado com os dados de pagamento.
         </p>
 
         <div style="background: #f4fbf4; border-radius: 16px; padding: 16px; margin-top: 20px;">
@@ -156,7 +156,7 @@ function emailAdminHtml(order: OrderData) {
         </p>
 
         <p style="margin-top: 28px; font-size: 13px; line-height: 1.6; color: #64748b;">
-          Aceda ao painel de administração para validar stock, portes e aprovar a encomenda.
+          Quando o pagamento for confirmado, receberá uma notificação e a encomenda avança para preparação.
         </p>
       </div>
     </div>
@@ -242,7 +242,7 @@ export async function POST(request: Request) {
 
     const adminEmailResult = await enviarEmail({
       to: adminEmail,
-      subject: `Nova encomenda para aprovação — ${orderData.customer_name}`,
+      subject: `Nova encomenda — ${orderData.customer_name}`,
       html: emailAdminHtml(orderData),
     });
 

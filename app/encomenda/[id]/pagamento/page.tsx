@@ -23,6 +23,12 @@ type Encomenda = {
   payment_status: string | null;
   payment_method: string | null;
   payment_preference: string | null;
+  payment_provider: string | null;
+  payment_entity: string | null;
+  payment_reference: string | null;
+  payment_expiry: string | null;
+  customer_phone: string;
+  customer_email: string;
   total_estimated: number;
   subtotal_products: number | null;
   shipping_cost: number | null;
@@ -88,6 +94,8 @@ export default function PagamentoEncomendaPage() {
   const [aCarregar, setACarregar] = useState(true);
   const [erro, setErro] = useState("");
   const [copiado, setCopiado] = useState("");
+  const [aGerarPagamento, setAGerarPagamento] = useState(false);
+  const [erroGerarPagamento, setErroGerarPagamento] = useState("");
 
   const subtotal = useMemo(() => {
     if (!encomenda) return 0;
@@ -154,6 +162,12 @@ export default function PagamentoEncomendaPage() {
           payment_status,
           payment_method,
           payment_preference,
+          payment_provider,
+          payment_entity,
+          payment_reference,
+          payment_expiry,
+          customer_phone,
+          customer_email,
           total_estimated,
           subtotal_products,
           shipping_cost,
@@ -197,6 +211,50 @@ export default function PagamentoEncomendaPage() {
 
     carregarPagamento();
   }, [encomendaId]);
+
+  async function gerarPagamento(metodo: "multibanco" | "mbway") {
+    if (!encomenda || !encomendaId) return;
+    setAGerarPagamento(true);
+    setErroGerarPagamento("");
+
+    const totalFinalLocal =
+      typeof encomenda.total_amount === "number"
+        ? encomenda.total_amount
+        : encomenda.total_estimated;
+
+    try {
+      const res = await fetch(
+        metodo === "mbway" ? "/api/ifthenpay/mbway" : "/api/ifthenpay/multibanco",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(
+            metodo === "mbway"
+              ? { orderId: encomendaId, amount: totalFinalLocal, phone: encomenda.customer_phone, email: encomenda.customer_email }
+              : { orderId: encomendaId, amount: totalFinalLocal }
+          ),
+        }
+      );
+      if (!res.ok) {
+        const d = await res.json();
+        setErroGerarPagamento(d.error || "Erro ao gerar referência.");
+        return;
+      }
+      // Recarregar dados da encomenda
+      const { data: updated } = await supabase
+        .from("orders")
+        .select("payment_provider, payment_entity, payment_reference, payment_expiry, payment_status")
+        .eq("id", encomendaId)
+        .maybeSingle();
+      if (updated) {
+        setEncomenda((prev) => prev ? { ...prev, ...updated } : prev);
+      }
+    } catch {
+      setErroGerarPagamento("Erro ao contactar o serviço de pagamento.");
+    } finally {
+      setAGerarPagamento(false);
+    }
+  }
 
   async function copiar(texto: string, campo: string) {
     await navigator.clipboard.writeText(texto);
@@ -400,115 +458,99 @@ export default function PagamentoEncomendaPage() {
 
             {podePagar && !pagamentoPago && (
               <div className="mt-6 space-y-4">
-                <div className="rounded-2xl border border-slate-200 p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                    Titular
-                  </p>
-
-                  <div className="mt-2 flex items-center justify-between gap-3">
-                    <p className="text-sm font-black text-slate-900">
-                      New & Recycled
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={() => copiar("New & Recycled", "titular")}
-                      className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200"
-                    >
-                      Copiar
-                    </button>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-slate-200 p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                    IBAN
-                  </p>
-
-                  <div className="mt-2 flex items-center justify-between gap-3">
-                    <p className="break-all text-sm font-black text-slate-900">
-                      PT50 0018 0000 0200 0907 0216 4
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={() => copiar("PT50 0018 0000 0200 0907 0216 4", "iban")}
-                      className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200"
-                    >
-                      Copiar
-                    </button>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-slate-200 p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                    MB WAY
-                  </p>
-
-                  <div className="mt-2 flex items-center justify-between gap-3">
-                    <p className="text-sm font-black text-slate-900">
-                      968120503
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        copiar("968120503", "mbway")
-                      }
-                      className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200"
-                    >
-                      Copiar
-                    </button>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-slate-200 p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                    Referência
-                  </p>
-
-                  <div className="mt-2 flex items-center justify-between gap-3">
-                    <p className="break-all text-sm font-black text-slate-900">
-                      Encomenda {encomenda.id}
-                    </p>
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        copiar(`Encomenda ${encomenda.id}`, "referencia")
-                      }
-                      className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-200"
-                    >
-                      Copiar
-                    </button>
-                  </div>
-                </div>
-
-                {copiado && (
-                  <p className="rounded-2xl bg-green-50 p-3 text-sm font-bold text-green-700">
-                    Informação copiada.
+                {erroGerarPagamento && (
+                  <p className="rounded-2xl bg-red-50 p-3 text-sm font-bold text-red-700">
+                    {erroGerarPagamento}
                   </p>
                 )}
 
-                <div className="rounded-2xl bg-amber-50 p-4 text-sm text-amber-900">
-                  <p className="font-black">
-                    Envie o comprovativo de pagamento para:
+                {/* Multibanco */}
+                {encomenda.payment_provider === "multibanco" && encomenda.payment_entity && encomenda.payment_reference ? (
+                  <>
+                    <div className="rounded-2xl border border-green-200 bg-green-50 p-5">
+                      <p className="text-xs font-bold uppercase tracking-[0.15em] text-green-700 mb-4">
+                        Referência Multibanco
+                      </p>
+                      <div className="grid grid-cols-3 gap-3 text-center">
+                        <div className="rounded-xl bg-white p-3 shadow-sm">
+                          <p className="text-xs text-slate-500 uppercase tracking-wider">Entidade</p>
+                          <p className="mt-1 text-2xl font-black text-slate-900">{encomenda.payment_entity}</p>
+                        </div>
+                        <div className="rounded-xl bg-white p-3 shadow-sm">
+                          <p className="text-xs text-slate-500 uppercase tracking-wider">Referência</p>
+                          <p className="mt-1 text-2xl font-black text-slate-900">{encomenda.payment_reference}</p>
+                        </div>
+                        <div className="rounded-xl bg-white p-3 shadow-sm">
+                          <p className="text-xs text-slate-500 uppercase tracking-wider">Valor</p>
+                          <p className="mt-1 text-2xl font-black text-green-700">{formatarPreco(totalFinal)}</p>
+                        </div>
+                      </div>
+                      {encomenda.payment_expiry && (
+                        <p className="mt-3 text-xs text-green-700">Válido até: {encomenda.payment_expiry}</p>
+                      )}
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <button type="button" onClick={() => copiar(encomenda.payment_entity!, "entidade")}
+                          className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-slate-700 shadow-sm hover:bg-slate-50">
+                          Copiar entidade
+                        </button>
+                        <button type="button" onClick={() => copiar(encomenda.payment_reference!, "referencia")}
+                          className="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-slate-700 shadow-sm hover:bg-slate-50">
+                          Copiar referência
+                        </button>
+                      </div>
+                    </div>
+                    <p className="rounded-2xl bg-slate-50 p-3 text-xs text-slate-600">
+                      Efetue o pagamento em qualquer ATM ou homebanking. Após confirmação a encomenda avança automaticamente.
+                    </p>
+                  </>
+                ) : encomenda.payment_provider === "mbway" ? (
+                  <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
+                    <p className="text-sm font-black text-blue-900">Pedido MB WAY enviado</p>
+                    <p className="mt-2 text-sm leading-6 text-blue-800">
+                      Deve receber uma notificação MB WAY no telemóvel <strong>{encomenda.customer_phone}</strong>. Aceite o pagamento de <strong>{formatarPreco(totalFinal)}</strong>.
+                    </p>
+                    <p className="mt-3 text-xs text-blue-700">
+                      Após aceitar, a encomenda é confirmada automaticamente.
+                    </p>
+                    <button
+                      type="button"
+                      disabled={aGerarPagamento}
+                      onClick={() => gerarPagamento("mbway")}
+                      className="mt-4 rounded-full border border-blue-300 bg-white px-4 py-2 text-xs font-bold text-blue-800 hover:bg-blue-50 disabled:opacity-50"
+                    >
+                      {aGerarPagamento ? "A reenviar..." : "Reenviar pedido MB WAY"}
+                    </button>
+                  </div>
+                ) : (
+                  /* Sem referência gerada ainda — oferecer geração manual */
+                  <div className="space-y-3">
+                    <p className="rounded-2xl bg-amber-50 p-4 text-sm text-amber-800">
+                      A referência de pagamento ainda está a ser gerada. Clica num dos botões abaixo para a obter.
+                    </p>
+                    <button
+                      type="button"
+                      disabled={aGerarPagamento}
+                      onClick={() => gerarPagamento("multibanco")}
+                      className="w-full rounded-full bg-green-700 px-5 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-50"
+                    >
+                      {aGerarPagamento ? "A gerar..." : "Gerar referência Multibanco"}
+                    </button>
+                    <button
+                      type="button"
+                      disabled={aGerarPagamento}
+                      onClick={() => gerarPagamento("mbway")}
+                      className="w-full rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-700 hover:border-green-700 hover:text-green-700 disabled:opacity-50"
+                    >
+                      {aGerarPagamento ? "A enviar..." : "Pagar por MB WAY"}
+                    </button>
+                  </div>
+                )}
+
+                {copiado && (
+                  <p className="rounded-2xl bg-green-50 p-3 text-sm font-bold text-green-700">
+                    Copiado!
                   </p>
-
-                  <a
-                    href={`mailto:machado.newrecycle@gmail.com?subject=Comprovativo de pagamento - Encomenda ${encomenda.id}`}
-                    className="mt-2 block break-all font-bold underline"
-                  >
-                    machado.newrecycle@gmail.com
-                  </a>
-                </div>
-              </div>
-            )}
-
-            {!podePagar && (
-              <div className="mt-6 rounded-2xl bg-slate-100 p-4 text-sm text-slate-600">
-                Os dados de pagamento ficam disponíveis depois da aprovação da
-                encomenda.
+                )}
               </div>
             )}
 

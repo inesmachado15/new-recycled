@@ -455,31 +455,53 @@ export default function FinalizarPage() {
       return;
     }
 
+    // Iniciar pagamento Ifthenpay
+    const ismbway = dados.payment_preference === "MB WAY";
     try {
-      const respostaEmailAdmin = await fetch("/api/emails/encomenda-criada", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          orderId,
-        }),
-      });
-
-      if (!respostaEmailAdmin.ok) {
-        console.error(
-          "Erro ao enviar email de nova encomenda ao admin:",
-          await respostaEmailAdmin.text()
-        );
+      const respostaPagamento = await fetch(
+        ismbway ? "/api/ifthenpay/mbway" : "/api/ifthenpay/multibanco",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(
+            ismbway
+              ? { orderId, amount: totalValidado, phone: dados.customer_phone, email: dados.customer_email }
+              : { orderId, amount: totalValidado }
+          ),
+        }
+      );
+      if (!respostaPagamento.ok) {
+        console.error("Ifthenpay erro:", await respostaPagamento.text());
       }
     } catch (error) {
-      console.error("Erro ao chamar email de nova encomenda ao admin:", error);
+      console.error("Erro ao iniciar pagamento Ifthenpay:", error);
+    }
+
+    // Enviar email com dados de pagamento ao cliente
+    try {
+      await fetch("/api/emails/encomenda-aprovada", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
+    } catch (error) {
+      console.error("Erro ao enviar email de pagamento ao cliente:", error);
+    }
+
+    // Notificar admin
+    try {
+      await fetch("/api/emails/encomenda-criada", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
+    } catch (error) {
+      console.error("Erro ao enviar email ao admin:", error);
     }
 
     localStorage.removeItem("carrinho");
     window.dispatchEvent(new Event("storage"));
 
-    setMensagem("Encomenda submetida com sucesso.");
     setASubmeter(false);
 
     router.push(`/encomenda/${orderId}/pagamento`);

@@ -68,6 +68,16 @@ export async function GET(req: NextRequest) {
 
     console.log(`Pagamento confirmado: encomenda ${orderId} | valor ${amount}`);
 
+    // Enviar email de pagamento confirmado ao cliente
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    if (siteUrl) {
+      fetch(`${siteUrl}/api/emails/pagamento-confirmado`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      }).catch((err) => console.error("Erro ao enviar email pagamento confirmado:", err));
+    }
+
     // Ifthenpay espera "OK" em texto plano como resposta de sucesso
     return new NextResponse("OK", { status: 200 });
   } catch (err) {
