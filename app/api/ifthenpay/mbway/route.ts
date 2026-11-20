@@ -45,8 +45,8 @@ export async function POST(req: NextRequest) {
 
     // MB WAY: Status "000" = sucesso
     if (data.Status !== "000") {
-      console.error("Ifthenpay MBWAY erro:", data);
-      return NextResponse.json({ error: data.Message || "Erro MB WAY" }, { status: 502 });
+      console.error("Ifthenpay MBWAY erro:", JSON.stringify(data));
+      return NextResponse.json({ error: `MB WAY: ${data.Message || "Erro"} (código ${data.Status})` }, { status: 502 });
     }
 
     await supabaseAdmin
