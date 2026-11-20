@@ -474,15 +474,15 @@ export default function PagamentoEncomendaPage() {
                       <div className="grid grid-cols-3 gap-3 text-center">
                         <div className="rounded-xl bg-white p-3 shadow-sm">
                           <p className="text-xs text-slate-500 uppercase tracking-wider">Entidade</p>
-                          <p className="mt-1 text-2xl font-black text-slate-900">{encomenda.payment_entity}</p>
+                          <p className="mt-1 text-xl font-black text-slate-900 break-all">{encomenda.payment_entity}</p>
                         </div>
                         <div className="rounded-xl bg-white p-3 shadow-sm">
                           <p className="text-xs text-slate-500 uppercase tracking-wider">Referência</p>
-                          <p className="mt-1 text-2xl font-black text-slate-900">{encomenda.payment_reference}</p>
+                          <p className="mt-1 text-xl font-black text-slate-900 break-all">{encomenda.payment_reference}</p>
                         </div>
                         <div className="rounded-xl bg-white p-3 shadow-sm">
                           <p className="text-xs text-slate-500 uppercase tracking-wider">Valor</p>
-                          <p className="mt-1 text-2xl font-black text-green-700">{formatarPreco(totalFinal)}</p>
+                          <p className="mt-1 text-xl font-black text-green-700 break-all">{formatarPreco(totalFinal)}</p>
                         </div>
                       </div>
                       {encomenda.payment_expiry && (
