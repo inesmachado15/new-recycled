@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       expiryDays: 3,
     };
 
-    const res = await fetch("https://ifthenpay.com/api/multibanco/reference/init", {
+    const res = await fetch("https://api.ifthenpay.com/multibanco/reference/init", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

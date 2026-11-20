@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       url: callbackUrl,
     };
 
-    const res = await fetch("https://ifthenpay.com/api/spg/payment/mbway", {
+    const res = await fetch("https://api.ifthenpay.com/spg/payment/mbway", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
