@@ -26,16 +26,16 @@ export async function POST(req: NextRequest) {
     const callbackUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/ifthenpay/callback`;
 
     const body = {
-      mbWayKey,
-      orderId,
-      amount: Number(amount).toFixed(2),
-      mobileNumber: phoneFmt,
-      email: email || "",
-      description: `Encomenda New & Recycled ${orderId.slice(0, 8).toUpperCase()}`,
-      url: callbackUrl,
+      MbWayKey: mbWayKey,
+      OrderId: orderId,
+      Amount: Number(amount).toFixed(2),
+      MobileNumber: phoneFmt,
+      Email: email || "",
+      Description: `Encomenda New & Recycled ${orderId.slice(0, 8).toUpperCase()}`,
+      Url: callbackUrl,
     };
 
-    const res = await fetch("https://ifthenpay.com/api/spg/payment/mbway", {
+    const res = await fetch("https://ifthenpay.com/api/endpoint/mbway/setrequest", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
