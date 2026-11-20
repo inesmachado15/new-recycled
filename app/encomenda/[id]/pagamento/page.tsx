@@ -369,8 +369,7 @@ export default function PagamentoEncomendaPage() {
                 </p>
 
                 <p className="mt-2 text-sm leading-6">
-                  Depois de efetuar o pagamento, envie o comprovativo para que a
-                  equipa possa confirmar a encomenda.
+                  Escolhe o método de pagamento e segue as instruções. Após confirmação, a encomenda avança automaticamente para preparação.
                 </p>
               </div>
             )}
