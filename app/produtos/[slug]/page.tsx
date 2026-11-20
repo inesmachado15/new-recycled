@@ -5,6 +5,8 @@ import { createClient } from "@supabase/supabase-js";
 import type { Metadata } from "next";
 import AddToCartButton from "./AddToCartButton";
 
+export const revalidate = 3600; // revalida a cada hora
+
 type Produto = {
   id: string;
   slug: string;
