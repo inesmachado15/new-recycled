@@ -41,7 +41,16 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(body),
     });
 
-    const data = await res.json();
+    const rawText = await res.text();
+    console.log("Ifthenpay MBWAY resposta raw:", rawText);
+
+    let data: Record<string, string>;
+    try {
+      data = JSON.parse(rawText);
+    } catch {
+      console.error("Ifthenpay MBWAY resposta não é JSON:", rawText);
+      return NextResponse.json({ error: `MB WAY: resposta inválida — ${rawText.slice(0, 100)}` }, { status: 502 });
+    }
 
     // MB WAY: Status "000" = sucesso
     if (data.Status !== "000") {
