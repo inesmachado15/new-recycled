@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     const phoneClean = phone.replace(/\s|-/g, "").replace(/^\+351/, "").replace(/^351/, "");
     const phoneFmt = `351#${phoneClean}`;
 
-    const callbackUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/ifthenpay/callback`;
+    const callbackUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/ifthenpay/callback?orderId=${orderId}`;
 
     const shortOrderId = orderId.replace(/-/g, "").slice(0, 15);
 

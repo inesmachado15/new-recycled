@@ -19,14 +19,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "IFTHENPAY_MB_KEY não configurado" }, { status: 500 });
     }
 
-    const callbackUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/ifthenpay/callback`;
+    const callbackUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/api/ifthenpay/callback?orderId=${orderId}`;
+
+    const shortOrderId = orderId.replace(/-/g, "").slice(0, 15);
 
     const body = {
       mbKey,
-      orderId,
+      orderId: shortOrderId,
       amount: Number(amount).toFixed(2),
-      description: `Encomenda New & Recycled ${orderId.slice(0, 8).toUpperCase()}`,
-      url: callbackUrl,
+      description: `Encomenda New & Recycled ${shortOrderId}`,
+      notificationUrl: callbackUrl,
       clientCode: "",
       clientName: "",
       clientEmail: "",
