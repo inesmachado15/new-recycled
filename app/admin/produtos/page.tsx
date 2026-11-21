@@ -16,7 +16,6 @@ type Produto = {
   compatibility: string | null;
   image_url: string | null;
   supplier_price: number | null;
-  cost: number | null;
   pvpr: number | null;
   price: number | null;
   price_text: string | null;
@@ -70,7 +69,6 @@ const camposProdutos = `
   compatibility,
   image_url,
   supplier_price,
-  cost,
   pvpr,
   price,
   price_text,
