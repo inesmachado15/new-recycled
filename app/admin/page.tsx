@@ -1266,6 +1266,22 @@ export default function AdminPage() {
     );
   }
 
+  async function apagarEncomenda(id: string) {
+    if (!confirm("Tens a certeza que queres apagar esta encomenda? Esta ação não pode ser desfeita.")) return;
+
+    const { error } = await supabase.from("orders").delete().eq("id", id);
+
+    if (error) {
+      setErro(`Erro ao apagar encomenda: ${error.message}`);
+      return;
+    }
+
+    setEncomendas((atuais) => atuais.filter((e) => e.id !== id));
+    setEncomendaAbertaId(null);
+    await carregarEstatisticasAdmin();
+    setMensagem("Encomenda apagada.");
+  }
+
   async function guardarValorFinal(encomenda: Encomenda) {
     setMensagem("");
     setErro("");
@@ -2067,6 +2083,13 @@ export default function AdminPage() {
                           >
                             Ver pagamento
                           </a>
+
+                          <button
+                            onClick={() => apagarEncomenda(encomenda.id)}
+                            className="block w-full rounded-full border border-red-300 bg-white px-5 py-2.5 text-center text-sm font-bold text-red-600 transition hover:bg-red-600 hover:text-white"
+                          >
+                            Apagar encomenda
+                          </button>
 
                           {encomenda.return_requests.length > 0 && (
                             <a
