@@ -1269,10 +1269,15 @@ export default function AdminPage() {
   async function apagarEncomenda(id: string) {
     if (!confirm("Tens a certeza que queres apagar esta encomenda? Esta ação não pode ser desfeita.")) return;
 
-    const { error } = await supabase.from("orders").delete().eq("id", id);
+    const res = await fetch("/api/admin/apagar-encomenda", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderId: id }),
+    });
 
-    if (error) {
-      setErro(`Erro ao apagar encomenda: ${error.message}`);
+    if (!res.ok) {
+      const data = await res.json();
+      setErro(`Erro ao apagar encomenda: ${data.error}`);
       return;
     }
 
