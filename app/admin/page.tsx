@@ -1277,7 +1277,6 @@ export default function AdminPage() {
     }
 
     setEncomendas((atuais) => atuais.filter((e) => e.id !== id));
-    setEncomendaAbertaId(null);
     await carregarEstatisticasAdmin();
     setMensagem("Encomenda apagada.");
   }
