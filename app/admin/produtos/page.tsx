@@ -430,7 +430,7 @@ export default function AdminProdutosPage() {
       setAutorizado(true);
 
       // Categorias fixas + qualquer nova que apareça na BD
-      const categoriasFixas = ["Consumíveis", "Equipamento de Escritório", "Papelaria", "Rolos Térmicos", "Tinteiros", "Toners"];
+      const categoriasFixas = ["Consumíveis", "Impressoras", "Papelaria", "Rolos Térmicos", "Tinteiros", "Toners"];
       const { data: catData } = await supabase
         .from("products")
         .select("category")

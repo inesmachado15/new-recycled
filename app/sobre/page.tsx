@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 const valores = [
   {
-    titulo: "Validação antes do pagamento",
+    titulo: "Pagamento simples e imediato",
     texto:
-      "Confirmamos stock, disponibilidade e portes antes de pedir qualquer pagamento. Só paga quando tudo estiver confirmado.",
+      "Pague no momento do checkout por Multibanco ou MB WAY. O pagamento é confirmado automaticamente e a encomenda avança de imediato.",
   },
   {
     titulo: "Apoio na compatibilidade",
@@ -46,23 +46,21 @@ const passos = [
   },
   {
     numero: "3",
-    titulo: "Submeta a encomenda",
+    titulo: "Pague no checkout",
     texto:
-      "Confirme os produtos no carrinho, preencha os dados de faturação e entrega, e finalize a encomenda. A New & Recycled analisa e aprova o pedido em breve.",
+      "Confirme os produtos no carrinho, preencha os dados de faturação e entrega, e pague de imediato por Multibanco ou MB WAY.",
   },
   {
     numero: "4",
-    titulo: "Pagamento e envio",
+    titulo: "Envio",
     texto:
-      "Após aprovação, recebe os dados de pagamento por email. Pague por Multibanco ou MB WAY — o pagamento é confirmado automaticamente e a encomenda avança para envio.",
+      "Após a confirmação do pagamento, a encomenda é preparada e enviada. Acompanhe o estado na sua área de cliente.",
   },
 ];
 
 const estados = [
-  "A aguardar aprovação",
-  "Aprovada — aguarda pagamento",
-  "Confirmado",
-  "Em preparação",
+  "Aguarda pagamento",
+  "Pago — em preparação",
   "Enviado",
 ];
 
@@ -70,7 +68,7 @@ const perguntas = [
   {
     titulo: "Quando é que pago?",
     texto:
-      "Não imediatamente. Após submeter a encomenda, a New & Recycled analisa e aprova o pedido. Só depois recebe os dados de pagamento por email (Multibanco ou MB WAY). Após confirmação do pagamento, a encomenda avança automaticamente.",
+      "No momento do checkout. Escolhe entre Multibanco ou MB WAY, paga de imediato, e a encomenda avança automaticamente após confirmação do pagamento.",
   },
   {
     titulo: "E se o produto estiver por encomenda?",
@@ -177,7 +175,7 @@ export default function SobrePage() {
               <h2 className="mt-2 text-2xl font-black">Como encomendar</h2>
             </div>
             <p className="max-w-xl text-sm leading-6 text-slate-500">
-              Processo simples e rápido. Paga após aprovação e acompanha a encomenda na área de cliente.
+              Processo simples e rápido. Paga no checkout e acompanha a encomenda na área de cliente.
             </p>
           </div>
 
@@ -203,7 +201,7 @@ export default function SobrePage() {
               </p>
               <h3 className="mt-4 text-xl font-black">Simples e seguro</h3>
               <p className="mt-4 text-sm leading-7 text-slate-600">
-                Após a aprovação do pedido, receberá os dados de pagamento por email. Aceitamos Referência Multibanco e MB WAY — o pagamento é confirmado automaticamente.
+                Pague no checkout por Referência Multibanco ou MB WAY. O pagamento é confirmado automaticamente e a encomenda avança de imediato para preparação.
               </p>
               <div className="mt-4 rounded-2xl bg-green-50 p-4">
                 <p className="text-sm font-bold text-green-900">Portes de envio</p>

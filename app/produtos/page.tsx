@@ -59,7 +59,7 @@ const categorias = [
   "Consumíveis",
   "Papelaria",
   "Rolos Térmicos",
-  "Equipamento de Escritório",
+  "Impressoras",
 ];
 
 const disponibilidades = ["Todos", "Em stock", "Disponível por encomenda"];
