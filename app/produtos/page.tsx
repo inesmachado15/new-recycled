@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
 type Produto = {
@@ -96,7 +96,6 @@ const ordenacoes = [
 function formatarPreco(produto: Produto) {
   if (produto.price_text) return produto.price_text;
   if (produto.price === null) return "Sob consulta";
-
   return `${Number(produto.price).toFixed(2).replace(".", ",")}€`;
 }
 
@@ -113,20 +112,19 @@ export default function ProdutosPage() {
 }
 
 function ProdutosConteudo() {
-  const [produtos, setProdutos] = useState<Produto[]>([]);
-  const [totalProdutos, setTotalProdutos] = useState(0);
-  const [temMaisProdutos, setTemMaisProdutos] = useState(false);
-
-  const [aCarregar, setACarregar] = useState(true);
-  const [aCarregarMais, setACarregarMais] = useState(false);
-
-  const [erro, setErro] = useState("");
-  const [mensagem, setMensagem] = useState("");
-
+  const router = useRouter();
   const searchParams = useSearchParams();
+
   const categoriaInicial = searchParams.get("categoria") || "Todas";
   const marcaInicial = searchParams.get("marca") || "Todas";
   const qInicial = searchParams.get("q") || "";
+  const paginaInicial = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
+
+  const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [totalProdutos, setTotalProdutos] = useState(0);
+  const [aCarregar, setACarregar] = useState(true);
+  const [erro, setErro] = useState("");
+  const [mensagem, setMensagem] = useState("");
 
   const [pesquisaInput, setPesquisaInput] = useState(qInicial);
   const [pesquisa, setPesquisa] = useState(qInicial);
@@ -139,20 +137,26 @@ function ProdutosConteudo() {
   const [disponibilidade, setDisponibilidade] = useState("Todos");
   const [ordenacao, setOrdenacao] = useState("Destaques primeiro");
   const [tipoCartuchoToner, setTipoCartuchoToner] = useState("Todos");
+  const [pagina, setPagina] = useState(paginaInicial);
 
-  async function carregarProdutos(reiniciar: boolean) {
-    const inicio = reiniciar ? 0 : produtos.length;
-    const fim = inicio + PRODUTOS_POR_PAGINA;
+  const totalPaginas = Math.ceil(totalProdutos / PRODUTOS_POR_PAGINA);
 
-    if (reiniciar) {
-      setACarregar(true);
-    }
+  function atualizarURL(novaPagina: number) {
+    const params = new URLSearchParams();
+    if (pesquisa) params.set("q", pesquisa);
+    if (categoria !== "Todas") params.set("categoria", categoria);
+    if (marca !== "Todas") params.set("marca", marca);
+    if (novaPagina > 1) params.set("page", String(novaPagina));
+    const qs = params.toString();
+    router.push(`/produtos${qs ? `?${qs}` : ""}`, { scroll: true });
+  }
 
-    if (!reiniciar) {
-      setACarregarMais(true);
-    }
-
+  async function carregarProdutos(paginaAtual: number) {
+    setACarregar(true);
     setErro("");
+
+    const inicio = (paginaAtual - 1) * PRODUTOS_POR_PAGINA;
+    const fim = inicio + PRODUTOS_POR_PAGINA - 1;
 
     let query = supabase
       .from("products")
@@ -205,24 +209,12 @@ function ProdutosConteudo() {
         .order("featured", { ascending: false })
         .order("category", { ascending: true })
         .order("name", { ascending: true });
-    }
-
-    if (ordenacao === "Nome A-Z") {
+    } else if (ordenacao === "Nome A-Z") {
       query = query.order("name", { ascending: true });
-    }
-
-    if (ordenacao === "Preço crescente") {
-      query = query.order("price", {
-        ascending: true,
-        nullsFirst: false,
-      });
-    }
-
-    if (ordenacao === "Preço decrescente") {
-      query = query.order("price", {
-        ascending: false,
-        nullsFirst: false,
-      });
+    } else if (ordenacao === "Preço crescente") {
+      query = query.order("price", { ascending: true, nullsFirst: false });
+    } else if (ordenacao === "Preço decrescente") {
+      query = query.order("price", { ascending: false, nullsFirst: false });
     }
 
     const { data, error, count } = await query.range(inicio, fim);
@@ -231,59 +223,38 @@ function ProdutosConteudo() {
       setErro(`Erro ao carregar produtos: ${error.message}`);
       setProdutos([]);
       setTotalProdutos(0);
-      setTemMaisProdutos(false);
       setACarregar(false);
-      setACarregarMais(false);
       return;
     }
 
-    const produtosRecebidos = (data || []) as Produto[];
-    const existemMaisProdutos = produtosRecebidos.length > PRODUTOS_POR_PAGINA;
-    const novosProdutos = produtosRecebidos.slice(0, PRODUTOS_POR_PAGINA);
-
-    if (reiniciar) {
-      setProdutos(novosProdutos);
-      setTemMaisProdutos((count || 0) > novosProdutos.length);
-      setTotalProdutos(count || novosProdutos.length);
-    } else {
-      const produtosAtualizados = [...produtos, ...novosProdutos];
-
-      setProdutos(produtosAtualizados);
-      setTemMaisProdutos((count || 0) > produtosAtualizados.length);
-      setTotalProdutos(count || produtosAtualizados.length);
-    }
-
+    setProdutos((data || []) as Produto[]);
+    setTotalProdutos(count || 0);
     setACarregar(false);
-    setACarregarMais(false);
   }
 
   useEffect(() => {
     const temporizador = setTimeout(() => {
       setPesquisa(pesquisaInput);
     }, 500);
-
     return () => clearTimeout(temporizador);
   }, [pesquisaInput]);
 
+  // quando filtros mudam, vai para página 1
   useEffect(() => {
-    carregarProdutos(true);
+    setPagina(1);
+    carregarProdutos(1);
   }, [pesquisa, categoria, marca, disponibilidade, ordenacao, tipoCartuchoToner]);
 
+  // quando a página muda (via URL ou botão), carrega os produtos dessa página
   useEffect(() => {
-    function aoMostrarPagina(event: PageTransitionEvent) {
-      if (event.persisted) {
-        setACarregar(false);
-        setACarregarMais(false);
-        carregarProdutos(true);
-      }
-    }
+    carregarProdutos(pagina);
+  }, [pagina]);
 
-    window.addEventListener("pageshow", aoMostrarPagina);
-
-    return () => {
-      window.removeEventListener("pageshow", aoMostrarPagina);
-    };
-  }, []);
+  function irParaPagina(novaPagina: number) {
+    if (novaPagina < 1 || novaPagina > totalPaginas) return;
+    setPagina(novaPagina);
+    atualizarURL(novaPagina);
+  }
 
   function adicionarAoCarrinho(produto: Produto) {
     setMensagem("");
@@ -330,6 +301,62 @@ function ProdutosConteudo() {
     setDisponibilidade("Todos");
     setTipoCartuchoToner("Todos");
     setOrdenacao("Destaques primeiro");
+    setPagina(1);
+  }
+
+  function renderPaginacao() {
+    if (totalPaginas <= 1) return null;
+
+    const paginas: (number | "...")[] = [];
+    if (totalPaginas <= 7) {
+      for (let i = 1; i <= totalPaginas; i++) paginas.push(i);
+    } else {
+      paginas.push(1);
+      if (pagina > 3) paginas.push("...");
+      for (let i = Math.max(2, pagina - 1); i <= Math.min(totalPaginas - 1, pagina + 1); i++) {
+        paginas.push(i);
+      }
+      if (pagina < totalPaginas - 2) paginas.push("...");
+      paginas.push(totalPaginas);
+    }
+
+    return (
+      <div className="mt-8 flex items-center justify-center gap-1.5">
+        <button
+          onClick={() => irParaPagina(pagina - 1)}
+          disabled={pagina === 1}
+          className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-slate-600 transition hover:border-green-700 hover:text-green-700 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          ← Anterior
+        </button>
+
+        {paginas.map((p, i) =>
+          p === "..." ? (
+            <span key={`ellipsis-${i}`} className="px-2 text-slate-400">…</span>
+          ) : (
+            <button
+              key={p}
+              onClick={() => irParaPagina(p)}
+              className={`min-w-[2.5rem] rounded-full border px-3 py-2 text-sm font-bold transition ${
+                p === pagina
+                  ? "border-green-700 bg-green-700 text-white"
+                  : "border-slate-300 text-slate-600 hover:border-green-700 hover:text-green-700"
+              }`}
+            >
+              {p}
+            </button>
+          )
+        )}
+
+        <button
+          onClick={() => irParaPagina(pagina + 1)}
+          disabled={pagina === totalPaginas}
+          className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-slate-600 transition hover:border-green-700 hover:text-green-700 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Próxima →
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -368,12 +395,6 @@ function ProdutosConteudo() {
         {mensagem && (
           <p className="mt-6 rounded-2xl bg-green-50 p-4 text-sm font-bold text-green-800">
             {mensagem}
-          </p>
-        )}
-
-        {aCarregar && produtos.length > 0 && (
-          <p className="mt-6 rounded-2xl bg-green-50 p-3 text-sm font-bold text-green-800">
-            A atualizar produtos...
           </p>
         )}
 
@@ -469,13 +490,15 @@ function ProdutosConteudo() {
               Limpar filtros
             </button>
             <span className="ml-auto text-sm text-slate-500">
-              <span className="font-bold text-slate-900">{produtos.length}</span> de{" "}
+              {totalPaginas > 1 && (
+                <span className="mr-2">Página {pagina} de {totalPaginas} ·</span>
+              )}
               <span className="font-bold text-slate-900">{totalProdutos}</span> produto{totalProdutos === 1 ? "" : "s"}
             </span>
           </div>
         </section>
 
-        {aCarregar && produtos.length === 0 ? (
+        {aCarregar ? (
           <section className="mt-6 grid gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {Array.from({ length: 20 }).map((_, i) => (
               <div
@@ -492,7 +515,7 @@ function ProdutosConteudo() {
               </div>
             ))}
           </section>
-        ) : !aCarregar && produtos.length === 0 ? (
+        ) : produtos.length === 0 ? (
           <section className="mt-6 rounded-3xl border border-dashed border-slate-300 bg-white p-8 text-center shadow-sm">
             <h2 className="text-2xl font-black">Nenhum produto encontrado.</h2>
 
@@ -614,18 +637,7 @@ function ProdutosConteudo() {
               })}
             </section>
 
-            {temMaisProdutos && (
-              <div className="mt-8 flex justify-center">
-                <button
-                  type="button"
-                  onClick={() => carregarProdutos(false)}
-                  disabled={aCarregarMais}
-                  className="rounded-full bg-green-700 px-8 py-3 text-sm font-bold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:bg-slate-400"
-                >
-                  {aCarregarMais ? "A carregar..." : "Carregar mais produtos"}
-                </button>
-              </div>
-            )}
+            {renderPaginacao()}
           </>
         )}
       </section>
