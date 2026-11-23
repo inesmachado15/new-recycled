@@ -561,6 +561,16 @@ export default function AdminProdutosPage() {
     setNovoProduto(criarProdutoVazio());
     setMostrarCriarProduto(false);
 
+    // Limpar cache ISR para o novo produto aparecer imediatamente
+    fetch("/api/revalidate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-revalidate-secret": process.env.NEXT_PUBLIC_REVALIDATE_SECRET || "",
+      },
+      body: JSON.stringify({ slug }),
+    }).catch(() => {});
+
     await Promise.all([
       carregarEstatisticasProdutos(),
       carregarProdutos(true),
@@ -632,6 +642,16 @@ export default function AdminProdutosPage() {
     );
 
     await carregarEstatisticasProdutos();
+
+    // Limpar cache ISR para este produto aparecer imediatamente
+    fetch("/api/revalidate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-revalidate-secret": process.env.NEXT_PUBLIC_REVALIDATE_SECRET || "",
+      },
+      body: JSON.stringify({ slug: produto.slug }),
+    }).catch(() => {});
 
     setMensagem("Produto atualizado com sucesso.");
     setProdutoEmEdicaoId(null);
