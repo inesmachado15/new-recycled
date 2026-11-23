@@ -81,13 +81,6 @@ const camposProdutos = `
   created_at
 `;
 
-const categorias = [
-  "Toners",
-  "Tinteiros",
-  "Consumíveis",
-  "Papelaria",
-  "Equipamento de Escritório",
-];
 
 const filtrosEstado = [
   "Todos",
@@ -189,6 +182,8 @@ export default function AdminProdutosPage() {
 
   const [produtoAConfirmarApagar, setProdutoAConfirmarApagar] = useState<string | null>(null);
   const [aApagarProduto, setAApagarProduto] = useState(false);
+
+  const [categorias, setCategorias] = useState<string[]>([]);
 
   async function contarProdutosStockBaixo() {
     const { data, error } = await supabase
@@ -433,6 +428,15 @@ export default function AdminProdutosPage() {
       }
 
       setAutorizado(true);
+
+      const { data: catData } = await supabase
+        .from("products")
+        .select("category")
+        .eq("active", true);
+      if (catData) {
+        const unicas = [...new Set(catData.map((p) => p.category).filter(Boolean))].sort() as string[];
+        setCategorias(unicas);
+      }
 
       await Promise.all([
         carregarEstatisticasProdutos(),
