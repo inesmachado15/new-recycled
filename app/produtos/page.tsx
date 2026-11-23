@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -138,6 +138,7 @@ function ProdutosConteudo() {
   const [ordenacao, setOrdenacao] = useState("Destaques primeiro");
   const [tipoCartuchoToner, setTipoCartuchoToner] = useState("Todos");
   const [pagina, setPagina] = useState(paginaInicial);
+  const isMontagem = useRef(true);
 
   const totalPaginas = Math.ceil(totalProdutos / PRODUTOS_POR_PAGINA);
 
@@ -239,21 +240,26 @@ function ProdutosConteudo() {
     return () => clearTimeout(temporizador);
   }, [pesquisaInput]);
 
-  // quando filtros mudam, vai para página 1
+  // na montagem: carrega a página que vem no URL (pode ser page=2, etc.)
   useEffect(() => {
+    carregarProdutos(paginaInicial);
+  }, []);
+
+  // quando filtros mudam (não na montagem): reset para página 1
+  useEffect(() => {
+    if (isMontagem.current) {
+      isMontagem.current = false;
+      return;
+    }
     setPagina(1);
     carregarProdutos(1);
   }, [pesquisa, categoria, marca, disponibilidade, ordenacao, tipoCartuchoToner]);
-
-  // quando a página muda (via URL ou botão), carrega os produtos dessa página
-  useEffect(() => {
-    carregarProdutos(pagina);
-  }, [pagina]);
 
   function irParaPagina(novaPagina: number) {
     if (novaPagina < 1 || novaPagina > totalPaginas) return;
     setPagina(novaPagina);
     atualizarURL(novaPagina);
+    carregarProdutos(novaPagina);
   }
 
   function adicionarAoCarrinho(produto: Produto) {
