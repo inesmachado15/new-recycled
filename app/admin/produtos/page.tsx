@@ -429,14 +429,19 @@ export default function AdminProdutosPage() {
 
       setAutorizado(true);
 
+      // Categorias fixas + qualquer nova que apareça na BD
+      const categoriasFixas = ["Consumíveis", "Equipamento de Escritório", "Papelaria", "Rolos Térmicos", "Tinteiros", "Toners"];
       const { data: catData } = await supabase
         .from("products")
         .select("category")
         .eq("active", true)
         .limit(20000);
       if (catData) {
-        const unicas = [...new Set(catData.map((p) => p.category).filter(Boolean))].sort() as string[];
+        const daBD = catData.map((p) => p.category).filter(Boolean) as string[];
+        const unicas = [...new Set([...categoriasFixas, ...daBD])].sort();
         setCategorias(unicas);
+      } else {
+        setCategorias(categoriasFixas);
       }
 
       await Promise.all([
