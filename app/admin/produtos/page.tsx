@@ -432,7 +432,8 @@ export default function AdminProdutosPage() {
       const { data: catData } = await supabase
         .from("products")
         .select("category")
-        .eq("active", true);
+        .eq("active", true)
+        .limit(20000);
       if (catData) {
         const unicas = [...new Set(catData.map((p) => p.category).filter(Boolean))].sort() as string[];
         setCategorias(unicas);
