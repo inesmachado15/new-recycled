@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useEffect, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 
 type Produto = {
@@ -112,13 +112,13 @@ export default function ProdutosPage() {
 }
 
 function ProdutosConteudo() {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const categoriaInicial = searchParams.get("categoria") || "Todas";
   const marcaInicial = searchParams.get("marca") || "Todas";
   const qInicial = searchParams.get("q") || "";
-  const paginaInicial = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
+  // página lida directamente do URL — reactiva ao botão "Voltar" do browser
+  const pagina = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
 
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [totalProdutos, setTotalProdutos] = useState(0);
@@ -137,19 +137,17 @@ function ProdutosConteudo() {
   const [disponibilidade, setDisponibilidade] = useState("Todos");
   const [ordenacao, setOrdenacao] = useState("Destaques primeiro");
   const [tipoCartuchoToner, setTipoCartuchoToner] = useState("Todos");
-  const [pagina, setPagina] = useState(paginaInicial);
-  const isMontagem = useRef(true);
 
   const totalPaginas = Math.ceil(totalProdutos / PRODUTOS_POR_PAGINA);
 
-  function atualizarURL(novaPagina: number) {
+  function urlParaPagina(novaPagina: number) {
     const params = new URLSearchParams();
     if (pesquisa) params.set("q", pesquisa);
     if (categoria !== "Todas") params.set("categoria", categoria);
     if (marca !== "Todas") params.set("marca", marca);
     if (novaPagina > 1) params.set("page", String(novaPagina));
     const qs = params.toString();
-    router.push(`/produtos${qs ? `?${qs}` : ""}`, { scroll: true });
+    return `/produtos${qs ? `?${qs}` : ""}`;
   }
 
   async function carregarProdutos(paginaAtual: number) {
@@ -240,33 +238,16 @@ function ProdutosConteudo() {
     return () => clearTimeout(temporizador);
   }, [pesquisaInput]);
 
-  // na montagem: carrega a página que vem no URL e restaura scroll se existir
+  // carrega produtos sempre que a página (URL) ou filtros mudam
   useEffect(() => {
-    carregarProdutos(paginaInicial).then(() => {
+    carregarProdutos(pagina).then(() => {
       const scrollGuardado = sessionStorage.getItem("produtos_scroll");
       if (scrollGuardado) {
         sessionStorage.removeItem("produtos_scroll");
         window.scrollTo({ top: parseInt(scrollGuardado, 10) });
       }
     });
-  }, []);
-
-  // quando filtros mudam (não na montagem): reset para página 1
-  useEffect(() => {
-    if (isMontagem.current) {
-      isMontagem.current = false;
-      return;
-    }
-    setPagina(1);
-    carregarProdutos(1);
-  }, [pesquisa, categoria, marca, disponibilidade, ordenacao, tipoCartuchoToner]);
-
-  function irParaPagina(novaPagina: number) {
-    if (novaPagina < 1 || novaPagina > totalPaginas) return;
-    setPagina(novaPagina);
-    atualizarURL(novaPagina);
-    carregarProdutos(novaPagina);
-  }
+  }, [pagina, pesquisa, categoria, marca, disponibilidade, ordenacao, tipoCartuchoToner]);
 
   function adicionarAoCarrinho(produto: Produto) {
     setMensagem("");
@@ -313,7 +294,6 @@ function ProdutosConteudo() {
     setDisponibilidade("Todos");
     setTipoCartuchoToner("Todos");
     setOrdenacao("Destaques primeiro");
-    setPagina(1);
   }
 
   function renderPaginacao() {
@@ -334,39 +314,49 @@ function ProdutosConteudo() {
 
     return (
       <div className="mt-8 flex items-center justify-center gap-1.5">
-        <button
-          onClick={() => irParaPagina(pagina - 1)}
-          disabled={pagina === 1}
-          className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-slate-600 transition hover:border-green-700 hover:text-green-700 disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          ← Anterior
-        </button>
+        {pagina > 1 ? (
+          <Link
+            href={urlParaPagina(pagina - 1)}
+            className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-slate-600 transition hover:border-green-700 hover:text-green-700"
+          >
+            ← Anterior
+          </Link>
+        ) : (
+          <span className="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold text-slate-300 cursor-not-allowed">
+            ← Anterior
+          </span>
+        )}
 
         {paginas.map((p, i) =>
           p === "..." ? (
             <span key={`ellipsis-${i}`} className="px-2 text-slate-400">…</span>
           ) : (
-            <button
+            <Link
               key={p}
-              onClick={() => irParaPagina(p)}
-              className={`min-w-[2.5rem] rounded-full border px-3 py-2 text-sm font-bold transition ${
+              href={urlParaPagina(p)}
+              className={`min-w-[2.5rem] rounded-full border px-3 py-2 text-center text-sm font-bold transition ${
                 p === pagina
                   ? "border-green-700 bg-green-700 text-white"
                   : "border-slate-300 text-slate-600 hover:border-green-700 hover:text-green-700"
               }`}
             >
               {p}
-            </button>
+            </Link>
           )
         )}
 
-        <button
-          onClick={() => irParaPagina(pagina + 1)}
-          disabled={pagina === totalPaginas}
-          className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-slate-600 transition hover:border-green-700 hover:text-green-700 disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          Próxima →
-        </button>
+        {pagina < totalPaginas ? (
+          <Link
+            href={urlParaPagina(pagina + 1)}
+            className="rounded-full border border-slate-300 px-4 py-2 text-sm font-bold text-slate-600 transition hover:border-green-700 hover:text-green-700"
+          >
+            Próxima →
+          </Link>
+        ) : (
+          <span className="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold text-slate-300 cursor-not-allowed">
+            Próxima →
+          </span>
+        )}
       </div>
     );
   }
