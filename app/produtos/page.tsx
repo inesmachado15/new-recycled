@@ -240,9 +240,15 @@ function ProdutosConteudo() {
     return () => clearTimeout(temporizador);
   }, [pesquisaInput]);
 
-  // na montagem: carrega a página que vem no URL (pode ser page=2, etc.)
+  // na montagem: carrega a página que vem no URL e restaura scroll se existir
   useEffect(() => {
-    carregarProdutos(paginaInicial);
+    carregarProdutos(paginaInicial).then(() => {
+      const scrollGuardado = sessionStorage.getItem("produtos_scroll");
+      if (scrollGuardado) {
+        sessionStorage.removeItem("produtos_scroll");
+        window.scrollTo({ top: parseInt(scrollGuardado, 10) });
+      }
+    });
   }, []);
 
   // quando filtros mudam (não na montagem): reset para página 1
@@ -552,6 +558,7 @@ function ProdutosConteudo() {
                   >
                     <Link
                       href={`/produtos/${produto.slug}`}
+                      onClick={() => sessionStorage.setItem("produtos_scroll", String(window.scrollY))}
                       className="flex h-40 items-center justify-center bg-slate-50 p-5"
                     >
                       {produto.image_url ? (
@@ -586,7 +593,7 @@ function ProdutosConteudo() {
                         )}
                       </div>
 
-                      <Link href={`/produtos/${produto.slug}`}>
+                      <Link href={`/produtos/${produto.slug}`} onClick={() => sessionStorage.setItem("produtos_scroll", String(window.scrollY))}>
                         <h2 className="mt-2.5 line-clamp-2 text-sm font-black leading-5 text-slate-950 transition hover:text-green-700">
                           {produto.name}
                         </h2>
